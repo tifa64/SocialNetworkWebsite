@@ -10,14 +10,11 @@
 <?php if (isset($username)): ?>
     <p> WELCOME <?php htmlout($username); ?></p>
 <?php endif; ?>
-<form  action=" " method="post">
-
-    <fieldset>
-        <legend>Choose a Profile picture or continue and just use the default </legend>
-        <input type="file" name="userpp" /><br />
-        <input type="hidden" name="userid" value="<?php htmlout($userid);?>">
-        <input type="submit" name="action" value="setpp">
-    </fieldset>
+<form action=" " method="post" enctype="multipart/form-data">
+    Select image to upload:
+    <input type="file" name="fileToUpload" id="fileToUpload">
+    <input type="hidden" name="userid" value="<?php htmlout($userid);?>">
+    <input type="submit" value="Upload Image" name="submit">
 </form>
 <?php include $_SERVER['DOCUMENT_ROOT'].'/includes/logout.inc.html.php'; ?></p>
 </body>

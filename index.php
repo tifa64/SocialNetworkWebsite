@@ -111,7 +111,7 @@ if (isset($_POST['action']) and $_POST['action'] == 'SignUp')
     if (isset($_POST['status']) and $_POST['status']!=NULL)
         try {
             $sql='UPDATE user 
-                  SET status =:status
+                  SET martial_status =:status
                   WHERE  email=:email';
             $s=$pdo->prepare($sql);
             $s->bindValue(':email',$_POST['email']);
@@ -126,7 +126,7 @@ if (isset($_POST['action']) and $_POST['action'] == 'SignUp')
     if (isset($_POST['hometown']) and $_POST['hometown']!=NULL )
         try {
             $sql='UPDATE user 
-                  SET hometown =:hometown
+                  SET home_town =:hometown
                   WHERE  email=:email';
             $s=$pdo->prepare($sql);
             $s->bindValue(':email',$_POST['email']);
@@ -241,6 +241,64 @@ if (isset($_POST['action']) and $_POST['action'] == 'SignUp')
     setimage($pdo,$_POST['email'],$_POST['gender']);
     include 'welcome.html.php';
     exit();
+}
+if (isset($_POST['submit']) and $_POST['submit'] == "Upload Image"){
+    include $_SERVER['DOCUMENT_ROOT'].'/includes/db.inc.php';
+    $target_dir = "images/";
+    $target_file = $target_dir . basename($_FILES["fileToUpload"]["name"]);
+    $uploadOk = 1;
+    $imageFileType = strtolower(pathinfo($target_file,PATHINFO_EXTENSION));
+
+
+        $check = getimagesize($_FILES["fileToUpload"]["tmp_name"]);
+        if($check !== false) {
+            echo "File is an image - " . $check["mime"] . ".";
+            $uploadOk = 1;
+        } else {
+            echo "File is not an image.";
+            $uploadOk = 0;
+        }
+
+
+    if (file_exists($target_file)) {
+        echo "Sorry, file already exists.";
+        $uploadOk = 0;
+    }
+
+    if ($_FILES["fileToUpload"]["size"] > 500000) {
+        echo "Sorry, your file is too large.";
+        $uploadOk = 0;
+    }
+
+    if($imageFileType != "jpg" && $imageFileType != "png" && $imageFileType != "jpeg"
+        && $imageFileType != "gif" ) {
+        echo "Sorry, only JPG, JPEG, PNG & GIF files are allowed.";
+        $uploadOk = 0;
+    }
+
+    if ($uploadOk == 0) {
+        echo "Sorry, your file was not uploaded.";
+
+    } else {
+        if (move_uploaded_file($_FILES["fileToUpload"]["tmp_name"], $target_file)) {
+            echo "The file ". basename( $_FILES["fileToUpload"]["name"]). " has been uploaded.";
+        } else {
+            echo "Sorry, there was an error uploading your file.";
+        }
+    }
+    try {
+            $sql= "UPDATE user SET  image_url =:url WHERE user_id=:id";
+            $s=$pdo->prepare($sql);
+            $s->bindValue(':url',$target_file);
+            $s->bindValue(':id',$_POST['userid']);
+            $s->execute();
+    }catch (PDOException $e){
+            $error='Failed to set pp url';
+            include 'error.html.php';
+            exit();
+    }
+    include 'newsfeed.html.php';
+        exit();
 }
 if ($_SESSION['loggedIn'] == TRUE){
     include $_SERVER['DOCUMENT_ROOT'].'/includes/db.inc.php';
