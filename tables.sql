@@ -4,7 +4,11 @@ CREATE  TABLE  user(
   user_name VARCHAR(255),
   password CHAR(32),
   image_url VARCHAR(255),
+<<<<<<< HEAD
   gender VARCHAR(255),
+=======
+  gender ENUM('male', 'female'),
+>>>>>>> 3789c86d3020d1cd2ecff32793f4a72f98a4f647
   home_town VARCHAR(255),
   about_me TEXT ,
   nick_name VARCHAR(255),
@@ -31,7 +35,11 @@ CREATE TABLE  notifications (
   notification_id INT NOT NULL AUTO_INCREMENT PRIMARY KEY,
   user_id1 INT,
   user_id2 INT,
+<<<<<<< HEAD
   seen BOOLEAN,
+=======
+  seen BIT(1) DEFAULT 0,
+>>>>>>> 3789c86d3020d1cd2ecff32793f4a72f98a4f647
   FOREIGN KEY (user_id1) REFERENCES  user(user_id)
     ON DELETE  CASCADE  ON UPDATE  CASCADE,
   FOREIGN KEY (user_id2) REFERENCES  user(user_id)
@@ -69,6 +77,7 @@ CREATE  TABLE pending_firends(
   FOREIGN KEY (reciever_id) REFERENCES  user(user_id)
     ON DELETE  CASCADE  ON UPDATE  CASCADE
 )DEFAULT CHARACTER SET utf8 ENGINE =InnoDB;
+<<<<<<< HEAD
 
 
 CREATE  TABLE  user(
@@ -144,3 +153,5 @@ CREATE  TABLE pending_firends(
 )DEFAULT CHARACTER SET utf8 ENGINE =InnoDB;
 
 
+=======
+>>>>>>> 3789c86d3020d1cd2ecff32793f4a72f98a4f647

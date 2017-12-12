@@ -1,6 +1,7 @@
 <?php include_once $_SERVER['DOCUMENT_ROOT'] .
     '/includes/helpers.inc.php'; ?>
 <!DOCTYPE html>
+<<<<<<< HEAD
 <html lang="en" xmlns="http://www.w3.org/1999/html">
 
 <head>
@@ -11,6 +12,19 @@
 <body>
 <div id ="page">
         <h1> Social Network System </h1>
+=======
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <title>Registration</title>
+    <link rel="stylesheet" href="css/style.css" />
+</head>
+<body>
+<div id ="page">
+        <h1> Registration System </h1>
+    <div id="first">
+>>>>>>> 3789c86d3020d1cd2ecff32793f4a72f98a4f647
         <button onclick="show_hide_login()" id="login_button">login?</button>
 <form  action="?login" method="post" onsubmit="return validatelogin()" id="login">
     <?php if (isset($SignupError)): ?>
@@ -18,6 +32,7 @@
     <?php endif; ?>
     <fieldset>
         <legend>Login</legend>
+<<<<<<< HEAD
      <div>  <label for="email">Email:<input type="email" name="email" id="email1" value="" required > </label></div>
        <div> <label for="password">Password:<input type="password" name="password"id="password1" value="" required></label></div>
         <input type="submit" name="action" value="login">
@@ -53,6 +68,31 @@
     </fieldset>
 </form>
 
+=======
+     <div>  <label for="username">Username:<input type="text" name="username" id="username1" value="" > </label></div>
+       <div> <label for="password">Password:<input type="password" name="password"id="password1" value=""></label></div>
+        <input type="submit" name="action" value="login">
+    </fieldset>
+</form>
+    </div>
+    <div id="second">
+        <button onclick="show_hide_signup()" id="signup_button">singup?</button>
+<form  action ="?signup" method="post" onsubmit="return validatesignup()" id="signup">
+    <fieldset>
+        <legend>Sign up</legend>
+        <label for="email">Email:</br>
+            <input type="text" name="email" id="email" value="" onblur="checkUsername_pass()" > </label>
+        <div id="feedback_email"> </div>
+        <label for="username">Username:<input type="text" name="username" id="username" value="" onblur="checkUsername_pass()"> </label>
+        <div id="feedback_user"> </div>
+        <label for="password">Password:<input type="password" name="password"id="password" value="" onblur="checkUsername_pass()"> </label>
+        <div id="feedback_pass"> </div>
+        <input type="submit" name="action" value="SignUp">
+    </fieldset>
+</form>
+    </div>
+    </div>
+>>>>>>> 3789c86d3020d1cd2ecff32793f4a72f98a4f647
 <script type="text/javascript" src="/js/validation.js" > </script>
 </body>
 </html>
