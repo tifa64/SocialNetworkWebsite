@@ -95,7 +95,7 @@ WHERE user_name = :username ';
 if (isset($_POST['action']) and $_POST['action'] == 'SignUp')
 {
     include $_SERVER['DOCUMENT_ROOT'].'/includes/db.inc.php';
-    if(!isset($_POST['username']) or $_POST['username']==' 'or !isset($_POST['password']) or $_POST['password'] == ''
+    if(!isset($_POST['firstname']) or $_POST['firstname']==' 'or !isset($_POST['password']) or $_POST['password'] == ''
         or !isset($_POST['email']) or $_POST['email'] == ''){
         $GLOBALS['SignupError'] = 'Please fill in missing fields';
         include'registration.html.php';
@@ -104,10 +104,9 @@ if (isset($_POST['action']) and $_POST['action'] == 'SignUp')
     }
     try {
         $sql = 'SELECT COUNT(*) FROM user
-          WHERE email=:email OR  user_name=:username' ;
+          WHERE email=:email ' ;
         $s = $pdo->prepare($sql);
         $s->bindValue(':email', $_POST['email']);
-        $s->bindValue(':username',$_POST['username']);
         $s->execute();
     }catch (PDOException $e){
         $error ='Cannot fetch for users from database';
@@ -116,42 +115,30 @@ if (isset($_POST['action']) and $_POST['action'] == 'SignUp')
     }
     $row = $s->fetch();
     if ($row[0] > 0){
-        $GLOBALS['SignupError'] = 'email or username already exists !';
+        $GLOBALS['SignupError'] = 'email  already exists !';
         unset($_SESSION['loggedIn']);
         unset($_SESSION['username']);
         unset($_SESSION['password']);
         include'registration.html.php';
         exit();
     }
-    else {
-        try {
-            $username=$_POST['username'];
-            $sql= "SELECT user_id FROM user WHERE  user_name ='$username' ";
-            $result = $pdo->query($sql);
-            $_SESSION['loggedIn'] = TRUE;
-            $_SESSION['username'] = $_POST['username'];
-            foreach ($result as $row){
-                $_SESSION['userid']=$row['user_id'];
-            }
-
-        }
-        catch (PDOException $e){
-            $error="unable to fetch userid";
-            include 'error.html.php';
-            exit();
-        }
 
         try{
             $sql ='INSERT INTO user SET 
-                user_name=:username,
+                first_name=:firstname,
+                last_name=:lastname,
                 reg_date=CURDATE(),
                 email=:email,
+                gender=:gender,
                 password=:password
                 ';
             $s=$pdo->prepare($sql);
-            $s->bindValue(':username',$_POST['username']);
+            $s->bindValue(':firstname',$_POST['firstname']);
+            $s->bindValue(':lastname',$_POST['lastname']);
             $s->bindValue(':email',$_POST['email']);
             $s->bindValue(':password',md5($_POST['password'].'database'));
+            $s->bindValue(':gender',$_POST['gender']);
+
             $s->execute();
         }catch (PDOException $e)
         {
@@ -159,26 +146,101 @@ if (isset($_POST['action']) and $_POST['action'] == 'SignUp')
             include 'error.html.php';
             exit();
         }
-
+    if (isset($_POST['status']) and $_POST['status']!=NULL)
         try {
-            $sql='SELECT * FROM department ';
-            $rows=$pdo->query($sql);
+            $sql='UPDATE user 
+                  SET status =:status
+                  WHERE  email=:email';
+            $s=$pdo->prepare($sql);
+            $s->bindValue(':email',$_POST['email']);
+            $s->bindValue(':status',$_POST['status']);
+            $s->execute();
         }
         catch (PDOException $e){
-            $error='cannot fetch departments from database';
+            $error='cannot insert status';
             include 'error.html.php';
             exit();
         }
-        foreach ($rows as $row){
-            $dept[]=array('id'=>$row['dept_id'],'name'=>$row['name'],'description'=>$row['description']);
+    if (isset($_POST['hometown']) and $_POST['hometown']!=NULL )
+        try {
+            $sql='UPDATE user 
+                  SET hometown =:hometown
+                  WHERE  email=:email';
+            $s=$pdo->prepare($sql);
+            $s->bindValue(':email',$_POST['email']);
+            $s->bindValue(':hometown',$_POST['hometown']);
+            $s->execute();
         }
-        $username=$_POST['username'];
-        include 'chooseDepartment.html.php';
-
-        exit();
+        catch (PDOException $e){
+            $error='cannot insert hometown';
+            include 'error.html.php';
+            exit();
+        }
+    if (isset($_POST['aboutme']) and $_POST['aboutme']!=NULL )
+        try {
+            $sql='UPDATE user 
+                  SET about_me =:aboutme
+                  WHERE  email=:email';
+            $s=$pdo->prepare($sql);
+            $s->bindValue(':email',$_POST['email']);
+            $s->bindValue(':aboutme',$_POST['aboutme']);
+            $s->execute();
+        }
+        catch (PDOException $e){
+            $error='cannot insert aboutme';
+            include 'error.html.php';
+            exit();
+        }
+    if (isset($_POST['nickname']) and $_POST['nickname']!=NULL )
+        try {
+            $sql='UPDATE user 
+                  SET nick_name =:nickname
+                  WHERE  email=:email';
+            $s=$pdo->prepare($sql);
+            $s->bindValue(':email',$_POST['email']);
+            $s->bindValue(':nickname',$_POST['nickname']);
+            $s->execute();
+        }
+        catch (PDOException $e){
+            $error='cannot insert nickname';
+            include 'error.html.php';
+            exit();
+        }
+        if (isset($_POST['telNo1']) and $_POST['telNo1']!=NULL)
+        try {
+            $sql=$sql=' INSERT INTO phone_numbers 
+                  SET phone_number =:phonenumber , user_id=(SELECT u.user_id FROM user u WHERE   u.email=:email)
+                ';
+        $s=$pdo->prepare($sql);
+        $s->bindValue(':email',$_POST['email']);
+        $s->bindValue(':phonenumber',$_POST['telNo1']);
+        $s->execute();
     }
+        catch (PDOException $e){
+        $error='cannot insert phone number 1';
+        include 'error.html.php';
+        exit();
+        }
+    if (isset($_POST['telNo2']) and $_POST['telNo2']!=NULL)
+        try {
+            $sql=' INSERT INTO phone_numbers 
+                  SET phone_number =:phonenumber , user_id=(SELECT u.user_id FROM user u WHERE   u.email=:email)
+                ';
+            $s=$pdo->prepare($sql);
+            $s->bindValue(':email',$_POST['email']);
+            $s->bindValue(':phonenumber',$_POST['telNo2']);
+            $s->execute();
+        }
+        catch (PDOException $e){
+            $error='cannot insert phone number 2';
+            include 'error.html.php';
+            exit();
+        }
 
 
+
+
+exit();
 
 }
 if ($_SESSION['loggedIn'] == TRUE){
