@@ -65,7 +65,7 @@ function checkUsername_pass() {
 }
 function show_hide_signup(){
     if(g_signup == 0){
-    document.getElementById('signup').style.display="none";
+        document.getElementById('signup').style.display="none";
         g_signup =1 ;}
     else {
         document.getElementById('signup').style.display="block";
