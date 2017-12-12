@@ -15,7 +15,6 @@ function validatelogin(){
         }
         else return true;
     }
-<<<<<<< HEAD
 function checkUsername_pass() {
     var Msg = document.getElementById('feedback_user');
     var Msg4 = document.getElementById('feedback_user1');
@@ -24,49 +23,17 @@ function checkUsername_pass() {
     var Firstname = document.getElementById('firstname');
     var Lastname = document.getElementById('lastname');
     var Nickname = document.getElementById('nickname');
-=======
-function validatesignup(){
-    var username = document.getElementById("username").value;
-    var password = document.getElementById("password").value;
-    var email = document.getElementById("email").value;
-    if(username == null || username == ""){
-        alert("Enter your username !");
-        return false;
-    }
-    else if(password == null || password== ""){
-        alert("Enter your password ! ");
-        return false;
-    }
-    else if (email == null || email == "")
-    {
-        alert("Enter your email ! ");
-        return false;
-    }
-    else return checkUsername_pass();
-}
-function checkUsername_pass() {
-    var Msg = document.getElementById('feedback_user');
-    var Msg2= document.getElementById('feedback_pass');
-    var Msg3= document.getElementById('feedback_email');
-    var Username = document.getElementById('username');
->>>>>>> 3789c86d3020d1cd2ecff32793f4a72f98a4f647
     var Password = document.getElementById('password');
     var pass =1 ;
     var filter = /^([a-zA-Z0-9_\.\-])+\@(([a-zA-Z0-9\-])+\.)+([a-zA-Z0-9]{2,4})$/;
     var email = document.getElementById('email');
-<<<<<<< HEAD
     if (Firstname.value.length < 5 && Firstname.value != "") {
         Msg.textContent = 'Firstname must be 5 characters or more';
-=======
-    if (Username.value.length < 5 && Username.value != "") {
-        Msg.textContent = 'Username must be 5 characters or more';
->>>>>>> 3789c86d3020d1cd2ecff32793f4a72f98a4f647
         pass = 0 ;
     } else {
         Msg.textContent = '';
         pass =1 ;
     }
-<<<<<<< HEAD
     if (Lastname.value.length < 5 && Lastname.value != "") {
         Msg4.textContent = 'Lastname must be 5 characters or more';
         pass = 0 ;
@@ -74,8 +41,6 @@ function checkUsername_pass() {
         Msg4.textContent = '';
         pass =1 ;
     }
-=======
->>>>>>> 3789c86d3020d1cd2ecff32793f4a72f98a4f647
     if (Password.value.length < 5 && Password.value !="") {
         Msg2.textContent = 'Password must be 5 characters or more';
         pass =0 ;
