@@ -1,0 +1,60 @@
+body {
+    height: 100%;
+    background-color: #f3f3f3;
+    color: #555;
+    font-family: Arial, Helvetica, sans-serif; 
+    font-size:16px;
+    line-height: 1.6em;
+    margin:0;
+}
+
+div.tab {
+    overflow: hidden;
+    border: 1px solid #ccc;
+    background-color: #f1f1f1;
+}
+
+/* Style the buttons inside the tab */
+div.tab button {
+    background-color: inherit;
+    width: 25%;
+    margin-top: 0px;
+    float: left;
+    border: none;
+    outline: none;
+    cursor: pointer;
+    padding: 14px 16px;
+    transition: 0.3s;
+    border-radius:0px;
+}
+
+div.tab button:hover {
+    background-color: #ddd;
+}
+
+/* Create an active/current tablink class */
+div.tab button.active {
+    background-color: #ccc;
+}
+
+/* Style the tab content */
+.tabcontent {
+    display: none;
+    padding: 6px 12px;
+    border: 1px solid #ccc;
+    border-top: none;
+}
+
+form input[type="text"] {
+    width:95%;
+    margin-top: 5px;
+    margin-bottom: 5px;
+    margin-left:2.5%;
+    height:20px;
+    border-radius: 2px;
+}
+
+#search-bar {
+    background-color: rgb(55, 13, 155);
+    
+}
