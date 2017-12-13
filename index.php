@@ -87,9 +87,9 @@ if (isset($_POST['action']) and $_POST['action'] == 'SignUp')
 
     try{
             $sql ='INSERT INTO user SET 
+                first_name=:firstname,
                 last_name=:lastname,
                 reg_date=CURDATE(),
-                first_name=:firstname,
                 email=:email,
                 gender=:gender,
                 password=:password
