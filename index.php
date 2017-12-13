@@ -79,13 +79,13 @@ if (isset($_POST['action']) and $_POST['action'] == 'SignUp')
     if ($row[0] > 0){
         $GLOBALS['SignupError'] = 'email  already exists !';
         unset($_SESSION['loggedIn']);
-        unset($_SESSION['email']);
         unset($_SESSION['password']);
         include'registration.html.php';
         exit();
     }
+    unset($_SESSION['email']);
 
-        try{
+    try{
             $sql ='INSERT INTO user SET 
                 first_name=:firstname,
                 last_name=:lastname,
@@ -300,7 +300,7 @@ if (isset($_POST['submit']) and $_POST['submit'] == "Upload Image"){
     include 'newsfeed.html.php';
         exit();
 }
-if ($_SESSION['loggedIn'] == TRUE){
+if (isset($_SESSION['loggedIn'])and $_SESSION['loggedIn'] == TRUE){
     include $_SERVER['DOCUMENT_ROOT'].'/includes/db.inc.php';
     include 'newsfeed.html.php';
     // FETCHING POSTS AND SAVING THEM THEN LOADING NEWSFEED TEMPLATE
