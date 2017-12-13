@@ -9,7 +9,7 @@ include_once $_SERVER['DOCUMENT_ROOT'] .
     '/includes/magicquotes.inc.php';
 session_start();
 if(isset($_POST['action']) and $_POST['action']=='Logout'){
-			
+
 		$_SESSION['loggedIn']=FALSE;
         unset($_SESSION['email']);
         include'registration.html.php';
@@ -27,7 +27,7 @@ if (isset($_POST['action']) and $_POST['action'] == 'login') {
 WHERE email= :email ';
         $s = $pdo->prepare($sql);
         $s->bindValue(':email', $_POST['email']);
-      
+
         $s->execute();
     }
     catch (PDOException $e)
@@ -38,14 +38,14 @@ WHERE email= :email ';
 
     $row = $s->fetch();
     if ($row['password']==$password)
-    {		
-    		
+    {
+
             $_SESSION['loggedIn'] = TRUE;
             $_SESSION['email'] = $_POST['email'];
             // FETCHING POSTS THEN CALLING NEWSFEED TEMPLATE
             include 'newsfeed.html.php';
             exit();
-    } 
+    }
     else{
         $GLOBALS['SignupError']="Wrong username or password !";
         include 'registration.html.php';
@@ -86,7 +86,7 @@ if (isset($_POST['action']) and $_POST['action'] == 'SignUp')
     unset($_SESSION['email']);
 
     try{
-            $sql ='INSERT INTO user SET 
+            $sql ='INSERT INTO user SET
                 first_name=:firstname,
                 last_name=:lastname,
                 reg_date=CURDATE(),
@@ -110,7 +110,7 @@ if (isset($_POST['action']) and $_POST['action'] == 'SignUp')
         }
     if (isset($_POST['status']) and $_POST['status']!=NULL)
         try {
-            $sql='UPDATE user 
+            $sql='UPDATE user
                   SET martial_status =:status
                   WHERE  email=:email';
             $s=$pdo->prepare($sql);
@@ -125,7 +125,7 @@ if (isset($_POST['action']) and $_POST['action'] == 'SignUp')
         }
     if (isset($_POST['hometown']) and $_POST['hometown']!=NULL )
         try {
-            $sql='UPDATE user 
+            $sql='UPDATE user
                   SET home_town =:hometown
                   WHERE  email=:email';
             $s=$pdo->prepare($sql);
@@ -140,7 +140,7 @@ if (isset($_POST['action']) and $_POST['action'] == 'SignUp')
         }
     if (isset($_POST['aboutme']) and $_POST['aboutme']!=NULL )
         try {
-            $sql='UPDATE user 
+            $sql='UPDATE user
                   SET about_me =:aboutme
                   WHERE  email=:email';
             $s=$pdo->prepare($sql);
@@ -155,7 +155,7 @@ if (isset($_POST['action']) and $_POST['action'] == 'SignUp')
         }
     if (isset($_POST['nickname']) and $_POST['nickname']!=NULL )
         try {
-            $sql='UPDATE user 
+            $sql='UPDATE user
                   SET nick_name =:nickname
                   WHERE  email=:email';
             $s=$pdo->prepare($sql);
@@ -171,7 +171,7 @@ if (isset($_POST['action']) and $_POST['action'] == 'SignUp')
         if (isset($_POST['telNo1']) and $_POST['telNo1']!=NULL){
             check_phone($pdo,$_POST['telNo1'],$_POST['email']);
         try {
-            $sql=$sql=' INSERT INTO phone_numbers 
+            $sql=$sql=' INSERT INTO phone_numbers
                   SET phone_number =:phonenumber , user_id=(SELECT u.user_id FROM user u WHERE   u.email=:email)
                 ';
         $s=$pdo->prepare($sql);
@@ -187,7 +187,7 @@ if (isset($_POST['action']) and $_POST['action'] == 'SignUp')
     if (isset($_POST['telNo2']) and $_POST['telNo2']!=NULL){
         check_phone($pdo,$_POST['telNo2'],$_POST['email']);
         try {
-            $sql=' INSERT INTO phone_numbers 
+            $sql=' INSERT INTO phone_numbers
                   SET phone_number =:phonenumber , user_id=(SELECT u.user_id FROM user u WHERE   u.email=:email)
                 ';
             $s=$pdo->prepare($sql);
@@ -203,7 +203,7 @@ if (isset($_POST['action']) and $_POST['action'] == 'SignUp')
     if (isset($_POST['telNo3']) and $_POST['telNo3']!=NULL){
         check_phone($pdo,$_POST['telNo3'],$_POST['email']);
         try {
-            $sql=' INSERT INTO phone_numbers 
+            $sql=' INSERT INTO phone_numbers
                   SET phone_number =:phonenumber , user_id=(SELECT u.user_id FROM user u WHERE   u.email=:email)
                 ';
             $s=$pdo->prepare($sql);
@@ -305,6 +305,35 @@ if (isset($_SESSION['loggedIn'])and $_SESSION['loggedIn'] == TRUE){
     include 'newsfeed.html.php';
     // FETCHING POSTS AND SAVING THEM THEN LOADING NEWSFEED TEMPLATE
     exit();
+}
+if(isset($_POST['action']) and $_POST['action']=='posting') {
+    include $_SERVER['DOCUMENT_ROOT'].'/includes/db.inc.php';
+    include $_SERVER['DOCUMENT_ROOT'].'/includes/helpers.inc.php';
+    include $_SERVER['DOCUMENT_ROOT'].'/includes/poster.inc.php';
+    htmlout('a');
+    try{
+            $sql ='INSERT INTO posts SET
+                title=:Postname,
+                caption=:Caption,
+                isPublic=:Poststate,
+                time=CURDATE(),
+                user_id=:Userid
+                ';
+            $s=$pdo->prepare($sql);
+            $s->bindValue(':title',$_POST['title']);
+            $s->bindValue(':caption',$_POST['caption']);
+            $s->bindValue(':isPublic',$_POST['isPublic']);
+            $s->bindValue(':user_id',$_POST['user_id']);
+            $postid=$result['post_id'];
+            $s->bindValue(':id',$_POST['postid']);
+
+            $s->execute();
+        }catch (PDOException $e)
+        {
+            $error='cannot insert post into database !';
+            include 'error.html.php';
+            exit();
+        }
 }
 
 include 'registration.html.php';

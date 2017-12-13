@@ -19,6 +19,7 @@ CREATE TABLE  posts(
   isPublic BOOLEAN,
   user_id INT ,
   caption TEXT,
+  title TEXT,
   time DATETIME NOT NULL ,
   FOREIGN KEY (user_id) REFERENCES user (user_id)
     ON DELETE  CASCADE  ON UPDATE  CASCADE
