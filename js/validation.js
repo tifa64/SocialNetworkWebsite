@@ -25,7 +25,7 @@ function checkUsername_pass() {
     var Nickname = document.getElementById('nickname');
     var Password = document.getElementById('password');
     var pass =1 ;
-    var filter = /^([a-zA-Z0-9_\.\-])+\@(([a-zA-Z0-9\-])+\.)+([a-zA-Z0-9]{2,4})$/;
+    var filter = /^([a-zA-Z0-9_\.\-])+\@(([a-zA-Z\-])+\.)+([a-zA-Z]{2,4})$/;
     var email = document.getElementById('email');
     if (Firstname.value.length < 5 && Firstname.value != "") {
         Msg.textContent = 'Firstname must be 5 characters or more';
@@ -65,7 +65,7 @@ function checkUsername_pass() {
 }
 function show_hide_signup(){
     if(g_signup == 0){
-    document.getElementById('signup').style.display="none";
+        document.getElementById('signup').style.display="none";
         g_signup =1 ;}
     else {
         document.getElementById('signup').style.display="block";
