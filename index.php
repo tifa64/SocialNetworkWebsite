@@ -11,30 +11,28 @@ session_start();
 if(isset($_POST['action']) and $_POST['action']=='Logout'){
 			
 		$_SESSION['loggedIn']=FALSE;
-        unset($_SESSION['username']);
-        unset($_SESSION['password']);
-        unset($_SESSION['departmentid']);
+        unset($_SESSION['email']);
         include'registration.html.php';
         exit();
 }
 if (isset($_POST['action']) and $_POST['action'] == 'login') {
     include $_SERVER['DOCUMENT_ROOT'] . '/includes/db.inc.php';
-    if(!isset($_POST['username']) or $_POST['username']==' 'or !isset($_POST['password']) or $_POST['password'] == '' ){
+    if(!isset($_POST['email']) or $_POST['email']==' 'or !isset($_POST['password']) or $_POST['password'] == '' ){
         $GLOBALS['SignupError'] = 'Please fill in missing fields';
         include'registration.html.php';
         exit();}
     try
     {$password= md5($_POST['password'].'database');
         $sql = 'SELECT * FROM user
-WHERE user_name = :username ';
+WHERE email= :email ';
         $s = $pdo->prepare($sql);
-        $s->bindValue(':username', $_POST['username']);
+        $s->bindValue(':email', $_POST['email']);
       
         $s->execute();
     }
     catch (PDOException $e)
     {
-        $error = 'Error searching for author.';
+        $error = 'Error searching for user.';
 
     }
 
@@ -43,47 +41,10 @@ WHERE user_name = :username ';
     {		
     		
             $_SESSION['loggedIn'] = TRUE;
-            $_SESSION['username'] = $_POST['username'];
-            $_SESSION['departmentid']=$row['department_id'];
-            if(!isset($_SESSION['departmentid']) and is_null($_SESSION['departmentid']) )
-            {
-          try {
-            $sql='SELECT * FROM department ';
-            $rows=$pdo->query($sql);
-        }
-        catch (PDOException $e){
-            $error='cannot fetch departments from database';
-            include 'error.html.php';
+            $_SESSION['email'] = $_POST['email'];
+            // FETCHING POSTS THEN CALLING NEWSFEED TEMPLATE
+            include 'newsfeed.html.php';
             exit();
-        }
-        foreach ($rows as $row){
-            $dept[]=array('id'=>$row['dept_id'],'name'=>$row['name'],'description'=>$row['description']);
-        }
-
-        $username=$_POST['username'];
-        include 'chooseDepartment.html.php';
-
-        exit();
-            }else {
-
-            	  try {
-      $sql='SELECT * FROM course WHERE  department_id=:depid';
-        $s=$pdo->prepare($sql);
-        $s->bindValue(':depid',$_SESSION['departmentid']);
-        $s->execute();
-    }catch (PDOException $e){
-        $error='cannot get courses of this department';
-        include 'error.html.php';
-        exit();
-    }
-    $result=$s->fetchAll();
-    foreach ($result as $row){
-        $courses[]=array('name'=>$row['course_name'] ,'description'=>$row['course_description'],'credithours'=>$row['credit_hours'],
-            'instructor'=>$row['instructor_name']);
-    }
-        include'courses.html.php';
-        exit();
-            }
     } 
     else{
         $GLOBALS['SignupError']="Wrong username or password !";
@@ -95,6 +56,7 @@ WHERE user_name = :username ';
 if (isset($_POST['action']) and $_POST['action'] == 'SignUp')
 {
     include $_SERVER['DOCUMENT_ROOT'].'/includes/db.inc.php';
+    include $_SERVER['DOCUMENT_ROOT'] . '/includes/helpers.inc.php';
     if(!isset($_POST['firstname']) or $_POST['firstname']==' 'or !isset($_POST['password']) or $_POST['password'] == ''
         or !isset($_POST['email']) or $_POST['email'] == ''){
         $GLOBALS['SignupError'] = 'Please fill in missing fields';
@@ -117,10 +79,6 @@ if (isset($_POST['action']) and $_POST['action'] == 'SignUp')
     if ($row[0] > 0){
         $GLOBALS['SignupError'] = 'email  already exists !';
         unset($_SESSION['loggedIn']);
-<<<<<<< HEAD
-=======
-        unset($_SESSION['username']);
->>>>>>> 1433b5621d46e646c6aec5b78f9b310c2ef5221f
         unset($_SESSION['password']);
         include'registration.html.php';
         exit();
@@ -129,9 +87,9 @@ if (isset($_POST['action']) and $_POST['action'] == 'SignUp')
 
     try{
             $sql ='INSERT INTO user SET 
-                first_name=:firstname,
                 last_name=:lastname,
                 reg_date=CURDATE(),
+                first_name=:firstname,
                 email=:email,
                 gender=:gender,
                 password=:password
@@ -153,7 +111,7 @@ if (isset($_POST['action']) and $_POST['action'] == 'SignUp')
     if (isset($_POST['status']) and $_POST['status']!=NULL)
         try {
             $sql='UPDATE user 
-                  SET status =:status
+                  SET martial_status =:status
                   WHERE  email=:email';
             $s=$pdo->prepare($sql);
             $s->bindValue(':email',$_POST['email']);
@@ -168,7 +126,7 @@ if (isset($_POST['action']) and $_POST['action'] == 'SignUp')
     if (isset($_POST['hometown']) and $_POST['hometown']!=NULL )
         try {
             $sql='UPDATE user 
-                  SET hometown =:hometown
+                  SET home_town =:hometown
                   WHERE  email=:email';
             $s=$pdo->prepare($sql);
             $s->bindValue(':email',$_POST['email']);
@@ -210,7 +168,8 @@ if (isset($_POST['action']) and $_POST['action'] == 'SignUp')
             include 'error.html.php';
             exit();
         }
-        if (isset($_POST['telNo1']) and $_POST['telNo1']!=NULL)
+        if (isset($_POST['telNo1']) and $_POST['telNo1']!=NULL){
+            check_phone($pdo,$_POST['telNo1'],$_POST['email']);
         try {
             $sql=$sql=' INSERT INTO phone_numbers 
                   SET phone_number =:phonenumber , user_id=(SELECT u.user_id FROM user u WHERE   u.email=:email)
@@ -224,8 +183,9 @@ if (isset($_POST['action']) and $_POST['action'] == 'SignUp')
         $error='cannot insert phone number 1';
         include 'error.html.php';
         exit();
-        }
-    if (isset($_POST['telNo2']) and $_POST['telNo2']!=NULL)
+        }}
+    if (isset($_POST['telNo2']) and $_POST['telNo2']!=NULL){
+        check_phone($pdo,$_POST['telNo2'],$_POST['email']);
         try {
             $sql=' INSERT INTO phone_numbers 
                   SET phone_number =:phonenumber , user_id=(SELECT u.user_id FROM user u WHERE   u.email=:email)
@@ -239,28 +199,112 @@ if (isset($_POST['action']) and $_POST['action'] == 'SignUp')
             $error='cannot insert phone number 2';
             include 'error.html.php';
             exit();
+        }}
+    if (isset($_POST['telNo3']) and $_POST['telNo3']!=NULL){
+        check_phone($pdo,$_POST['telNo3'],$_POST['email']);
+        try {
+            $sql=' INSERT INTO phone_numbers 
+                  SET phone_number =:phonenumber , user_id=(SELECT u.user_id FROM user u WHERE   u.email=:email)
+                ';
+            $s=$pdo->prepare($sql);
+            $s->bindValue(':email',$_POST['email']);
+            $s->bindValue(':phonenumber',$_POST['telNo3']);
+            $s->execute();
         }
-
-
-
-
-exit();
-
-}
-if (isset($_SESSION['loggedIn'])and $_SESSION['loggedIn'] == TRUE){
-    include $_SERVER['DOCUMENT_ROOT'].'/includes/db.inc.php';
+        catch (PDOException $e){
+            $error='cannot insert phone number 3';
+            include 'error.html.php';
+            exit();
+        }}
+    if (isset($_POST['nickname']) and $_POST['nickname']!=NULL ){
+        $username=$_POST['nickname'];
+    }
+    else {
+        $username=$_POST['firstname'].$_POST['lastname'];
+    }
     try {
-        $sql='SELECT * FROM user WHERE user_name =:username';
+       $sql=' SELECT user_id  FROM user  WHERE   email=:email';
         $s=$pdo->prepare($sql);
-        $s->bindValue(':username',$_SESSION['username']);
+        $s->bindValue(':email',$_POST['email']);
         $s->execute();
-    }catch(PDOException $e){
-        $error='cannot get info of logged in user';
+        $result=$s->fetch();
+    }
+    catch (PDOException $e)
+    {
+        $error='cannot get userid ';
         include 'error.html.php';
         exit();
     }
+    $_SESSION['loggedIn'] = TRUE;
+    $_SESSION['email'] = $_POST['email'];
+    $userid=$result['user_id'];
+    setimage($pdo,$_POST['email'],$_POST['gender']);
+    include 'welcome.html.php';
+    exit();
+}
+if (isset($_POST['submit']) and $_POST['submit'] == "Upload Image"){
+    include $_SERVER['DOCUMENT_ROOT'].'/includes/db.inc.php';
+    $target_dir = "images/";
+    $target_file = $target_dir . basename($_FILES["fileToUpload"]["name"]);
+    $uploadOk = 1;
+    $imageFileType = strtolower(pathinfo($target_file,PATHINFO_EXTENSION));
 
 
+        $check = getimagesize($_FILES["fileToUpload"]["tmp_name"]);
+        if($check !== false) {
+            echo "File is an image - " . $check["mime"] . ".";
+            $uploadOk = 1;
+        } else {
+            echo "File is not an image.";
+            $uploadOk = 0;
+        }
+
+
+    if (file_exists($target_file)) {
+        echo "Sorry, file already exists.";
+        $uploadOk = 0;
+    }
+
+    if ($_FILES["fileToUpload"]["size"] > 500000) {
+        echo "Sorry, your file is too large.";
+        $uploadOk = 0;
+    }
+
+    if($imageFileType != "jpg" && $imageFileType != "png" && $imageFileType != "jpeg"
+        && $imageFileType != "gif" ) {
+        echo "Sorry, only JPG, JPEG, PNG & GIF files are allowed.";
+        $uploadOk = 0;
+    }
+
+    if ($uploadOk == 0) {
+        echo "Sorry, your file was not uploaded.";
+
+    } else {
+        if (move_uploaded_file($_FILES["fileToUpload"]["tmp_name"], $target_file)) {
+            echo "The file ". basename( $_FILES["fileToUpload"]["name"]). " has been uploaded.";
+        } else {
+            echo "Sorry, there was an error uploading your file.";
+        }
+    }
+    try {
+            $sql= "UPDATE user SET  image_url =:url WHERE user_id=:id";
+            $s=$pdo->prepare($sql);
+            $s->bindValue(':url',$target_file);
+            $s->bindValue(':id',$_POST['userid']);
+            $s->execute();
+    }catch (PDOException $e){
+            $error='Failed to set pp url';
+            include 'error.html.php';
+            exit();
+    }
+    include 'newsfeed.html.php';
+        exit();
+}
+if (isset($_SESSION['loggedIn'])and $_SESSION['loggedIn'] == TRUE){
+    include $_SERVER['DOCUMENT_ROOT'].'/includes/db.inc.php';
+    include 'newsfeed.html.php';
+    // FETCHING POSTS AND SAVING THEM THEN LOADING NEWSFEED TEMPLATE
+    exit();
 }
 
 include 'registration.html.php';
