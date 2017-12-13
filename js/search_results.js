@@ -111,4 +111,25 @@ $(document).ready(function(){
 		//updateContent(json);
 	});
 
+	$(".tablinks").click(function() {
+		console.log("Tab clicked");
+		var query = document.getElementById('search-query').value;
+		if(query === '')
+			return;
+		//console.log(query);
+		$.ajax({
+			url: 'search.php',
+			type: 'POST',
+			data: {query: query, type: currentTab},
+			success: function(response) {
+				emptyTabs();
+				if(response !== '')
+					updateContent($.parseJSON(response));
+			},
+			error: function(data) {
+
+			}
+		});
+	});
+
 });
