@@ -42,7 +42,9 @@ WHERE email= :email ';
 
             $_SESSION['loggedIn'] = TRUE;
             $_SESSION['email'] = $_POST['email'];
-            // FETCHING POSTS THEN CALLING NEWSFEED TEMPLATE
+            $_SESSION['userid']=$row['user_id'];
+
+          // FETCHING POSTS THEN CALLING NEWSFEED TEMPLATE
             include 'newsfeed.html.php';
             exit();
     }
@@ -80,6 +82,7 @@ if (isset($_POST['action']) and $_POST['action'] == 'SignUp')
         $GLOBALS['SignupError'] = 'email  already exists !';
         unset($_SESSION['loggedIn']);
         unset($_SESSION['password']);
+        unset(  $_SESSION['userid']);
         include'registration.html.php';
         exit();
     }
@@ -237,7 +240,7 @@ if (isset($_POST['action']) and $_POST['action'] == 'SignUp')
     }
     $_SESSION['loggedIn'] = TRUE;
     $_SESSION['email'] = $_POST['email'];
-    $userid=$result['user_id'];
+    $_SESSION['userid']=$result['user_id'];
     setimage($pdo,$_POST['email'],$_POST['gender']);
     include 'welcome.html.php';
     exit();
@@ -300,33 +303,22 @@ if (isset($_POST['submit']) and $_POST['submit'] == "Upload Image"){
     include 'newsfeed.html.php';
         exit();
 }
-if (isset($_SESSION['loggedIn'])and $_SESSION['loggedIn'] == TRUE){
-    include $_SERVER['DOCUMENT_ROOT'].'/includes/db.inc.php';
-    include 'newsfeed.html.php';
-    // FETCHING POSTS AND SAVING THEM THEN LOADING NEWSFEED TEMPLATE
-    exit();
-}
-if(isset($_POST['action']) and $_POST['action']=='posting') {
+if(isset($_POST['action']) and $_POST['action']=='Posting') {
     include $_SERVER['DOCUMENT_ROOT'].'/includes/db.inc.php';
     include $_SERVER['DOCUMENT_ROOT'].'/includes/helpers.inc.php';
-    include $_SERVER['DOCUMENT_ROOT'].'/includes/poster.inc.php';
-    htmlout('a');
     try{
             $sql ='INSERT INTO posts SET
                 title=:Postname,
                 caption=:Caption,
                 isPublic=:Poststate,
-                time=CURDATE(),
-                user_id=:Userid
+                user_id =:user_id,
+                time=CURDATE()
                 ';
             $s=$pdo->prepare($sql);
-            $s->bindValue(':title',$_POST['title']);
-            $s->bindValue(':caption',$_POST['caption']);
-            $s->bindValue(':isPublic',$_POST['isPublic']);
-            $s->bindValue(':user_id',$_POST['user_id']);
-            $postid=$result['post_id'];
-            $s->bindValue(':id',$_POST['postid']);
-
+            $s->bindValue(':Postname',$_POST['Postname']);
+            $s->bindValue(':Caption',$_POST['Caption']);
+            $s->bindValue(':Poststate',$_POST['Poststate']);
+            $s->bindValue(':user_id',  $_SESSION['userid']);
             $s->execute();
         }catch (PDOException $e)
         {
@@ -335,5 +327,10 @@ if(isset($_POST['action']) and $_POST['action']=='posting') {
             exit();
         }
 }
-
+if (isset($_SESSION['loggedIn'])and $_SESSION['loggedIn'] == TRUE){
+    include $_SERVER['DOCUMENT_ROOT'].'/includes/db.inc.php';
+    include 'newsfeed.html.php';
+    // FETCHING POSTS AND SAVING THEM THEN LOADING NEWSFEED TEMPLATE
+    exit();
+}
 include 'registration.html.php';
