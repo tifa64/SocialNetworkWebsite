@@ -6,14 +6,29 @@ function updateContent(json) {
 	for(key in keys) {
 		var x = json[key];
 		if(currentTab === 'posts')
-			$('#'+currentTab).append('<div> Name: ' + x['content'] + ' ' + x['post_id'] + ' ' + x['user_id'] + '</div>');
+			$('#'+currentTab).append('<div id="' + x['post_id'] + '" class="search_result">Name: ' + x['content'] +'<a href="localhost:8000/social-network/users/' + x['user_id'] + '">Link</a></div>');
 		else {
 			if(already_here.indexOf(x['user_id']) == -1) {
-				$('#'+currentTab).append('<div> Name: ' + x['fname'] + ' ' + x['lname'] + ' ' + x['user_id'] + '</div>');
+				$('#'+currentTab).append(createUserEntry(x));
 				already_here.push(x['user_id']);
 			}
 		}
 	}	
+}
+
+function createUserEntry(user) {
+	var element = '<div id="' + user['user_id'] + '" class="search_result">';
+	element += '<h2>' + user['fname'] + ' ' + user['lname'] + '</h2>';
+	element += '<img src="' + user['image_url'] + '" width=75 height=75/>';
+
+	element += "</div>";
+	return element;
+}
+
+function createNoEntryFound() {
+	var element = '<div class="no_result"><h2>No Results Found 😔</h2></div>';
+
+	return element;
 }
 
 
@@ -22,6 +37,22 @@ function emptyTabs() {
 	$('#email').empty();
 	$('#posts').empty();
 	$('#hometown').empty();	
+}
+
+function addNoResultsFound() {
+	var element = createNoEntryFound();
+	$('#name').append(element);
+	$('#email').append(element);
+	$('#posts').append(element);
+	$('#hometown').append(element);
+}
+
+function addTypeYourQueryDiv() {
+	var element = '<div class="add_your_query"><h1>Type your query in the searchbar</h1></div>';
+	$('#name').append(element);
+	$('#email').append(element);
+	$('#posts').append(element);
+	$('#hometown').append(element);
 }
 
 function changeTab(evt, tabName) {
@@ -50,10 +81,15 @@ function changeTab(evt, tabName) {
 
 
 $(document).ready(function(){
+	addTypeYourQueryDiv();
 	currentTab = "name";
 	document.getElementsByClassName("tabcontent")[0].style.display = "block";
 	document.getElementById("tab1").style.display = "block";
 	document.getElementById("tab1").className += " active";
+
+	$(".search_result").click(function(e) {
+		console.log(e.currentTarget);
+	});
 	
 	$("#search-form").submit(function(e) {
 		e.preventDefault();
@@ -66,8 +102,6 @@ $(document).ready(function(){
 			data: {query: query},
 			success: function(response) {
 				console.log(response);
-				//var json = $.parseJSON(response);
-				//console.log(json);
 			},
 			error: function(data) {
 				var json = $.parseJSON(data);
@@ -83,6 +117,17 @@ $(document).ready(function(){
 		if(e.which === 8) {
 			if(query === '') {
 				emptyTabs();
+				//addNoResultsFound();
+				addTypeYourQueryDiv();
+			}
+		}
+	});
+
+	$("div").click(function(e) {
+		if(e.target.className === "search_result") {
+			if(currentTab === "name") {
+				console.log(e.target.id);
+				window.location.href = 'users/' + e.target.id;
 			}
 		}
 	});
@@ -92,7 +137,7 @@ $(document).ready(function(){
 		var query = document.getElementById('search-query').value;
 		if(query === '')
 			return;
-		//console.log(query);
+
 		$.ajax({
 			url: 'search.php',
 			type: 'POST',
@@ -101,6 +146,8 @@ $(document).ready(function(){
 				emptyTabs();
 				if(response !== '')
 					updateContent($.parseJSON(response));
+				else
+					addNoResultsFound();
 			},
 			error: function(data) {
 
@@ -125,6 +172,8 @@ $(document).ready(function(){
 				emptyTabs();
 				if(response !== '')
 					updateContent($.parseJSON(response));
+				else
+					addNoResultsFound();
 			},
 			error: function(data) {
 

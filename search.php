@@ -26,13 +26,12 @@
 			if ($num_rows > 0) {
 		       	for($i = 0; $i < $num_rows; $i++) {
 			    		$row = mysqli_fetch_assoc($result);
-			    		array_push($users, array("user_id" => $row['user_id'], "fname" => $row['first_name'], "lname" => $row['last_name'], "type" => "email"));
+			    		array_push($users, array("user_id" => $row['user_id'], "fname" => $row['first_name'], "lname" => $row['last_name'], "image_url" => $row['image_url'], "type" => "email"));
 			    		#echo $row["last_name"].'<br>';
 	    		}
 	    		echo json_encode($users, JSON_FORCE_OBJECT);
 		    }
 		    	
-
 		} else if($type === 'name') {
 			$reply = array();
 			$fname = '';
@@ -60,7 +59,7 @@
 			if ($num_rows > 0) {
 		       	for($i = 0; $i < $num_rows; $i++) {
 			    		$row = mysqli_fetch_assoc($result);
-			    		array_push($users, array("user_id" => $row['user_id'], "fname" => $row['first_name'], "lname" => $row['last_name']));
+			    		array_push($users, array("user_id" => $row['user_id'], "fname" => $row['first_name'], "lname" => $row['last_name'], "image_url" => $row['image_url']));
 			    		#echo $row["last_name"].'<br>';
 	    		}
 		    }
@@ -71,7 +70,7 @@
 		    	if($num_rows > 0) {
 		    		for($i = 0; $i < $num_rows; $i++) {
 			    		$row = mysqli_fetch_assoc($result);
-			    		array_push($users, array("user_id" => $row['user_id'], "fname" => $row['first_name'], "lname" => $row['last_name']));
+			    		array_push($users, array("user_id" => $row['user_id'], "fname" => $row['first_name'], "lname" => $row['last_name'], "image_url" => $row['image_url']));
 			    		#echo $row["first_name"].'<br>';
 			    		#echo $row["last_name"].'<br>';
 		    		}
@@ -90,7 +89,7 @@
 		    	for($i = 0; $i < $num_rows; $i++) {
 		    		$row = mysqli_fetch_assoc($result);
 
-		    		array_push($users, array("user_id" => $row['user_id'], "fname" => $row['first_name'], "lname" => $row['last_name']));
+		    		array_push($users, array("user_id" => $row['user_id'], "fname" => $row['first_name'], "lname" => $row['last_name'], "image_url" => $row['image_url']));
 
 		    		#echo $row["user_id"].'<br>';
 		    		#echo $row["first_name"].'<br>';

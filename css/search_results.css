@@ -8,6 +8,53 @@ body {
     margin:0;
 }
 
+.search_result {
+    height: 100px;
+    padding: 0px auto;
+    width: auto;
+    text-align: center;
+    border-bottom: 2px solid #ddd;
+}
+
+.search_result h2 {
+    margin: 0 auto;
+    margin-top: 36px;
+    display: inline-block;
+}
+
+.no_result h2 {
+    margin: 0 auto;
+    margin-top: 36px;
+    display: inline-block;   
+}
+
+.no_result {
+    height: 100px;
+    padding: 0px auto;
+    width: auto;
+    text-align: center;
+    border-bottom: 2px solid #ddd;
+}
+
+.search_result img {
+    margin: 0 auto;
+    margin-top:10px;
+    margin-left:5%;
+    float: left;
+}
+
+.add_your_query {
+    text-align: center;
+    padding:0 auto;
+    margin:0 auto;
+    margin-top:10%;
+}
+
+div.search_result:hover {
+    background-color: #ddd;
+}
+
+
 div.tab {
     overflow: hidden;
     border: 1px solid #ccc;
@@ -40,9 +87,9 @@ div.tab button.active {
 /* Style the tab content */
 .tabcontent {
     display: none;
-    padding: 6px 12px;
     border: 1px solid #ccc;
     border-top: none;
+    border-bottom: none;
 }
 
 form input[type="text"] {

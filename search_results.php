@@ -10,6 +10,7 @@
 		<script type="text/javascript" src="js/jquery-3.2.1.js"></script>
 		<script type="text/javascript" src="js/search_results.js"></script>
 		<link rel="stylesheet"  href="css/search_results.css">
+		<meta charset='utf-8'>
 
 	</head>
 	<body>
@@ -25,10 +26,7 @@
 			<button class="tablinks" id="tab4" onclick="changeTab(event, 'posts')">Posts</button>			
 		</div>
 
-		<div id="name" class="tabcontent" style="text-align:center">
-	  		<?php
-
-	  		?>
+		<div id="name" class="tabcontent">
 		</div>
 
 		<div id="email" class="tabcontent">
