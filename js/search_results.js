@@ -18,8 +18,8 @@ function updateContent(json) {
 		$(".num_elements_found").remove();
 		return;
 	}
-	console.log('tab length = ');
-	console.log($(".tab").length);
+	console.log(keys.length);
+
 	if($(".tab").length !== 0) {
 		if(currentTab == 'posts') {
 			if($('.num_elements_found').length > 0)
@@ -29,7 +29,7 @@ function updateContent(json) {
 		}
 		else {
 			if($('.num_elements_found').length > 0)
-				$('.num_elements_found').html(createNumEntriesFound(keys.length))
+				$('.num_elements_found').html(createNumEntriesFound(already_here.length))
 			else
 				$(".tab").after(createNumEntriesFound(already_here.length));
 		}
@@ -214,7 +214,7 @@ $(document).ready(function(){
 			type: 'POST',
 			data: {query: query, type: currentTab},
 			success: function(response) {
-				//console.log(response);
+				console.log(response);
 				emptyTabs();
 				if(response !== '')
 					updateContent($.parseJSON(response));
@@ -243,7 +243,7 @@ $(document).ready(function(){
 			type: 'POST',
 			data: {query: query, type: currentTab},
 			success: function(response) {
-				//console.log(response);
+				console.log(response);
 				emptyTabs();
 				if(response !== '')
 					updateContent($.parseJSON(response));
