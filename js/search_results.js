@@ -45,11 +45,14 @@ function formatDate(date) {
 		if(hour > 12)
 			hour -= 12;
 	}
+	if(day[0] == '0')
+		day = day.slice(1, day.length);
 	if(hour[0] == '0')
 		hour = hour.slice(1, hour.length);
-	var output = day + ' ' + months[parseInt(month)-1] + ' ' + hour + ':' + mins + ampm;
+	var output = day + ' ' + months[parseInt(month)-1];
 	if(parseInt(year) !== (new Date).getFullYear())
-		output = year + ' ' + output;
+		output += ' ' + year;
+	 output += ' ' + hour + ':' + mins + ampm
 	console.log((new Date).getFullYear());
 
 	return output;
