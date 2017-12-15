@@ -5,7 +5,7 @@ function updateContent(json) {
 	var keys = Object.keys(json);
 	for(key in keys) {
 		var x = json[key];
-		if(currentTab === 'posts')
+		if(currentTab === 'posts') 
 			$('#'+currentTab).append(createPostEntry(x));
 		else {
 			if(already_here.indexOf(x['user_id']) == -1) {
@@ -13,6 +13,31 @@ function updateContent(json) {
 				already_here.push(x['user_id']);
 			}
 		}
+	}
+	if(keys.length == 0) {
+		$(".num_elements_found").remove();
+		return;
+	}
+	console.log('tab length = ');
+	console.log($(".tab").length);
+	if($(".tab").length !== 0) {
+		if(currentTab == 'posts') {
+			if($('.num_elements_found').length > 0)
+				$('.num_elements_found').html(createNumEntriesFound(keys.length))
+			else
+				$(".tab").after(createNumEntriesFound(keys.length));
+		}
+		else {
+			if($('.num_elements_found').length > 0)
+				$('.num_elements_found').html(createNumEntriesFound(keys.length))
+			else
+				$(".tab").after(createNumEntriesFound(already_here.length));
+		}
+	} else{
+		if(currentTab == 'posts')
+			$(".tab").after(createNumEntriesFound(keys.length));
+		else
+			$(".tab").after(createNumEntriesFound(already_here.length));
 	}	
 }
 
@@ -27,7 +52,6 @@ function createUserEntry(user) {
 
 function formatDate(date) {
 	var months = ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'];
-	console.log(date);
 	var year = date.slice(0, 4); 
 	var str = date.slice(5, date.length);
 	var month = str.slice(0, 2);
@@ -53,7 +77,6 @@ function formatDate(date) {
 	if(parseInt(year) !== (new Date).getFullYear())
 		output += ' ' + year;
 	 output += ' ' + hour + ':' + mins + ampm
-	console.log((new Date).getFullYear());
 
 	return output;
 }
@@ -74,6 +97,10 @@ function createNoEntryFound() {
 	return element;
 }
 
+function createNumEntriesFound(length) {
+	var element = '<div class="num_elements_found">Found ' + length + ' Results</div>';
+	return element;
+}
 
 function emptyTabs() {
 	$('#name').empty();
@@ -161,6 +188,7 @@ $(document).ready(function(){
 			if(query === '') {
 				emptyTabs();
 				//addNoResultsFound();
+				$(".num_elements_found").remove();
 				addTypeYourQueryDiv();
 			}
 		}
@@ -190,8 +218,10 @@ $(document).ready(function(){
 				emptyTabs();
 				if(response !== '')
 					updateContent($.parseJSON(response));
-				else
+				else {
 					addNoResultsFound();
+					$(".num_elements_found").remove();
+				}
 			},
 			error: function(data) {
 
@@ -217,8 +247,10 @@ $(document).ready(function(){
 				emptyTabs();
 				if(response !== '')
 					updateContent($.parseJSON(response));
-				else
+				else {
 					addNoResultsFound();
+					$(".num_elements_found").remove();
+				}
 			},
 			error: function(data) {
 
