@@ -6,7 +6,7 @@ function updateContent(json) {
 	for(key in keys) {
 		var x = json[key];
 		if(currentTab === 'posts')
-			$('#'+currentTab).append('<div id="' + x['post_id'] + '" class="search_result">Name: ' + x['content'] +'<a href="localhost:8000/social-network/users/' + x['user_id'] + '">Link</a></div>');
+			$('#'+currentTab).append(createPostEntry(x));
 		else {
 			if(already_here.indexOf(x['user_id']) == -1) {
 				$('#'+currentTab).append(createUserEntry(x));
@@ -25,9 +25,49 @@ function createUserEntry(user) {
 	return element;
 }
 
+function formatDate(date) {
+	var months = ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'];
+	console.log(date);
+	var year = date.slice(0, 4); 
+	var str = date.slice(5, date.length);
+	var month = str.slice(0, 2);
+	str = str.slice(3, str.length);
+	var day = str.slice(0, str.indexOf(' '));
+	str = str.slice(str.indexOf(' ') + 1, str.length);
+	var hour = str.slice(0, str.indexOf(':'));
+	str = str.slice(str.indexOf(':') + 1, str.length);
+	var mins = str.slice(0, str.indexOf(':'));
+	var ampm;
+	if(hour < 12)
+		ampm="am";
+	else if(hour >= 12) {
+		ampm="pm";
+		if(hour > 12)
+			hour -= 12;
+	}
+	if(hour[0] == '0')
+		hour = hour.slice(1, hour.length);
+	var output = day + ' ' + months[parseInt(month)-1] + ' ' + hour + ':' + mins + ampm;
+	if(parseInt(year) !== (new Date).getFullYear())
+		output = year + ' ' + output;
+	console.log((new Date).getFullYear());
+
+	return output;
+}
+
+function createPostEntry(post) {
+	var element = '<div id="' + post['post_id'] + '" class="search_result_post">';
+	element += '<div class="container"><img class="profile_picture" src="' + post['image_url'] + '" width=50 height=50/>';
+	element += '<h3 class="name"><a href="https://localhost:8000/social-network/users/' + post['user_id'] + '">' + post['fname'] + ' ' + post['lname'] + '</a></h3>';
+	element += '<h6 class="post_date">' + formatDate(post['time']) + '</h6></div>';
+	element += '<p>' + post['content'] + '</p>';
+	element += '</div>';
+
+	return element; 
+}
+
 function createNoEntryFound() {
 	var element = '<div class="no_result"><h2>No Results Found 😔</h2></div>';
-
 	return element;
 }
 
@@ -143,6 +183,7 @@ $(document).ready(function(){
 			type: 'POST',
 			data: {query: query, type: currentTab},
 			success: function(response) {
+				//console.log(response);
 				emptyTabs();
 				if(response !== '')
 					updateContent($.parseJSON(response));
@@ -169,6 +210,7 @@ $(document).ready(function(){
 			type: 'POST',
 			data: {query: query, type: currentTab},
 			success: function(response) {
+				//console.log(response);
 				emptyTabs();
 				if(response !== '')
 					updateContent($.parseJSON(response));
@@ -181,4 +223,7 @@ $(document).ready(function(){
 		});
 	});
 
+	$("a").on('click', function() {
+		console.log('a clicked');
+	});
 });

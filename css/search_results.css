@@ -16,10 +16,43 @@ body {
     border-bottom: 2px solid #ddd;
 }
 
+.container {
+    margin-top: 10px;
+    height:60px;
+}
+
+.search_result_post {
+    height: 100px;
+    padding: 0px auto;
+    padding-left:20px;
+    width: auto;
+    text-align: left;
+    border-bottom: 2px solid #ddd;
+    min-height: 100px;
+    overflow: hidden;
+    height: 1%;
+}
+
+
+
 .search_result h2 {
     margin: 0 auto;
     margin-top: 36px;
     display: inline-block;
+}
+
+.search_result_post p {
+    margin: 0 auto;
+    margin-left:40px;
+    display: block;
+    float: left;
+    margin-bottom: 20px;
+}
+
+.emoticon {
+    margin: 0px;
+    display: inline;
+    padding: 0px;
 }
 
 .no_result h2 {
@@ -43,6 +76,40 @@ body {
     float: left;
 }
 
+.profile_picture img {
+    margin: 0 auto;
+    margin-top:10px;
+    margin-left:5%;
+    float: left;
+}
+
+.search_result_post h3.name {
+    position: relative;
+    top: -35px;
+    margin-top: 0px;
+    display: inline-block;
+    margin-left: 10px;
+    margin-bottom: 6px;
+}
+
+.search_result_post a {
+    text-decoration: none;
+    color: inherit;
+
+}
+
+.search_result_post h3.name:hover {
+    text-decoration: underline;
+}
+
+.search_result_post h6.post_date {
+    position: relative;
+    top: -50px;
+    margin-top: 0px;
+    margin-left: 60px;
+    margin-bottom: 0px;
+}
+
 .add_your_query {
     text-align: center;
     padding:0 auto;
@@ -50,7 +117,7 @@ body {
     margin-top:10%;
 }
 
-div.search_result:hover {
+div.search_result:hover, div.search_result_post:hover {
     background-color: #ddd;
 }
 
