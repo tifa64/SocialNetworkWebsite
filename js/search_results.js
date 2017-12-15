@@ -196,7 +196,7 @@ $(document).ready(function(){
 
 	$("div").click(function(e) {
 		if(e.target.className === "search_result") {
-			if(currentTab === "name") {
+			if(currentTab !== "posts") {
 				console.log(e.target.id);
 				window.location.href = 'users/' + e.target.id;
 			}
