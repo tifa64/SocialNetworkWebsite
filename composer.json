@@ -1,0 +1,11 @@
+{
+    "autoload": {
+        "psr-0": {
+            "NotificationSystem": "class"
+        }
+    },
+    "require": {
+        "cboden/ratchet": "^0.4.1"
+    }
+
+}

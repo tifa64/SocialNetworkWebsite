@@ -1,9 +1,13 @@
 <?php
+	include_once $_SERVER['DOCUMENT_ROOT'] .'/social-network/'.
+    '/includes/magicquotes.inc.php';
+	
 	session_start();
 
 	$query = $_POST['query'];
 	$type = $_POST['type'];
 	$user_id = $_SESSION['user_id'];
+
 	// Set up the connection to the database
 	$servername = "localhost";
 	$db_username   = "root";

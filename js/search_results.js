@@ -187,7 +187,6 @@ $(document).ready(function(){
 		if(e.which === 8) {
 			if(query === '') {
 				emptyTabs();
-				//addNoResultsFound();
 				$(".num_elements_found").remove();
 				addTypeYourQueryDiv();
 			}

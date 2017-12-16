@@ -1,6 +1,11 @@
 <?php
 	session_start();
-	$_SESSION['user_id'] = 1;
+
+	// ONLY USED FOR TESTING PURPOSES AND SHOULD BE REMOVED
+	$_SESSION['user_id'] = 135312;
+	$_SESSION['full_name'] = 'Mostafa Elsayed';
+	//////////////////////////////////////////////////////
+
 ?>
 
 <!DOCTYPE html>
@@ -9,7 +14,13 @@
 	<head>
 		<script type="text/javascript" src="js/jquery-3.2.1.js"></script>
 		<script type="text/javascript" src="js/search_results.js"></script>
+		<script type="text/javascript">
+			var user_id = <?php echo $_SESSION['user_id']; ?>;
+		</script>
+		<script type="text/javascript" src="js/notifications.js"></script>
+
 		<link rel="stylesheet"  href="css/search_results.css">
+		<link rel="stylesheet" href="css/notifications.css">
 		<meta charset='utf-8'>
 
 	</head>
