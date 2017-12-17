@@ -21,7 +21,10 @@ conn.onmessage = function(e) {
 	modal.style.display = "block";
 
 	// THIS IS ADDED FOR TESTING PURPOSES AND SHOULD BE REMOVED
-	$('.modal-content').append('<h1><a class="link" href="https://localhost:8000/social-network/users/' + data["sender_id"] + '">' + data["sender_name"] + '</a> sent you a friend request</h1>');
+	if(data["msg_type"] === "friend_request_notification")
+		$('.modal-content').html('<h1><a class="link" href="https://localhost:8000/social-network/users/' + data["sender_id"] + '">' + data["sender_name"] + '</a> sent you a friend request</h1>');
+	else if(data['msg_type'] === "like_notification")
+		$('.modal-content').html('<h1><a class="link" href="https://localhost:8000/social-network/users/' + data["sender_id"] + '">' + data["sender_name"] + '</a> has liked your post </h1>');
 	//////////////////////////////////////////////////////////
 
 
@@ -47,16 +50,17 @@ $(document).ready(function() {
 
 
 	$(window).click(function(e) { 
+		var modal = document.getElementById('myModal');
 		if(e.target == modal) {
 			modal.style.display = "none";
 		}
 	});
 
 	$(document).keydown(function(e) {
-		//Check first if a textbox is in focus
 	    let key = e.which;
 	    if(key == 27)
     	{
+    		modal = document.getElementById('myModal');
 			modal.style.display = "none";
     	}
 	    
@@ -70,9 +74,35 @@ $(document).ready(function() {
 		var data = {
 			id: user_id,
 			content: message_content,
-			msg_type: 'notification',
+			msg_type: 'friend_request_notification',
 			full_name: user_full_name,
-			recepient_id: 135312
+			recepient_id: 1
+		};
+		conn.send(JSON.stringify(data));
+	});
+
+
+	$("#add_friend_test").click(function(e) {
+		var message_content = document.getElementById('search-query').value;
+		var data = {
+			id: user_id,
+			content: message_content,
+			msg_type: 'friend_request_notification',
+			full_name: user_full_name,
+			recepient_id: parseInt(message_content)
+		};
+
+		conn.send(JSON.stringify(data));
+	});
+
+	$("#like_test").click(function(e) {
+		var message_content = document.getElementById('search-query').value;
+		var data = {
+			id: user_id,
+			content: message_content,
+			msg_type: 'like_notification',
+			full_name: user_full_name,
+			recepient_id: parseInt(message_content)
 		};
 		conn.send(JSON.stringify(data));
 	});

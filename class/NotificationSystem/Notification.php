@@ -42,7 +42,7 @@ class Notification implements MessageComponentInterface {
                 return;
             }
             $recepient_conn = $this->users[$recepient_id];
-            $recepient_conn->send(json_encode(array("content" => $data->content, "sender_id" => $sender_id, "sender_name" => $data->full_name))); 
+            $recepient_conn->send(json_encode(array("content" => $data->content, "sender_id" => $sender_id, "sender_name" => $data->full_name, "msg_type" => $data->msg_type))); 
             
         }
     }

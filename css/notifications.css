@@ -8,6 +8,7 @@
     height: 100%; 
     overflow: auto; 
     background-color: rgba(0,0,0,0.4);
+    transition: 2s;
 }
 
 .modal-content {
@@ -18,6 +19,7 @@
     border-radius: 10px;
     width: 70%;
     text-align: center;
+    transition: 2s;
 }
 
 .link {

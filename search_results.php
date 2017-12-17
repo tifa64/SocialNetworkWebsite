@@ -2,8 +2,8 @@
 	session_start();
 
 	// ONLY USED FOR TESTING PURPOSES AND SHOULD BE REMOVED
-	$_SESSION['user_id'] = 135312;
-	$_SESSION['full_name'] = 'Mostafa Elsayed';
+	$_SESSION['user_id'] = 1;
+	$_SESSION['full_name'] = 'Karim Elawaad';
 	//////////////////////////////////////////////////////
 
 ?>

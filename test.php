@@ -5,8 +5,8 @@
 	session_start();
 
 	// Only used for testing, should be removed
-	$_SESSION['user_id'] = 1;
-	$_SESSION['full_name'] = 'Ahmed Elsayed';
+	$_SESSION['user_id'] = 3;
+	$_SESSION['full_name'] = 'Mohab Khairy';
 	////////////////////////////////////
 ?>
 <!DOCTYPE html>
@@ -24,6 +24,9 @@
 	<h1>Search</h1>
 	<form id="search-form" action="search.php" method="post">
 		<input type="text" id="search-query" name="query"><br>
-		<input type="submit" value="Search">
+		<input type="submit" value="Add Friend">
 	</form>
+	<button id="add_friend_test">Add Friend</button>
+	<button id="like_test">Send Like</button>
+
 </body>
