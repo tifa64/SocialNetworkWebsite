@@ -67,43 +67,43 @@ function display_posts(){
     $conn = new mysqli($servername, $username, $password, $dbname);
     if ($conn->connect_error) {
         die("Connection failed: " . $conn->connect_error);
-    } 
-    $result = $conn->query("SELECT * FROM posts ") ;  
+    }
+    $result = $conn->query("SELECT * FROM posts ORDER BY time DESC") ;
     if ($result->num_rows > 0){
-            while($row = $result->fetch_assoc()) 
-            { 
+            while($row = $result->fetch_assoc())
+            {
                 // if the post is public or this post is mine show the posts
                 if ($row['isPublic']== "Public" || ($row['isPublic']== "Private" && $row['user_id'] == $_SESSION['userid']) ){
-                    $usersinfo = $conn->query("SELECT * FROM user WHERE user_id = '".$row['user_id']."'"); 
+                    $usersinfo = $conn->query("SELECT * FROM user WHERE user_id = '".$row['user_id']."'");
                     $rowuser = $usersinfo->fetch_assoc();
-                    echo $rowuser['first_name']." ".$rowuser['last_name']."<br>" ; 
+                    echo $rowuser['first_name']." ".$rowuser['last_name']."<br>" ;
                     echo $row['title']."<br>";
                     echo $row['caption']."<br>";
                     if($row['image_url'] != NULL){
                         $img = $row['image_url'];
                     echo '<img src="images/'.$img.'">';
-                    }   
+                    }
                     echo "<hr>";
                 }else if ($row['isPublic']== "Private") {
                         // the post is private but the two users are friends
-                        $friends = $conn->query("SELECT * 
+                        $friends = $conn->query("SELECT *
                                                  FROM friendships
                                                  WHERE  user_id1 = ".$row['user_id']." and user_id2 = ".$_SESSION['userid']."
-                                                 or (user_id2 = ".$row['user_id']." and user_id1 = ".$_SESSION['userid'].") ");                      
+                                                 or (user_id2 = ".$row['user_id']." and user_id1 = ".$_SESSION['userid'].") ");
                        //echo $friends . "here <br>" ;
                         if ($friends && $friends->num_rows >0) {
-                                $usersinfo = $conn->query("SELECT * FROM user WHERE user_id = '".$row['user_id']."'"); 
+                                $usersinfo = $conn->query("SELECT * FROM user WHERE user_id = '".$row['user_id']."'");
                                 $rowuser = $usersinfo->fetch_assoc();
-                                echo $rowuser['first_name']." ".$rowuser['last_name']."<br>" ; 
+                                echo $rowuser['first_name']." ".$rowuser['last_name']."<br>" ;
                                 echo $row['title']."<br>";
                                 echo $row['caption']."<br>";
                                 echo "<hr>";
                         }else {echo "not friends";
                     echo  " <br>Query failed: " . mysqli_error($conn)."<br>";}
-                            
-                }             
+
+                }
             }
     }else {
         echo "zero rows";
-    }    
+    }
 }

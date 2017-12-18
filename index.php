@@ -312,8 +312,8 @@ if(isset($_POST['action']) and $_POST['action']=='Posting') {
                 caption=:Caption,
                 isPublic=:Poststate,
                 user_id =:user_id,
-                image_url=:Postimage;
-                time=CURDATE()
+                image_url=:Postimage,
+                time=CURRENT_TIMESTAMP
                 ';
             $s=$pdo->prepare($sql);
             $s->bindValue(':Postname',$_POST['Postname']);
