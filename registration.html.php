@@ -16,6 +16,9 @@
         <?php if (isset($SignupError)): ?>
             <p><?php htmlout($SignupError); ?></p>
         <?php endif; ?>
+        <?php if (isset($SignupError2)): ?>
+            <p><?php htmlout($SignupError2); ?></p>
+        <?php endif; ?>
         <fieldset>
             <legend>Login</legend>
             <div>  <label for="email">Email:<input type="email" name="email" id="email1" value="" required > </label></div>
@@ -33,9 +36,9 @@
             <label for="lastname">Lastname *:<input type="text" name="lastname" id="lastname" value="" onblur="checkUsername_pass()" required> </label>
             <div id="feedback_user1"> </div>
             <label for="nickname">Nickname:<input type="text" name="nickname"id="nickname" value=""> </label> <br/>
-            Phone number1( xx-xxxx-xxxx) :<input id="telNo1" name="telNo1" type="tel"  pattern="[0-9]{3}-[0-9]{4}-[0-9]{4}"><br/>
-            Phone number2( xx-xxxx-xxxx) :<input id="telNo2" name="telNo2" type="tel"  pattern="[0-9]{3}-[0-9]{4}-[0-9]{4}"><br/>
-            Phone number3( xx-xxxx-xxxx) :<input id="telNo3" name="telNo3" type="tel"  pattern="[0-9]{3}-[0-9]{4}-[0-9]{4}"><br/>
+            Phone number1( xxx-xxxx-xxxx) :<input id="telNo1" name="telNo1" type="tel"  pattern="[0-9]{3}-[0-9]{4}-[0-9]{4}"><br/>
+            Phone number2( xxx-xxxx-xxxx) :<input id="telNo2" name="telNo2" type="tel"  pattern="[0-9]{3}-[0-9]{4}-[0-9]{4}"><br/>
+            Phone number3( xxx-xxxx-xxxx) :<input id="telNo3" name="telNo3" type="tel"  pattern="[0-9]{3}-[0-9]{4}-[0-9]{4}"><br/>
             <label for="password">Password *:<input type="password" name="password"id="password" value="" onblur="checkUsername_pass()" required> </label>
             <div id="feedback_pass"> </div>
             <label for="email">Email *:<input type="email" name="email" id="email" value="" onblur="checkUsername_pass()" required> </label><br/>
