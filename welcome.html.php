@@ -7,13 +7,13 @@
     <title>Welcome to Social Network</title>
 </head>
 <body>
-<?php if (isset($username)): ?>
-    <p> WELCOME <?php htmlout($username); ?></p>
+<?php if (isset($_SESSION['username'])): ?>
+    <p> WELCOME <?php htmlout($_SESSION['username']); ?></p>
 <?php endif; ?>
-<form action=" " method="post" enctype="multipart/form-data">
+<form action="./index.php" method="post" enctype="multipart/form-data">
     Select image to upload:
     <input type="file" name="fileToUpload" id="fileToUpload">
-    <input type="hidden" name="userid" value="<?php htmlout($userid);?>">
+    <input type="hidden" name="userid" value="<?php htmlout($_SESSION['userid']);?>">
     <input type="submit" value="Upload Image" name="submit">
 </form>
 <?php include $_SERVER['DOCUMENT_ROOT'].'/includes/logout.inc.html.php'; ?></p>
