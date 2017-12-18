@@ -12,15 +12,9 @@
 
 <html>
 	<head>
-		<script type="text/javascript" src="js/jquery-3.2.1.js"></script>
+		<?php include $_SERVER['DOCUMENT_ROOT'].'/social-network/includes/notifications.html.php'; ?>
 		<script type="text/javascript" src="js/search_results.js"></script>
-		<script type="text/javascript">
-			var user_id = <?php echo $_SESSION['user_id']; ?>;
-		</script>
-		<script type="text/javascript" src="js/notifications.js"></script>
-
 		<link rel="stylesheet"  href="css/search_results.css">
-		<link rel="stylesheet" href="css/notifications.css">
 		<meta charset='utf-8'>
 
 	</head>

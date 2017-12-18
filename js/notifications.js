@@ -26,8 +26,6 @@ conn.onmessage = function(e) {
 	else if(data['msg_type'] === "like_notification")
 		$('.modal-content').html('<h1><a class="link" href="https://localhost:8000/social-network/users/' + data["sender_id"] + '">' + data["sender_name"] + '</a> has liked your post </h1>');
 	//////////////////////////////////////////////////////////
-
-
 	//console.log(JSON.parse(e));
 };
 
@@ -42,7 +40,6 @@ $(document).ready(function() {
 	// conn.send(JSON.stringify({whatever parameters you want}))
 	
 	var ret = $.get('notification.html', function(data) {
-		console.log(data);
 		$("body").prepend(data);
 	});
 

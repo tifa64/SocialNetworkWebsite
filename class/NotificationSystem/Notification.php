@@ -37,6 +37,11 @@ class Notification implements MessageComponentInterface {
             $recepient_id = $data->recepient_id;
             echo 'Sender ID: '.$sender_id;
             echo 'Recepient ID: '.$recepient_id;
+            
+            // User shouldn't receive a notification from him/herself
+            if($sender_id == $recepient_id)
+                return;
+
             if(!isset($this->users[$recepient_id])) {
                 echo 'ID not found, returning...';
                 return;
@@ -64,7 +69,4 @@ class Notification implements MessageComponentInterface {
         $conn->close();
     }
 }
-
-
-
 ?>
