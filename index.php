@@ -220,10 +220,10 @@ if (isset($_POST['action']) and $_POST['action'] == 'SignUp')
             exit();
         }}
     if (isset($_POST['nickname']) and $_POST['nickname']!=NULL ){
-        $username=$_POST['nickname'];
+        $_SESSION['username']=$_POST['nickname'];
     }
     else {
-        $username=$_POST['firstname'].$_POST['lastname'];
+        $_SESSION['username']=$_POST['firstname'].$_POST['lastname'];
     }
     try {
        $sql=' SELECT user_id  FROM user  WHERE   email=:email';
@@ -242,6 +242,11 @@ if (isset($_POST['action']) and $_POST['action'] == 'SignUp')
     $_SESSION['email'] = $_POST['email'];
     $_SESSION['userid']=$result['user_id'];
     setimage($pdo,$_POST['email'],$_POST['gender']);
+    header('location:?welcome');
+    exit();
+}
+if (isset($_GET['welcome']))
+{
     include 'welcome.html.php';
     exit();
 }
@@ -291,6 +296,7 @@ if (isset($_POST['submit']) and $_POST['submit'] == "Upload Image"){
     }
     try {
             $sql= "UPDATE user SET  image_url =:url WHERE user_id=:id";
+            $_SESSION['url']=$target_file;
             $s=$pdo->prepare($sql);
             $s->bindValue(':url',$target_file);
             $s->bindValue(':id',$_POST['userid']);
@@ -300,6 +306,7 @@ if (isset($_POST['submit']) and $_POST['submit'] == "Upload Image"){
             include 'error.html.php';
             exit();
     }
+
     include 'newsfeed.html.php';
         exit();
 }
@@ -322,13 +329,14 @@ if(isset($_POST['action']) and $_POST['action']=='Posting') {
             $s->bindValue(':user_id',  $_SESSION['userid']);
             $s->bindValue(':Postimage',$_POST['Postimage']);
             $s->execute();
-            //exit();
         }catch (PDOException $e)
         {
             $error='cannot insert post into database !';
             include 'error.html.php';
             exit();
         }
+    header('Location: .');
+    exit();
 
 }
 if (isset($_SESSION['loggedIn'])and $_SESSION['loggedIn'] == TRUE){

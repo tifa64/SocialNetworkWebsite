@@ -2,6 +2,7 @@
     '/includes/helpers.inc.php'; ?>
   <!DOCTYPE html>
   <html lang="en">
+  <img src="<?php htmlout($_SESSION['url']);?>" alt="profile picture" />
 <head>
   <title>Social Network</title>
   <link rel="stylesheet" type="text/css" href="css/styleNewsFeed.css">
