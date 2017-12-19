@@ -39,6 +39,10 @@ WHERE email= :email ';
         $_SESSION['loggedIn'] = TRUE;
         $_SESSION['email'] = $_POST['email'];
         $_SESSION['userid'] = $row['user_id'];
+        if($row['nick_name'] !== NULL)
+            $_SESSION['nickname'] = $row['nick_name'];
+        else
+            $_SESSION['nickname'] = $row['first_name'].' '.$row['last_name'];
         // FETCHING POSTS THEN CALLING NEWSFEED TEMPLATE
         include 'newsfeed.html.php';
         exit();
