@@ -87,11 +87,11 @@ function get_profile_info ($pdo,$email){
         include 'error.html.php';
         exit();}
     $result=$s->fetchAll();
-    foreach ($result as $row){
-        $user_info[]=array('first_name'=>$row['first_name'] ,'last_name'=>$row['last_name'],'image_url'=>$row['image_url']
-        ,'nick_name'=>$row['nick_name'] ,'birth_date'=>$row['birth_date'],'martial_status'=>$row['martial_status']
-        ,'about_me'=>$row['about_me'],'gender'=>$row['gender'],'email'=>$row['email'],'home_town'=>$row['home_town']);
-
+    foreach ($result as $row) {
+        $user_info[] = array('first_name' => $row['first_name'], 'last_name' => $row['last_name'], 'image_url' => $row['image_url']
+        , 'nick_name' => $row['nick_name'], 'birth_date' => $row['birth_date'], 'martial_status' => $row['martial_status']
+        , 'about_me' => $row['about_me'], 'gender' => $row['gender'], 'email' => $row['email'], 'home_town' => $row['home_town']);
+    }}
 function display_posts(){
     $servername = "localhost";
     $username = "databaseuser";
@@ -138,5 +138,4 @@ function display_posts(){
             }
     }else {
         echo "zero rows";
-    }
-}
+    }}
