@@ -1,5 +1,5 @@
 <?php
-	include_once $_SERVER['DOCUMENT_ROOT'] 
+	include_once $_SERVER['DOCUMENT_ROOT'].
     '/includes/magicquotes.inc.php';
 	
 	session_start();
