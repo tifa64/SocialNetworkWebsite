@@ -218,7 +218,7 @@ if (isset($_POST['action']) and $_POST['action'] == 'SignUp')
         $username=$_POST['nickname'];
     }
     else {
-        $username=$_POST['firstname'].$_POST['lastname'];
+        $username=$_POST['firstname'].' '.$_POST['lastname'];
     }
     try {
         $sql=' SELECT user_id  FROM user  WHERE   email=:email';
@@ -236,6 +236,7 @@ if (isset($_POST['action']) and $_POST['action'] == 'SignUp')
     $_SESSION['loggedIn'] = TRUE;
     $_SESSION['email'] = $_POST['email'];
     $_SESSION['userid']=$result['user_id'];
+    $_SESSION['nickname'] = $username;
     setimage($pdo,$_POST['email'],$_POST['gender']);
     header('location:./welcome.html.php');
     exit();
