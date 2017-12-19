@@ -13,7 +13,7 @@
 
 <head>
 	<title>This is a test webpage</title>
-	<?php include $_SERVER['DOCUMENT_ROOT'].'/social-network/includes/notifications.html.php'; ?>
+	<?php include $_SERVER['DOCUMENT_ROOT'].'/includes/notifications.html.php'; ?>
 </head>
 </body>
 	<form id="search-form" action="search.php" method="post">
