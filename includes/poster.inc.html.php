@@ -1,5 +1,6 @@
 <?php include_once $_SERVER['DOCUMENT_ROOT'] .
     '/includes/helpers.inc.php'; ?>
+
 <head>
     <title>Social Network</title>
     <link rel="stylesheet" type="text/css" href="css/styleNewsFeed.css">
@@ -31,4 +32,11 @@
         <input type="submit" name="action" value="Posting"><br>
     </form>
 </div>
+
+ 
+
+ 
+  <?php display_posts () ;?>
 </body>
+</html>
+
