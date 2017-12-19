@@ -38,6 +38,7 @@ WHERE email= :email ';
 
         $_SESSION['loggedIn'] = TRUE;
         $_SESSION['email'] = $_POST['email'];
+        $_SESSION['userid'] = $row['user_id'];
         // FETCHING POSTS THEN CALLING NEWSFEED TEMPLATE
         include 'newsfeed.html.php';
         exit();
