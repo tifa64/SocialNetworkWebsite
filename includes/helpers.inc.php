@@ -59,6 +59,39 @@ function setimage ($pdo,$email,$gender){
         $s->execute();
     }
 }
+
+function get_profile_info ($pdo,$email){
+    try {
+        $sql='SELECT * FROM posts WHERE  
+          user_id = (SELECT user_id FROM user 
+                      WHERE  email=:email)';
+        $s = $pdo->prepare($sql);
+        $s->bindValue(':email', $email);
+        $s->execute();
+        }catch (PDOException $e){
+        $error='canot get posts for profiles !';
+        include 'error.html.php';
+        exit();}
+    $result=$s->fetchAll();
+    foreach ($result as $row){
+        $posts[]=array('publicity'=>$row['isPublic'] ,'caption'=>$row['caption'],'time'=>$row['time']);
+    }
+    try {
+        $sql='SELECT * FROM user WHERE
+              email=:email';
+        $s=$pdo->prepare($sql);
+        $s->bindValue(':email', $email);
+        $s->execute();
+    }catch (PDOException $e){
+        $error='canot get userinfo for profiles !';
+        include 'error.html.php';
+        exit();}
+    $result=$s->fetchAll();
+    foreach ($result as $row){
+        $user_info[]=array('first_name'=>$row['first_name'] ,'last_name'=>$row['last_name'],'image_url'=>$row['image_url']
+        ,'nick_name'=>$row['nick_name'] ,'birth_date'=>$row['birth_date'],'martial_status'=>$row['martial_status']
+        ,'about_me'=>$row['about_me'],'gender'=>$row['gender'],'email'=>$row['email'],'home_town'=>$row['home_town']);
+
 function display_posts(){
     $servername = "localhost";
     $username = "databaseuser";
