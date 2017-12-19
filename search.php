@@ -6,13 +6,13 @@
 
 	$query = $_POST['query'];
 	$type = $_POST['type'];
-	$user_id = $_SESSION['user_id'];
+	$user_id = $_SESSION['userid'];
 
 	// Set up the connection to the database
 	$servername = "localhost";
 	$db_username   = "root";
 	$db_password   = "";
-	$dbname     = "social-network";
+	$dbname     = "newdatabase";
 
 	$conn = new mysqli($servername, $db_username, $db_password, $dbname);
 
