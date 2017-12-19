@@ -1,9 +1,8 @@
 <?php
-	session_start();
-
+	//echo $_SESSION['userid'];
 	// ONLY USED FOR TESTING PURPOSES AND SHOULD BE REMOVED
-	$_SESSION['user_id'] = 1;
-	$_SESSION['full_name'] = 'Karim Elawaad';
+	//$_SESSION['user_id'] = 1;
+	//$_SESSION['full_name'] = 'Karim Elawaad';
 	//////////////////////////////////////////////////////
 
 ?>

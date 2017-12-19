@@ -7,12 +7,6 @@
 </head>
 <body>
 <div class="header">
-    <div class="searchbox">
-        <form action="" method="Get" id= "search">
-            <input type="text" name="" size="60" placeholder="Search">
-
-        </form>
-    </div>
     <div id = "menu">
         <a href="#">Home</a>
         <a href="#">Profile</a>
