@@ -214,6 +214,8 @@ if (isset($_POST['action']) and $_POST['action'] == 'SignUp')
             include 'error.html.php';
             exit();
         }}
+
+    $username = '';
     if (isset($_POST['nickname']) and $_POST['nickname']!=NULL ){
         $username=$_POST['nickname'];
     }
