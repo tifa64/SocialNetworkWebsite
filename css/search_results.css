@@ -1,0 +1,187 @@
+body {
+    height: 100%;
+    background-color: #f3f3f3;
+    color: #555;
+    font-family: Arial, Helvetica, sans-serif; 
+    font-size:16px;
+    line-height: 1.6em;
+    margin:0;
+}
+
+.search_result {
+    height: 100px;
+    padding: 0px auto;
+    width: auto;
+    border-bottom: 2px solid #ddd;
+}
+
+.container {
+    margin-top: 10px;
+    height:60px;
+}
+
+.search_result_post {
+    height: 100px;
+    padding: 0px auto;
+    padding-left:20px;
+    width: auto;
+    text-align: left;
+    border-bottom: 2px solid #ddd;
+    min-height: 100px;
+    overflow: hidden;
+    height: 1%;
+}
+
+.num_elements_found {
+    margin-top: 20px;
+    text-align: center;
+    height: 50px;
+    font-size:30px;
+    border-bottom: 2px solid #ddd;
+}
+
+.search_result h2 {
+    margin: 0 auto;
+    margin-top: 30px;
+    margin-left: 5%;
+    display: inline-block;
+}
+
+
+.search_result_post p {
+    margin: 0 auto;
+    margin-left:40px;
+    display: block;
+    float: left;
+    margin-bottom: 20px;
+}
+
+.emoticon {
+    margin: 0px;
+    display: inline;
+    padding: 0px;
+}
+
+.no_result h2 {
+    margin: 0 auto;
+    margin-top: 36px;
+    display: inline-block;   
+}
+
+.no_result {
+    height: 100px;
+    padding: 0px auto;
+    width: auto;
+    text-align: center;
+    border-bottom: 2px solid #ddd;
+}
+
+.search_result img {
+    border-radius: 50%;
+    margin: 0 auto;
+    margin-top:10px;
+    margin-left:40%;
+    float: left;
+}
+
+.profile_picture img {
+    border-radius: 50%;
+    margin: 0 auto;
+    margin-top:10px;
+    margin-left:5%;
+    float: left;
+}
+
+.profile_picture {
+    border-radius: 50%;
+}
+
+.search_result_post h3.name {
+    position: relative;
+    top: -28px;
+    margin-top: 0px;
+    display: inline-block;
+    margin-left: 10px;
+    margin-bottom: 6px;
+}
+
+.search_result_post a {
+    text-decoration: none;
+    color: inherit;
+
+}
+
+.search_result_post h3.name:hover {
+    text-decoration: underline;
+}
+
+.search_result_post h6.post_date {
+    position: relative;
+    top: -42px;
+    margin-top: 0px;
+    margin-left: 60px;
+    margin-bottom: 0px;
+}
+
+.add_your_query {
+    text-align: center;
+    padding:0 auto;
+    margin:0 auto;
+    margin-top:10%;
+}
+
+div.search_result:hover, div.search_result_post:hover {
+    background-color: #ddd;
+}
+
+
+div.tab {
+    overflow: hidden;
+    border: 1px solid #ccc;
+    background-color: #f1f1f1;
+}
+
+/* Style the buttons inside the tab */
+div.tab button {
+    background-color: inherit;
+    width: 25%;
+    margin-top: 0px;
+    float: left;
+    border: none;
+    outline: none;
+    cursor: pointer;
+    padding: 14px 16px;
+    transition: 0.3s;
+    border-radius:0px;
+}
+
+div.tab button:hover {
+    background-color: #ddd;
+}
+
+/* Create an active/current tablink class */
+div.tab button.active {
+    background-color: #ccc;
+}
+
+/* Style the tab content */
+.tabcontent {
+    display: none;
+    border: 1px solid #ccc;
+    border-top: none;
+    border-bottom: none;
+}
+
+form input[type="text"] {
+    width:95%;
+    margin-top: 5px;
+    margin-bottom: 5px;
+    margin-left:2.5%;
+    height:20px;
+    border-radius: 2px;
+}
+
+#search-bar {
+    background-color: rgb(55, 13, 155);
+    
+}
