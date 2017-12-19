@@ -1,4 +1,4 @@
-<?php include_once $_SERVER['DOCUMENT_ROOT'] .
+<?php include_once $_SERVER['DOCUMENT_ROOT'] .'/social-network/'.
     '/includes/helpers.inc.php'; ?>
 <!DOCTYPE html>
 <html lang="en" xmlns="http://www.w3.org/1999/html">
@@ -52,6 +52,6 @@
             <input type="submit" name="action" value="SignUp">
         </fieldset>
     </form>
-    <script type="text/javascript" src="/js/validation.js" > </script>
+    <script type="text/javascript" src="js/validation.js" > </script>
 </body>
 </html>

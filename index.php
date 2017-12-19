@@ -5,7 +5,7 @@
  * Date: 24/10/17
  * Time: 09:15 م
  */
-include_once $_SERVER['DOCUMENT_ROOT'] .
+include_once $_SERVER['DOCUMENT_ROOT'] .'/social-network/'.
     '/includes/magicquotes.inc.php';
 session_start();
 if(isset($_POST['action']) and $_POST['action']=='Logout'){
@@ -300,11 +300,10 @@ if (isset($_POST['submit']) and $_POST['submit'] == "Upload Image"){
     include 'newsfeed.html.php';
         exit();
 }
-if ($_SESSION['loggedIn'] == TRUE){
-    include $_SERVER['DOCUMENT_ROOT'].'/includes/db.inc.php';
+if (isset($_SESSION['loggedIn'])and $_SESSION['loggedIn'] == TRUE){
+    include $_SERVER['DOCUMENT_ROOT'].'social-network/includes/db.inc.php';
     include 'newsfeed.html.php';
     // FETCHING POSTS AND SAVING THEM THEN LOADING NEWSFEED TEMPLATE
     exit();
 }
-
 include 'registration.html.php';
