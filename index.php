@@ -14,6 +14,10 @@ if(isset($_POST['action']) and $_POST['action']=='Logout'){
     include'registration.html.php';
     exit();
 }
+if(isset($_POST['action']) and $_POST['action'] == 'Search') {
+    include 'search_results.php';
+    exit();
+}
 if (isset($_POST['action']) and $_POST['action'] == 'login') {
     include $_SERVER['DOCUMENT_ROOT'] . '/includes/db.inc.php';
     if(!isset($_POST['email']) or $_POST['email']==' 'or !isset($_POST['password']) or $_POST['password'] == '' ){
