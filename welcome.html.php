@@ -17,6 +17,6 @@
 
     <input type="submit" value="Upload Image" name="submit">
 </form>
-<?php include $_SERVER['DOCUMENT_ROOT'].'/social-network/includes/logout.inc.html.php'; ?></p>
+<?php include $_SERVER['DOCUMENT_ROOT'].'/includes/logout.inc.html.php'; ?></p>
 </body>
 </html>
