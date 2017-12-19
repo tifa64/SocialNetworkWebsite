@@ -12,7 +12,7 @@
 
 <html>
 	<head>
-		<?php include $_SERVER['DOCUMENT_ROOT'].'/social-network/includes/notifications.html.php'; ?>
+		<?php include $_SERVER['DOCUMENT_ROOT'].'/includes/notifications.html.php'; ?>
 		<script type="text/javascript" src="js/search_results.js"></script>
 		<link rel="stylesheet"  href="css/search_results.css">
 		<meta charset='utf-8'>
