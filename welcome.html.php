@@ -1,5 +1,8 @@
-<?php include_once $_SERVER['DOCUMENT_ROOT'] .
-    '/includes/helpers.inc.php'; ?>
+<?php
+	$ini_array = parse_ini_file("config.ini");
+	$path = $ini_array['path']; 
+	include_once $_SERVER['DOCUMENT_ROOT'] .
+    $path.'/includes/helpers.inc.php'; ?>
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -17,6 +20,6 @@
 
     <input type="submit" value="Upload Image" name="submit">
 </form>
-<?php include $_SERVER['DOCUMENT_ROOT'].'/includes/logout.inc.html.php'; ?></p>
+<?php include $_SERVER['DOCUMENT_ROOT'].$path.'/includes/logout.inc.html.php'; ?></p>
 </body>
 </html>

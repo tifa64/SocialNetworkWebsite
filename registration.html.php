@@ -1,5 +1,9 @@
-<?php include_once $_SERVER['DOCUMENT_ROOT'] .
+<?php   
+    $ini_array = parse_ini_file("config.ini");
+    $path = $ini_array['path'];
+     include_once $_SERVER['DOCUMENT_ROOT'] .'/social-network/'.
     '/includes/helpers.inc.php'; ?>
+
 <!DOCTYPE html>
 <html lang="en" xmlns="http://www.w3.org/1999/html">
 

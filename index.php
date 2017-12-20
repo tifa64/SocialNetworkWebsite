@@ -5,9 +5,14 @@
  * Date: 24/10/17
  * Time: 09:15 م
  */
-include_once $_SERVER['DOCUMENT_ROOT'] .
+$ini_array = parse_ini_file("config.ini");
+$path = $ini_array['path']; 
+include_once $_SERVER['DOCUMENT_ROOT'].$path.
     '/includes/magicquotes.inc.php';
 session_start();
+
+
+
 if(isset($_POST['action']) and $_POST['action']=='Logout'){
     $_SESSION['loggedIn']=FALSE;
     unset($_SESSION['email']);
@@ -19,7 +24,7 @@ if(isset($_POST['action']) and $_POST['action'] == 'Search') {
     exit();
 }
 if (isset($_POST['action']) and $_POST['action'] == 'login') {
-    include $_SERVER['DOCUMENT_ROOT'] . '/includes/db.inc.php';
+    include $_SERVER['DOCUMENT_ROOT'] .$path.'/includes/db.inc.php';
     if(!isset($_POST['email']) or $_POST['email']==' 'or !isset($_POST['password']) or $_POST['password'] == '' ){
         $GLOBALS['SignupError'] = 'Please fill in missing fields';
         include'registration.html.php';
@@ -59,8 +64,8 @@ WHERE email= :email ';
 }
 if (isset($_POST['action']) and $_POST['action'] == 'SignUp')
 {
-    include $_SERVER['DOCUMENT_ROOT'].'/includes/db.inc.php';
-    include $_SERVER['DOCUMENT_ROOT'] . '/includes/helpers.inc.php';
+    include $_SERVER['DOCUMENT_ROOT'].$path.'/includes/db.inc.php';
+    include $_SERVER['DOCUMENT_ROOT'] . $path.'/includes/helpers.inc.php';
     if(!isset($_POST['firstname']) or $_POST['firstname']==' 'or !isset($_POST['password']) or $_POST['password'] == ''
         or !isset($_POST['email']) or $_POST['email'] == ''){
         $GLOBALS['SignupError'] = 'Please fill in missing fields';
@@ -248,7 +253,7 @@ if (isset($_POST['action']) and $_POST['action'] == 'SignUp')
     exit();
 }
 if (isset($_POST['submit']) and $_POST['submit'] == "Upload Image"){
-    include $_SERVER['DOCUMENT_ROOT'].'/includes/db.inc.php';
+    include $_SERVER['DOCUMENT_ROOT'].$path.'/includes/db.inc.php';
     $target_dir = "images/";
     $target_file = $target_dir . basename($_FILES["fileToUpload"]["name"]);
     $uploadOk = 1;
@@ -304,8 +309,8 @@ if (isset($_POST['submit']) and $_POST['submit'] == "Upload Image"){
 }
 
 if(isset($_POST['action']) and $_POST['action']=='Posting') {
-    include $_SERVER['DOCUMENT_ROOT'].'/includes/db.inc.php';
-    include $_SERVER['DOCUMENT_ROOT'].'/includes/helpers.inc.php';
+    include $_SERVER['DOCUMENT_ROOT'].$path.'/includes/db.inc.php';
+    include $_SERVER['DOCUMENT_ROOT'].$path.'/includes/helpers.inc.php';
     try{
         $sql ='INSERT INTO posts SET
                 title=:Postname,
@@ -332,7 +337,7 @@ if(isset($_POST['action']) and $_POST['action']=='Posting') {
     exit();
 }
 if (isset($_SESSION['loggedIn'])and $_SESSION['loggedIn'] == TRUE){
-    include $_SERVER['DOCUMENT_ROOT'].'/includes/db.inc.php';
+    include $_SERVER['DOCUMENT_ROOT'].$path.'/includes/db.inc.php';
     include 'newsfeed.html.php';
     // FETCHING POSTS AND SAVING THEM THEN LOADING NEWSFEED TEMPLATE
     exit();

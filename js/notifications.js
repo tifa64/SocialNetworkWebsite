@@ -39,7 +39,7 @@ $(document).ready(function() {
 	// Use conn.send whenever you need to send data i.e. added a new user or liked someone's post
 	// conn.send(JSON.stringify({whatever parameters you want}))
 	
-	var ret = $.get('notification.html', function(data) {
+	var ret = $.get('notification_popup.html.php', function(data) {
 		$("body").prepend(data);
 	});
 

@@ -1,19 +1,22 @@
 
 
 <?php
+	
+	$ini_array = parse_ini_file("config.ini");
+	$path = $ini_array['path'];
 	// THIS WHOLE PAGE IS USED FOR TESTING PURPOSES
 	session_start();
 
 	// Only used for testing, should be removed
-	$_SESSION['user_id'] = 4;
-	$_SESSION['full_name'] = 'Abdullah Ahmed';
+	$_SESSION['userid'] = 4;
+	$_SESSION['nick_name'] = "Abdullah Ahmed";
 	////////////////////////////////////
 ?>
 <!DOCTYPE html>
 
 <head>
 	<title>This is a test webpage</title>
-	<?php include $_SERVER['DOCUMENT_ROOT'].'/includes/notifications.html.php'; ?>
+	<?php include $_SERVER['DOCUMENT_ROOT'].$path.'/includes/notifications.html.php'; ?>
 </head>
 </body>
 	<form id="search-form" action="search.php" method="post">
