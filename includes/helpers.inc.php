@@ -103,6 +103,7 @@ function display_posts(){
     }
     $result = $conn->query("SELECT * FROM posts ORDER BY time DESC") ;
     $allPosts[] = array();
+    global $myPosts, $friendsPosts;
     if ($result->num_rows > 0){
             while($row = $result->fetch_assoc())
             {
@@ -111,12 +112,12 @@ function display_posts(){
                 // if the post is public
                 if ($row['isPublic']== "Public" && $row['user_id'] != $_SESSION['userid']) {
                     $friendsPosts[] = array('first_name' => $rowuser['first_name'], 'last_name' => $rowuser['last_name'],
-                    'title' => $row['title'], 'caption' => $row['caption'], 'image_url' => $row['image_url']);
+                    'title' => $row['title'], 'caption' => $row['caption'], 'post_id' => $row['post_id'], 'image_url' => $row['image_url']);
                 }
                 // or this post is mine show the posts
                 else if($row['user_id'] == $_SESSION['userid']) {
                   $myPosts[] = array('first_name' => $rowuser['first_name'], 'last_name' => $rowuser['last_name'],
-                  'title' => $row['title'], 'caption' => $row['caption'], 'image_url' => $row['image_url']);
+                  'title' => $row['title'], 'caption' => $row['caption'], 'post_id' => $row['post_id'], 'image_url' => $row['image_url']);
                 }
                 else if ($row['isPublic']== "Private" && $row['user_id'] != $_SESSION['userid']) {
                         // the post is private but the two users are friends
@@ -126,7 +127,7 @@ function display_posts(){
                        //echo $friends . "here <br>" ;
                         if ($friends && $friends->num_rows >0) {
                           $friendsPosts[] = array('first_name' => $rowuser['first_name'], 'last_name' => $rowuser['last_name'],
-                          'title' => $row['title'], 'caption' => $row['caption'], 'image_url' => $row['image_url']);
+                          'title' => $row['title'], 'caption' => $row['caption'], 'post_id' => $row['post_id'], 'image_url' => $row['image_url']);
                         }
                         else {
                            mysqli_error($conn)."<br>";
@@ -134,6 +135,11 @@ function display_posts(){
                 }
             }
             $allPosts = array_merge((array)$myPosts, (array)$friendsPosts);
+            usort($allPosts, function ($item1, $item2) {
+            if ($item1['post_id'] == $item2['post_id']) return 0;
+                return $item2['post_id'] < $item1['post_id'] ? -1 : 1;
+            });
+            $_SESSION['allPosts'] = $allPosts;
     }else {
         echo "zero rows";
     }}

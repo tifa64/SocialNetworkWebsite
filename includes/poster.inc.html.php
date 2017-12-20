@@ -23,12 +23,29 @@
         <input type="radio" name="Poststate" value="private" id="Poststate"> Private
         <input type="file" name="Postimage" value="post" id="image">
         <input type="submit" name="action" value="Posting"><br>
+        <?php
+          display_posts ();
+          $allPosts = $_SESSION['allPosts'];
+          $size = count($allPosts);
+          echo "First name ---- Last name ---- Title  ---- Caption ---- ImageURL";
+          echo "<hr>";
+          echo "<hr>";
+          for($i = 0; $i < count($allPosts); $i++) {
+              print_r ($allPosts[$i]['first_name']);
+              echo " ---- ";
+              print_r ($allPosts[$i]['last_name']);
+              echo " ---- ";
+              print_r ($allPosts[$i]['title']);
+              echo " ---- ";
+              print_r ($allPosts[$i]['caption']);
+              echo " ---- ";
+              print_r ($allPosts[$i]['image_url']);
+              echo " ---- ";
+              echo "<br>";
+              echo "<hr>";
+          }
+        ?>
     </form>
 </div>
-
-
-
-
-  <?php display_posts () ;?>
 </body>
 </html>
