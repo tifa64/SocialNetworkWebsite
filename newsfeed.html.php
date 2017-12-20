@@ -3,12 +3,12 @@
 	$path = $ini_array['path'];
 	include_once $_SERVER['DOCUMENT_ROOT'].
     $path.'/includes/helpers.inc.php'; ?>
-    
+
 <!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <?php include $_SERVER['DOCUMENT_ROOT'].$GLOBALS['mypath'].'/includes/notifications.html.php'; ?>
+    <?php include $_SERVER['DOCUMENT_ROOT'].$path.'/includes/notifications.html.php'; ?>
 </head>
 <body>
 
