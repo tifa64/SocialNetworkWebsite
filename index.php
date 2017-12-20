@@ -89,7 +89,7 @@ if (isset($_POST['action']) and $_POST['action'] == 'SignUp')
     }
     unset($_SESSION['email']);
     try{
-        $sql ='INSERT INTO user SET 
+        $sql ='INSERT INTO user SET
                 first_name=:firstname,
                 last_name=:lastname,
                 reg_date=CURDATE(),
@@ -112,7 +112,7 @@ if (isset($_POST['action']) and $_POST['action'] == 'SignUp')
     }
     if (isset($_POST['status']) and $_POST['status']!=NULL)
         try {
-            $sql='UPDATE user 
+            $sql='UPDATE user
                   SET martial_status =:status
                   WHERE  email=:email';
             $s=$pdo->prepare($sql);
@@ -127,7 +127,7 @@ if (isset($_POST['action']) and $_POST['action'] == 'SignUp')
         }
     if (isset($_POST['hometown']) and $_POST['hometown']!=NULL )
         try {
-            $sql='UPDATE user 
+            $sql='UPDATE user
                   SET home_town =:hometown
                   WHERE  email=:email';
             $s=$pdo->prepare($sql);
@@ -205,7 +205,7 @@ if (isset($_POST['action']) and $_POST['action'] == 'SignUp')
     if (isset($_POST['telNo3']) and $_POST['telNo3']!=NULL){
         check_phone($pdo,$_POST['telNo3'],$_POST['email']);
         try {
-            $sql=' INSERT INTO phone_numbers 
+            $sql=' INSERT INTO phone_numbers
                   SET phone_number =:phonenumber , user_id=(SELECT u.user_id FROM user u WHERE   u.email=:email)
                 ';
             $s=$pdo->prepare($sql);
@@ -255,36 +255,36 @@ if (isset($_POST['submit']) and $_POST['submit'] == "Upload Image"){
     $imageFileType = strtolower(pathinfo($target_file,PATHINFO_EXTENSION));
     $check = getimagesize($_FILES["fileToUpload"]["tmp_name"]);
     if($check !== false) {
-        echo "File is an image - " . $check["mime"] . ".";
+        //echo "File is an image - " . $check["mime"] . ".";
         $uploadOk = 1;
     } else {
-        echo "File is not an image.";
+        //echo "File is not an image.";
         $uploadOk = 0;
     }
     if (file_exists($target_file)) {
-        echo "Sorry, file already exists.";
+        //echo "Sorry, file already exists.";
         $uploadOk = 0;
     }
     if (file_exists($target_file)) {
-        echo "Sorry, file already exists.";
+        //echo "Sorry, file already exists.";
         $uploadOk = 0;
     }
     if ($_FILES["fileToUpload"]["size"] > 500000) {
-        echo "Sorry, your file is too large.";
+        //echo "Sorry, your file is too large.";
         $uploadOk = 0;
     }
     if($imageFileType != "jpg" && $imageFileType != "png" && $imageFileType != "jpeg"
         && $imageFileType != "gif" ) {
-        echo "Sorry, only JPG, JPEG, PNG & GIF files are allowed.";
+        //echo "Sorry, only JPG, JPEG, PNG & GIF files are allowed.";
         $uploadOk = 0;
     }
     if ($uploadOk == 0) {
-        echo "Sorry, your file was not uploaded.";
+        //echo "Sorry, your file was not uploaded.";
     } else {
         if (move_uploaded_file($_FILES["fileToUpload"]["tmp_name"], $target_file)) {
-            echo "The file ". basename( $_FILES["fileToUpload"]["name"]). " has been uploaded.";
+            //echo "The file ". basename( $_FILES["fileToUpload"]["name"]). " has been uploaded.";
         } else {
-            echo "Sorry, there was an error uploading your file.";
+            //echo "Sorry, there was an error uploading your file.";
         }
     }
     try {

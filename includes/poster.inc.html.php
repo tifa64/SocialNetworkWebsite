@@ -22,15 +22,13 @@
         <input type="radio" name="Poststate" value="public" id="Poststate" checked> Public
         <input type="radio" name="Poststate" value="private" id="Poststate"> Private
         <input type="file" name="Postimage" value="post" id="image">
-        <input type="hidden" name="Userid" value="<?php htmlout($userid);?>">
         <input type="submit" name="action" value="Posting"><br>
     </form>
 </div>
 
- 
 
- 
+
+
   <?php display_posts () ;?>
 </body>
 </html>
-
