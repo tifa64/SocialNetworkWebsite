@@ -16,13 +16,11 @@
 		<?php include $_SERVER['DOCUMENT_ROOT'].$path.'/includes/notifications.html.php'; ?>
 		<script type="text/javascript" src="js/search_results.js"></script>
 		<link rel="stylesheet"  href="css/search_results.css">
-		<link rel="stylesheet" type="text/css" href="css/styleNewsFeed.css">
+		<link rel="stylesheet" type="text/css" href="css/navbar.css">
 		<meta charset='utf-8'>
 
 	</head>
 	<body>
-		<?php include $_SERVER['DOCUMENT_ROOT'].$path.'/includes/logout.inc.html.php'; ?></p>
-		<?php include $_SERVER['DOCUMENT_ROOT'].$path.'/includes/search.inc.php'; ?>
 		<?php include $_SERVER['DOCUMENT_ROOT'].$path.'/includes/header.inc.html.php'; ?>
 		<form autocomplete="off" id="search-form" action="search.php" method="post">
 				<input type="text" id="search-query" name="query"><br>
