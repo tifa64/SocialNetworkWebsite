@@ -25,31 +25,6 @@
         <input type="submit" name="action" value="Posting"><br>
         <?php
           display_posts ();
-          $allPosts = $_SESSION['allPosts'];
-          $myPosts = $_SESSION['myPosts'];
-          $friendsPosts  = $_SESSION['friendsPosts'];
-          $size = count($allPosts);
-          echo "First name ---- Last name ---- Title  ---- Caption ---- ImageURL";
-          echo "<hr>";
-          echo "<hr>";
-          for($i = 0; $i < count($allPosts); $i++) {
-            if(in_array($allPosts[$i], $myPosts)) {
-              $post_id = $allPosts[$i]['post_id'];
-              echo '<button id="' . htmlspecialchars($post_id) . '" onclick="delete_post(this.id)" type="button">Delete post</button>';
-            }
-              print_r ($allPosts[$i]['first_name']);
-              echo " ---- ";
-              print_r ($allPosts[$i]['last_name']);
-              echo " ---- ";
-              print_r ($allPosts[$i]['title']);
-              echo " ---- ";
-              print_r ($allPosts[$i]['caption']);
-              echo " ---- ";
-              print_r ($allPosts[$i]['image_url']);
-              echo " ---- ";
-              echo "<br>";
-              echo "<hr>";
-          }
         ?>
         <script type="text/javascript" src="js/delete_post.js" > </script>
     </form>

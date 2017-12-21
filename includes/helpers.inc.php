@@ -26,7 +26,7 @@ function check_phone ($pdo,$phonenumber,$email){
     $row = $s->fetch();
     if ($row[0] > 0){
         try {
-            $sql='DELETE  FROM user WHERE email =:email';
+            $sql='DELETE FROM user WHERE email =:email';
             $s = $pdo->prepare($sql);
             $s->bindValue(':email', $email);
             $s->execute();
@@ -92,19 +92,21 @@ function get_profile_info ($pdo,$email){
         , 'nick_name' => $row['nick_name'], 'birth_date' => $row['birth_date'], 'martial_status' => $row['martial_status']
         , 'about_me' => $row['about_me'], 'gender' => $row['gender'], 'email' => $row['email'], 'home_town' => $row['home_town']);
     }}
-    function delete_post() {
-      // try {
-      //     $sql='DELETE FROM posts WHERE post_id =:post_id';
-      //     $s = $pdo->prepare($sql);
-      // }
-      // catch (PDOException $e){
-      //     $error = 'Error fetching user !' ;
-      //     include  'error.html.php';
-      //     exit();
-      //     }
-      // header('Location: .');
-      // exit();
-      echo "Ana hna";
+    function deletePost($pdo, $post_id) {
+      include $_SERVER['DOCUMENT_ROOT'].'/includes/db.inc.php';
+      //$post_id = $_POST['postid'];
+      echo $post_id;
+      try {
+          $sql='DELETE FROM posts WHERE post_id =:post_id';
+          $s = $pdo->prepare($sql);
+          $s->bindValue(':post_id', $post_id);
+          $s->execute();
+      }
+      catch (PDOException $e){
+          $error = 'Error fetching post !' ;
+          include  'error.html.php';
+          exit();
+          }
     }
 function display_posts(){
     $servername = "localhost";
