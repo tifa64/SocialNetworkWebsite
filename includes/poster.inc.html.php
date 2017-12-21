@@ -34,7 +34,8 @@
           echo "<hr>";
           for($i = 0; $i < count($allPosts); $i++) {
             if(in_array($allPosts[$i], $myPosts)) {
-              echo '<button id="Delete">Delete post</button></html>    ';
+              $post_id = $allPosts[$i]['post_id'];
+              echo '<button id="<?php htmlout($post_id) ?>">Delete post</button></html>    ';
             }
               print_r ($allPosts[$i]['first_name']);
               echo " ---- ";
