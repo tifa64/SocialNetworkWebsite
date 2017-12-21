@@ -24,6 +24,9 @@
 		<?php include $_SERVER['DOCUMENT_ROOT'].$path.'/includes/logout.inc.html.php'; ?></p>
 		<?php include $_SERVER['DOCUMENT_ROOT'].$path.'/includes/search.inc.php'; ?>
 		<?php include $_SERVER['DOCUMENT_ROOT'].$path.'/includes/header.inc.html.php'; ?>
+		<form autocomplete="off" id="search-form" action="search.php" method="post">
+				<input type="text" id="search-query" name="query"><br>
+		</form>
 		<div class="tab">
 			<button class="tablinks" id="tab1" onclick="changeTab(event, 'name')">Name</button>
 			<button class="tablinks" id="tab2" onclick="changeTab(event, 'email')">Email</button>
