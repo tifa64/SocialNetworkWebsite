@@ -3,7 +3,6 @@
 	$path = $ini_array['path'];
 	include_once $_SERVER['DOCUMENT_ROOT'].$path.
     '/includes/helpers.inc.php';
-    session_start();
  ?>
 
 <head>

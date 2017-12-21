@@ -12,7 +12,17 @@ include_once $_SERVER['DOCUMENT_ROOT'].$path.
 session_start();
 
 
-
+if(isset($_POST['action']) and $_POST['action'] == 'Profile') {
+    //include 'notifications_tab.html.php';
+    exit();
+}
+if(isset($_POST['action']) and $_POST['action'] == 'Notifications') {
+    include 'notifications_tab.html.php';
+    exit();
+}
+if(isset($_POST['action']) and $_POST['action'] == 'Friend Requests') {
+    exit();
+}
 if(isset($_POST['action']) and $_POST['action']=='Logout'){
     $_SESSION['loggedIn']=FALSE;
     unset($_SESSION['email']);

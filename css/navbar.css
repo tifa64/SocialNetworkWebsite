@@ -74,9 +74,32 @@ body{
     text-decoration: none;
 }
 
+#left-list li input[type=submit] {
+    display: block;
+    color: white;
+    text-align: center;
+    padding: 12.5px 16px;
+    text-decoration: none;
+        display: block;
+    color: white;
+    text-align: center;
+    padding: 12.5px 16px;
+    text-decoration: none;
+    background-color: inherit;
+    border:inherit;
+    font-size: 16px;
+    height:50px;
+}
+
 li a:hover {
     background-color: #aaa;
 }
+
+#left-list input[type=submit]:hover {
+    background-color: #aaa;
+}
+
+
 
 #left-list li:first-child{
 	margin-left:1%;
