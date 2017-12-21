@@ -22,6 +22,9 @@
         <input type="file" name="Postimage" value="post" id="image">
         <input type="hidden" name="Userid" value="<?php htmlout($userid);?>">
         <input type="submit" name="action" value="Posting"><br>
+        <?php
+          display_posts ();
+        ?>
     </form>
 </div> 
 

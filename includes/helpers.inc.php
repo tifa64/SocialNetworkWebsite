@@ -26,7 +26,7 @@ function check_phone ($pdo,$phonenumber,$email){
     $row = $s->fetch();
     if ($row[0] > 0){
         try {
-            $sql='DELETE  FROM user WHERE email =:email';
+            $sql='DELETE FROM user WHERE email =:email';
             $s = $pdo->prepare($sql);
             $s->bindValue(':email', $email);
             $s->execute();
@@ -92,6 +92,21 @@ function get_profile_info ($pdo,$email){
        $userinfo [] = array('first_name' => $row['first_name'], 'last_name' => $row['last_name'], 'image_url' => $row['image_url']
         , 'nick_name' => $row['nick_name'], 'birth_date' => $row['birth_date'], 'martial_status' => $row['martial_status']
         , 'about_me' => $row['about_me'], 'gender' => $row['gender'], 'email' => $row['email'], 'home_town' => $row['home_town']);
+    }}
+    function deletePost($pdo, $post_id) {
+      include $_SERVER['DOCUMENT_ROOT'].'/includes/db.inc.php';
+    try {
+          $sql='DELETE FROM posts WHERE post_id =:post_id';
+          $s = $pdo->prepare($sql);
+          $s->bindValue(':post_id', $post_id);
+          $s->execute();
+      }
+      catch (PDOException $e){
+          $error = 'Error fetching post !' ;
+          include  'error.html.php';
+          exit();
+          }
+    }
     }
     
         include_once $_SERVER['DOCUMENT_ROOT'] .
@@ -145,6 +160,14 @@ function display_posts(){
 
                 }
             }
+            $allPosts = array_merge((array)$myPosts, (array)$friendsPosts);
+            usort($allPosts, function ($item1, $item2) {
+            if ($item1['post_id'] == $item2['post_id']) return 0;
+                return $item2['post_id'] < $item1['post_id'] ? -1 : 1;
+            });
+            $_SESSION['allPosts'] = $allPosts;
+            $_SESSION['myPosts'] = $myPosts;
+            $_SESSION['friendsPosts'] = $friendsPosts;
     }else {
         echo "zero rows";
     }}

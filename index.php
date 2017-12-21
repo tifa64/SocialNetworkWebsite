@@ -510,6 +510,12 @@ if(isset($_POST['action']) and $_POST['action']=='Posting') {
     header('Location: .');
     exit();
 }
+if(isset($_POST['action']) and $_POST['action']=='DeletePost') {
+  include $_SERVER['DOCUMENT_ROOT'].'/includes/helpers.inc.php';
+  deletePost($pdo, $_POST['postid']);
+  header('Location: .');
+  exit();
+}
 if (isset($_SESSION['loggedIn'])and $_SESSION['loggedIn'] == TRUE){
     include $_SERVER['DOCUMENT_ROOT'].'/includes/db.inc.php';
     include 'newsfeed.html.php';
