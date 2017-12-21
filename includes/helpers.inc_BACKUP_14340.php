@@ -92,6 +92,17 @@ function get_profile_info ($pdo,$email){
        $userinfo [] = array('first_name' => $row['first_name'], 'last_name' => $row['last_name'], 'image_url' => $row['image_url']
         , 'nick_name' => $row['nick_name'], 'birth_date' => $row['birth_date'], 'martial_status' => $row['martial_status']
         , 'about_me' => $row['about_me'], 'gender' => $row['gender'], 'email' => $row['email'], 'home_town' => $row['home_town']);
+<<<<<<< HEAD
+    }
+    
+        include_once $_SERVER['DOCUMENT_ROOT'] .
+    './profile.html.php';
+
+      // echo $_SESSION['info'] ;
+      // $user_info[]
+      // $_SESSION['info'] = $user_info[] ;
+} 
+=======
     }}
     function deletePost($pdo, $post_id) {
       include $_SERVER['DOCUMENT_ROOT'].'/includes/db.inc.php';
@@ -107,15 +118,7 @@ function get_profile_info ($pdo,$email){
           exit();
           }
     }
-    }
-    
-        include_once $_SERVER['DOCUMENT_ROOT'] .
-    './profile.html.php';
-
-      // echo $_SESSION['info'] ;
-      // $user_info[]
-      // $_SESSION['info'] = $user_info[] ;
-} 
+>>>>>>> PostBugFixes
 function display_posts(){
     $servername = "localhost";
     $username = "databaseuser";
@@ -160,6 +163,8 @@ function display_posts(){
 
                 }
             }
+<<<<<<< HEAD
+=======
             $allPosts = array_merge((array)$myPosts, (array)$friendsPosts);
             usort($allPosts, function ($item1, $item2) {
             if ($item1['post_id'] == $item2['post_id']) return 0;
@@ -168,6 +173,7 @@ function display_posts(){
             $_SESSION['allPosts'] = $allPosts;
             $_SESSION['myPosts'] = $myPosts;
             $_SESSION['friendsPosts'] = $friendsPosts;
+>>>>>>> PostBugFixes
     }else {
         echo "zero rows";
     }}

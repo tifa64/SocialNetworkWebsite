@@ -8,13 +8,11 @@
 <body>
 <div class="header">
     <div id = "menu">
-        <a href="#">Home</a>
-        <a href="#">Profile</a>
-        <a href="#">Notifications</a>
-        <a href="#">Friend Requests</a>
+         <form action="?profile" method="get">
+             <input type="submit" name="loadprofile" value="<?php htmlout( $_SESSION['nickname']) ?>"><br>
+        </form>
     </div>
 </div>
-
 <div class="post" >
     <form action="" method="post">
         Post name* :     <textarea name="Postname" rows="1" cols="80" id="Postname" required ></textarea><br>
@@ -22,11 +20,13 @@
         <input type="radio" name="Poststate" value="public" id="Poststate" checked> Public
         <input type="radio" name="Poststate" value="private" id="Poststate"> Private
         <input type="file" name="Postimage" value="post" id="image">
+        <input type="hidden" name="Userid" value="<?php htmlout($userid);?>">
         <input type="submit" name="action" value="Posting"><br>
         <?php
           display_posts ();
         ?>
     </form>
-</div>
+</div> 
+
 </body>
 </html>
