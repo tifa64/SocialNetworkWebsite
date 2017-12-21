@@ -85,17 +85,22 @@ function get_profile_info ($pdo,$email){
     }catch (PDOException $e){
         $error='canot get userinfo for profiles !';
         include 'error.html.php';
-        exit();}
+        exit();
+    }
     $result=$s->fetchAll();
     foreach ($result as $row) {
-       $_SESSION['info'] = array('first_name' => $row['first_name'], 'last_name' => $row['last_name'], 'image_url' => $row['image_url']
+       $userinfo [] = array('first_name' => $row['first_name'], 'last_name' => $row['last_name'], 'image_url' => $row['image_url']
         , 'nick_name' => $row['nick_name'], 'birth_date' => $row['birth_date'], 'martial_status' => $row['martial_status']
         , 'about_me' => $row['about_me'], 'gender' => $row['gender'], 'email' => $row['email'], 'home_town' => $row['home_town']);
     }
-   // echo $_SESSION['info'] ;
-    // $user_info[]
-    // $_SESSION['info'] = $user_info[] ;
-}
+    
+        include_once $_SERVER['DOCUMENT_ROOT'] .
+    './profile.html.php';
+
+      // echo $_SESSION['info'] ;
+      // $user_info[]
+      // $_SESSION['info'] = $user_info[] ;
+} 
 function display_posts(){
     $servername = "localhost";
     $username = "databaseuser";

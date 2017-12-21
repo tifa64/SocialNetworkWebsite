@@ -2,33 +2,42 @@
 <?php include_once $_SERVER['DOCUMENT_ROOT'] .
     '/includes/helpers.inc.php'; ?>
 <?php include $_SERVER['DOCUMENT_ROOT'] . '/includes/poster.inc.html.php'; ?>
-<?php //print_r( $_SESSION['info']); ?> 
+
+<!DOCTYPE html>
+<html>
+<head>
+	<title></title>
+</head>
+<body>
 
 <?php 
-	$info = $_SESSION['info'] ;
-		print_r($info['first_name']);
-		echo "<br>";
-		print_r($info['last_name']);
-		echo "<br>";
-		echo '<img src="'.$info['image_url'].'" >';
-		echo "<br>";
-		print_r($info['nick_name']);
-		echo "<br>";
-		print_r($info['birth_date']);
-		echo "<br>";
-		print_r($info['martial_status']);
-		echo "<br>";
-		print_r($info['about_me']);
-		echo "<br>";
-		print_r($info['gender']);
-		echo "<br>";
-		print_r($info['email']);
-		echo "<br>";
-		print_r($info['home_town']);
-		echo "<br>";
-//for ($i=0 ;$i< count($info) ;$i++){
-//	}
+//rint_r ((array)$userinfo);
+//print_r(array_values($info));
+
+echo '<img src="'.$userinfo[0]['image_url'].'" >';
+echo "<br>";
+echo $userinfo[0]['first_name'];
+echo "<br>";
+echo $userinfo[0]['last_name'];
+echo $userinfo[0]['nick_name'];
+echo "<br>";
+echo $userinfo[0]['birth_date'];
+echo "<br>";
+echo $userinfo[0]['martial_status'];
+echo "<br>";
+echo $userinfo[0]['about_me'];
+echo "<br>";
+echo $userinfo[0]['gender'];
+echo "<br>";
+echo $userinfo[0]['home_town'];
+echo "<br>";
 
 ?>
+
+<form action="" method="post">
+	<input type="submit" name="action" value="edit">
+</form>
+</body>
+</html>
 
 	

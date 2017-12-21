@@ -8,6 +8,12 @@
 include_once $_SERVER['DOCUMENT_ROOT'] .
     '/includes/magicquotes.inc.php';
 session_start();
+
+if (isset($_POST['action']) and $_POST['action'] == 'edit') {
+    include 'editprofile.html.php';
+    exit();
+}
+
 if(isset($_POST['action']) and $_POST['action']=='Logout'){
     $_SESSION['loggedIn']=FALSE;
     unset($_SESSION['email']);
@@ -18,8 +24,7 @@ if(isset($_GET['loadprofile']) and  $_SESSION['loggedIn'] == TRUE){
     include $_SERVER['DOCUMENT_ROOT'] . '/includes/db.inc.php';
     include $_SERVER['DOCUMENT_ROOT'] . '/includes/helpers.inc.php';
     get_profile_info($pdo,$_SESSION['email']);
-    include 'profile.html.php';
-       exit();
+    exit();
 }
 if(isset($_POST['action']) and $_POST['action'] == 'Search') {
     include 'search_results.php';
@@ -34,7 +39,7 @@ if (isset($_POST['action']) and $_POST['action'] == 'login') {
     try
     {$password= md5($_POST['password'].'database');
         $sql = 'SELECT * FROM user
-WHERE email= :email ';
+        WHERE email= :email ';
         $s = $pdo->prepare($sql);
         $s->bindValue(':email', $_POST['email']);
         $s->execute();
@@ -64,6 +69,173 @@ WHERE email= :email ';
         exit();
     }
 }
+
+// for editing profile 
+if (isset($_POST['action']) and $_POST['action']== 'editProfile'){
+    include $_SERVER['DOCUMENT_ROOT'].'/includes/db.inc.php';
+    $email = $_SESSION['email'];
+    if (isset($_POST['firstname']) and $_POST['firstname']!=NULL)
+        try {
+            $sql='UPDATE user 
+                  SET first_name =:firstname
+                  WHERE  email=:$email';
+            $s=$pdo->prepare($sql);
+            $s->bindValue(':email',$_POST['email']);
+            $s->bindValue(':firstname',$_POST['firstname']);
+            $s->execute();
+        }
+        catch (PDOException $e){
+            $error='cannot update first name';
+            include 'error.html.php';
+            exit();
+     }
+    if (isset($_POST['lastname']) and $_POST['lastname']!=NULL)
+        try {
+            $sql='UPDATE user 
+                  SET last_name =:lastname
+                  WHERE  email=:$email';
+            $s=$pdo->prepare($sql);
+            $s->bindValue(':email',$_POST['email']);
+            $s->bindValue(':lastname',$_POST['lastname']);
+            $s->execute();
+        }
+        catch (PDOException $e){
+            $error='cannot update last name';
+            include 'error.html.php';
+            exit();
+        }
+    if (isset($_POST['nickname']) and $_POST['nickname']!=NULL )
+        try {
+            $sql='UPDATE user
+                  SET nick_name =:nickname
+                  WHERE  email=:$email';
+            $s=$pdo->prepare($sql);
+            $s->bindValue(':email',$_POST['email']);
+            $s->bindValue(':nickname',$_POST['nickname']);
+            $s->execute();
+        }
+        catch (PDOException $e){
+            $error='cannot update nickname';
+            include 'error.html.php';
+            exit();
+        }
+    if (isset($_POST['status']) and $_POST['status']!=NULL)
+        try {
+            $sql='UPDATE user 
+                  SET martial_status =:status
+                  WHERE  email=:$email';
+            $s=$pdo->prepare($sql);
+            $s->bindValue(':email',$_POST['email']);
+            $s->bindValue(':status',$_POST['status']);
+            $s->execute();
+        }
+        catch (PDOException $e){
+            $error='cannot update status';
+            include 'error.html.php';
+            exit();
+        }
+    if (isset($_POST['hometown']) and $_POST['hometown']!=NULL )
+        try {
+            $sql='UPDATE user 
+                  SET home_town =:hometown
+                  WHERE  email=:$email';
+            $s=$pdo->prepare($sql);
+            $s->bindValue(':email',$_POST['email']);
+            $s->bindValue(':hometown',$_POST['hometown']);
+            $s->execute();
+        }
+        catch (PDOException $e){
+            $error='cannot update hometown';
+            include 'error.html.php';
+            exit();
+        }
+    if (isset($_POST['email']) and $_POST['email']!=NULL )
+        try {
+            $sql='UPDATE user 
+                  SET email =:email
+                  WHERE  email=:$email';
+            $s=$pdo->prepare($sql);
+            $s->bindValue(':email',$_POST['email']);
+            $s->bindValue(':email',$_POST['email']);
+            $s->execute();
+        }
+        catch (PDOException $e){
+            $error='cannot update email';
+            include 'error.html.php';
+            exit();
+        }
+    if (isset($_POST['aboutme']) and $_POST['aboutme']!=NULL )
+        try {
+            $sql='UPDATE user
+                  SET about_me =:aboutme
+                  WHERE  email=:$email';
+            $s=$pdo->prepare($sql);
+            $s->bindValue(':email',$_POST['email']);
+            $s->bindValue(':aboutme',$_POST['aboutme']);
+            $s->execute();
+        }
+        catch (PDOException $e){
+            $error='cannot updat aboutme';
+            include 'error.html.php';
+            exit();
+        }
+
+    if (isset($_POST['telNo1']) and $_POST['telNo1']!=NULL){
+        try {
+            $sql=$sql=' UPDATE phone_numbers
+                  SET phone_number =:phonenumber , user_id=(SELECT u.user_id FROM user u WHERE   u.email=:$email)
+                ';
+            $s=$pdo->prepare($sql);
+            $s->bindValue(':email',$_POST['email']);
+            $s->bindValue(':phonenumber',$_POST['telNo1']);
+            $s->execute();
+        }
+        catch (PDOException $e){
+            $error='cannot update phone number 1';
+            include 'error.html.php';
+            exit();
+        }
+    }
+    if (isset($_POST['telNo2']) and $_POST['telNo2']!=NULL){
+        check_phone($pdo,$_POST['telNo1'],$_POST['email']);
+        try {
+            $sql=$sql=' UPDATE phone_numbers
+                  SET phone_number =:phonenumber , user_id=(SELECT u.user_id FROM user u WHERE   u.email=:$email)
+                ';
+            $s=$pdo->prepare($sql);
+            $s->bindValue(':email',$_POST['email']);
+            $s->bindValue(':phonenumber',$_POST['telNo1']);
+            $s->execute();
+        }
+        catch (PDOException $e){
+            $error='cannot update phone number 2';
+            include 'error.html.php';
+            exit();
+        }
+    }
+    if (isset($_POST['telNo3']) and $_POST['telNo3']!=NULL){
+        check_phone($pdo,$_POST['telNo1'],$_POST['email']);
+        try {
+            $sql=$sql=' UPDATE phone_numbers
+                  SET phone_number =:phonenumber , user_id=(SELECT u.user_id FROM user u WHERE   u.email=:$email)
+                ';
+            $s=$pdo->prepare($sql);
+            $s->bindValue(':email',$_POST['email']);
+            $s->bindValue(':phonenumber',$_POST['telNo1']);
+            $s->execute();
+        }
+        catch (PDOException $e){
+            $error='cannot update phone number 3';
+            include 'error.html.php';
+            exit();
+        }
+    }
+
+    header('Location: .');
+    exit();
+}
+
+// sign up
 if (isset($_POST['action']) and $_POST['action'] == 'SignUp')
 {
     include $_SERVER['DOCUMENT_ROOT'].'/includes/db.inc.php';

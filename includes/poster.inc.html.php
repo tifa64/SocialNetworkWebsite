@@ -13,7 +13,6 @@
         </form>
     </div>
 </div>
-
 <div class="post" >
     <form action="" method="post">
         Post name* :     <textarea name="Postname" rows="1" cols="80" id="Postname" required ></textarea><br>
