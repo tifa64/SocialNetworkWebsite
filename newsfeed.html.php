@@ -23,7 +23,7 @@ echo "<hr>";
     <?php $post_id = $allPosts[$i]['post_id']; ?>
     <form action="" method="post">
       <div>
-        <input type="text" visibility="hidden" value="<?php htmlout($post_id) ?>" name="postid">
+        <input type="hidden" value="<?php htmlout($post_id) ?>" name="postid">
         <input type="submit" name="action" value="DeletePost">
       </div>
     </form>

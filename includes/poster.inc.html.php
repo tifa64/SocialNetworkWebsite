@@ -26,7 +26,6 @@
         <?php
           display_posts ();
         ?>
-        <script type="text/javascript" src="js/delete_post.js" > </script>
     </form>
 </div>
 </body>

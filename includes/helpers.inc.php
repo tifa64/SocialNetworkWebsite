@@ -94,9 +94,7 @@ function get_profile_info ($pdo,$email){
     }}
     function deletePost($pdo, $post_id) {
       include $_SERVER['DOCUMENT_ROOT'].'/includes/db.inc.php';
-      //$post_id = $_POST['postid'];
-      echo $post_id;
-      try {
+    try {
           $sql='DELETE FROM posts WHERE post_id =:post_id';
           $s = $pdo->prepare($sql);
           $s->bindValue(':post_id', $post_id);
