@@ -15,7 +15,7 @@
     <input type="file" name="fileToUpload" id="fileToUpload">
     <input type="hidden" name="userid" value="<?php htmlout($_SESSION['userid']);?>">
 
-    <input type="submit" value="Upload Image/Continue" name="submit">
+    <input type="submit" value="Upload Image" name="submit">
 </form>
 <?php include $_SERVER['DOCUMENT_ROOT'].'/includes/logout.inc.html.php'; ?></p>
 </body>

@@ -3,7 +3,7 @@
  * Created by PhpStorm.
  * User: abdullah
  * Date: 19/10/17
- * Time: 12:07 ุต
+ * Time: 12:07 ص
  */
 function html($text){
     return htmlspecialchars($text,ENT_QUOTES,'utf-8');
@@ -62,8 +62,8 @@ function setimage ($pdo,$email,$gender){
 
 function get_profile_info ($pdo,$email){
     try {
-        $sql='SELECT * FROM posts WHERE
-          user_id = (SELECT user_id FROM user
+        $sql='SELECT * FROM posts WHERE  
+          user_id = (SELECT user_id FROM user 
                       WHERE  email=:email)';
         $s = $pdo->prepare($sql);
         $s->bindValue(':email', $email);
@@ -88,10 +88,14 @@ function get_profile_info ($pdo,$email){
         exit();}
     $result=$s->fetchAll();
     foreach ($result as $row) {
-        $user_info[] = array('first_name' => $row['first_name'], 'last_name' => $row['last_name'], 'image_url' => $row['image_url']
+       $_SESSION['info'] = array('first_name' => $row['first_name'], 'last_name' => $row['last_name'], 'image_url' => $row['image_url']
         , 'nick_name' => $row['nick_name'], 'birth_date' => $row['birth_date'], 'martial_status' => $row['martial_status']
         , 'about_me' => $row['about_me'], 'gender' => $row['gender'], 'email' => $row['email'], 'home_town' => $row['home_town']);
-    }}
+    }
+   // echo $_SESSION['info'] ;
+    // $user_info[]
+    // $_SESSION['info'] = $user_info[] ;
+}
 function display_posts(){
     $servername = "localhost";
     $username = "databaseuser";
@@ -102,44 +106,40 @@ function display_posts(){
         die("Connection failed: " . $conn->connect_error);
     }
     $result = $conn->query("SELECT * FROM posts ORDER BY time DESC") ;
-    $allPosts[] = array();
-    global $myPosts, $friendsPosts;
     if ($result->num_rows > 0){
             while($row = $result->fetch_assoc())
             {
-                $usersinfo = $conn->query("SELECT * FROM user WHERE user_id = '".$row['user_id']."'");
-                $rowuser = $usersinfo->fetch_assoc();
-                // if the post is public
-                if ($row['isPublic']== "Public" && $row['user_id'] != $_SESSION['userid']) {
-                    $friendsPosts[] = array('first_name' => $rowuser['first_name'], 'last_name' => $rowuser['last_name'],
-                    'title' => $row['title'], 'caption' => $row['caption'], 'post_id' => $row['post_id'], 'image_url' => $row['image_url']);
-                }
-                // or this post is mine show the posts
-                else if($row['user_id'] == $_SESSION['userid']) {
-                  $myPosts[] = array('first_name' => $rowuser['first_name'], 'last_name' => $rowuser['last_name'],
-                  'title' => $row['title'], 'caption' => $row['caption'], 'post_id' => $row['post_id'], 'image_url' => $row['image_url']);
-                }
-                else if ($row['isPublic']== "Private" && $row['user_id'] != $_SESSION['userid']) {
+                // if the post is public or this post is mine show the posts
+                if ($row['isPublic']== "Public" || ($row['isPublic']== "Private" && $row['user_id'] == $_SESSION['userid']) ){
+                    $usersinfo = $conn->query("SELECT * FROM user WHERE user_id = '".$row['user_id']."'");
+                    $rowuser = $usersinfo->fetch_assoc();
+                    echo $rowuser['first_name']." ".$rowuser['last_name']."<br>" ;
+                    echo $row['title']."<br>";
+                    echo $row['caption']."<br>";
+                    if($row['image_url'] != NULL){
+                        $img = $row['image_url'];
+                    echo '<img src="images/'.$img.'">';
+                    }
+                    echo "<hr>";
+                }else if ($row['isPublic']== "Private") {
                         // the post is private but the two users are friends
-                        $friends = $conn->query("SELECT *FROM friendships
-                        WHERE  user_id1 = ".$row['user_id']." and user_id2 = ".$_SESSION['userid']."
-                        or (user_id2 = ".$row['user_id']." and user_id1 = ".$_SESSION['userid'].") ");
+                        $friends = $conn->query("SELECT *
+                                                 FROM friendships
+                                                 WHERE  user_id1 = ".$row['user_id']." and user_id2 = ".$_SESSION['userid']."
+                                                 or (user_id2 = ".$row['user_id']." and user_id1 = ".$_SESSION['userid'].") ");
                        //echo $friends . "here <br>" ;
                         if ($friends && $friends->num_rows >0) {
-                          $friendsPosts[] = array('first_name' => $rowuser['first_name'], 'last_name' => $rowuser['last_name'],
-                          'title' => $row['title'], 'caption' => $row['caption'], 'post_id' => $row['post_id'], 'image_url' => $row['image_url']);
-                        }
-                        else {
-                           mysqli_error($conn)."<br>";
-                        }
+                                $usersinfo = $conn->query("SELECT * FROM user WHERE user_id = '".$row['user_id']."'");
+                                $rowuser = $usersinfo->fetch_assoc();
+                                echo $rowuser['first_name']." ".$rowuser['last_name']."<br>" ;
+                                echo $row['title']."<br>";
+                                echo $row['caption']."<br>";
+                                echo "<hr>";
+                        }else {echo "not friends";
+                    echo  " <br>Query failed: " . mysqli_error($conn)."<br>";}
+
                 }
             }
-            $allPosts = array_merge((array)$myPosts, (array)$friendsPosts);
-            usort($allPosts, function ($item1, $item2) {
-            if ($item1['post_id'] == $item2['post_id']) return 0;
-                return $item2['post_id'] < $item1['post_id'] ? -1 : 1;
-            });
-            $_SESSION['allPosts'] = $allPosts;
     }else {
         echo "zero rows";
     }}

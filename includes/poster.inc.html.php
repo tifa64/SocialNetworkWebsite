@@ -8,10 +8,9 @@
 <body>
 <div class="header">
     <div id = "menu">
-        <a href="#">Home</a>
-        <a href="#">Profile</a>
-        <a href="#">Notifications</a>
-        <a href="#">Friend Requests</a>
+         <form action="?profile" method="get">
+             <input type="submit" name="loadprofile" value="<?php htmlout( $_SESSION['nickname']) ?>"><br>
+        </form>
     </div>
 </div>
 
@@ -22,30 +21,10 @@
         <input type="radio" name="Poststate" value="public" id="Poststate" checked> Public
         <input type="radio" name="Poststate" value="private" id="Poststate"> Private
         <input type="file" name="Postimage" value="post" id="image">
+        <input type="hidden" name="Userid" value="<?php htmlout($userid);?>">
         <input type="submit" name="action" value="Posting"><br>
-        <?php
-          display_posts ();
-          $allPosts = $_SESSION['allPosts'];
-          $size = count($allPosts);
-          echo "First name ---- Last name ---- Title  ---- Caption ---- ImageURL";
-          echo "<hr>";
-          echo "<hr>";
-          for($i = 0; $i < count($allPosts); $i++) {
-              print_r ($allPosts[$i]['first_name']);
-              echo " ---- ";
-              print_r ($allPosts[$i]['last_name']);
-              echo " ---- ";
-              print_r ($allPosts[$i]['title']);
-              echo " ---- ";
-              print_r ($allPosts[$i]['caption']);
-              echo " ---- ";
-              print_r ($allPosts[$i]['image_url']);
-              echo " ---- ";
-              echo "<br>";
-              echo "<hr>";
-          }
-        ?>
     </form>
-</div>
+</div> 
+
 </body>
 </html>
