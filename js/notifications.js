@@ -11,6 +11,15 @@ conn.onopen = function(e) {
 	conn.send(JSON.stringify(userdata));
 };
 
+function updateNotificationsCount(count) {
+	console.log("updateNotificationsCount: " + count);
+	$("#notifications-count").html(count);
+	if(count == 0) {
+		document.getElementById("notifications-count").style.display = "none";
+	} else {
+		document.getElementById("notifications-count").style.display = "block";
+	}
+}
 
 // Called when this client receives a message
 conn.onmessage = function(e) {
@@ -19,6 +28,22 @@ conn.onmessage = function(e) {
 	var data = JSON.parse(e.data);
 	var modal = document.getElementById('myModal');
 	modal.style.display = "block";
+	
+	$.ajax({
+		url: 'getNotifications.php',
+		type: 'POST',
+		data: {userid: user_id},
+		success: function(response) {
+			var json = JSON.parse(response);
+			var notifications_count = Object.keys(json).length;
+			updateNotificationsCount(notifications_count);
+			console.log("Notifications_count: " + notifications_count);
+			if(typeof displayNotifications === "function") {
+				displayNotifications(json);
+			}
+		}
+	});
+	
 
 	// THIS IS ADDED FOR TESTING PURPOSES AND SHOULD BE REMOVED
 	if(data["msg_type"] === "friend_request_notification")
@@ -38,7 +63,26 @@ conn.onerror = function(e) {
 $(document).ready(function() {
 	// Use conn.send whenever you need to send data i.e. added a new user or liked someone's post
 	// conn.send(JSON.stringify({whatever parameters you want}))
-	
+	//$(document).one("ready", updateNotificationsCount());
+
+
+
+	$.ajax({
+		url: 'getNotifications.php',
+		type: 'POST',
+		data: {userid: user_id},
+		success: function(response) {
+			var json = JSON.parse(response);
+			var notifications_count = Object.keys(json).length;
+			updateNotificationsCount(notifications_count);
+			console.log("Notifications_count: " + notifications_count);
+			if(typeof displayNotifications === "function") {
+				displayNotifications(json);
+			}
+		}
+	});
+
+
 	var ret = $.get('notification_popup.html.php', function(data) {
 		$("body").prepend(data);
 	});

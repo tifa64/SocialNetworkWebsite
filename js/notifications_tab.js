@@ -8,27 +8,37 @@ function createLikeNotificationEntry(notification){
 }
 
 function displayNotifications(json) {
+	var myNode = document.getElementsByTagName("body");
+	while (myNode.firstChild) {
+    	myNode.removeChild(myNode.firstChild);
+    	console.log("remocing");
+	}
 	var keys = Object.keys(json);
 	for(key in keys) {
 		var element = createLikeNotificationEntry(json[key]);
 		console.log(element);
 		$("body").append(element);
-
 	}
 }
 
+function updateNotificationsCount(count) {
+	$("#notifications-count").html(count);
+	if(count == 0) {
+		document.getElementById("notifications-count").style.display = "none";
+	} else {
+		document.getElementById("notifications-count").style.display = "block";
+	}
+}
 
 $(document).ready(function(){
 	$.ajax({
-		url: 'getNotifications.php',
+		url: 'index.php',
 		type: 'POST',
-		data: {userid: user_id},
+		data: {action: 'clear_notifications', userid: user_id},
 		success: function(response) {
 			console.log(response);
-			var json = JSON.parse(response);
-			displayNotifications(json);
 		}
-	});
-
-
+	})
+	console.log("notification_tab");
+	updateNotificationsCount(0);
 });

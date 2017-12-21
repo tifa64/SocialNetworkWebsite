@@ -99,8 +99,27 @@ li a:hover {
     background-color: #aaa;
 }
 
+#left-list div {
+    position:relative;
+    display:inline-block;
+}
 
 
 #left-list li:first-child{
 	margin-left:1%;
+}
+
+#notifications-count {
+    display:none;
+    background-color: #fa3e3e;
+    border-radius: 2px;
+    color: white;
+
+    padding: 0.1px 2.5px;
+    font-size: 10px;
+    line-height:1.3em;
+
+    position: absolute; /* Position the badge within the relatively positioned button */
+    top: 9px;
+    right: 3px;
 }
