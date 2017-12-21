@@ -5,3 +5,4 @@
 </script>
 <script type="text/javascript" src="js/notifications.js"></script>
 <link rel="stylesheet" href="css/notifications.css">
+<link rel="stylesheet" href="css/navbar.css">

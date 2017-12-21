@@ -10,7 +10,6 @@
 	<?php include $_SERVER['DOCUMENT_ROOT'].$path.'/includes/notifications.html.php'; ?>
 	<script type="text/javascript" src="js/notifications_tab.js"></script>
 	<link rel="stylesheet" type="text/css" href="css/notifications_tab.css">
-	<link rel="stylesheet" type="text/css" href="css/styleNewsFeed.css">
 	<meta charset='utf-8'>
 </head>
 <body>
