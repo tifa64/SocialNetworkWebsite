@@ -26,11 +26,16 @@
         <?php
           display_posts ();
           $allPosts = $_SESSION['allPosts'];
+          $myPosts = $_SESSION['myPosts'];
+          $friendsPosts  = $_SESSION['friendsPosts'];
           $size = count($allPosts);
           echo "First name ---- Last name ---- Title  ---- Caption ---- ImageURL";
           echo "<hr>";
           echo "<hr>";
           for($i = 0; $i < count($allPosts); $i++) {
+            if(in_array($allPosts[$i], $myPosts)) {
+              echo '<button id="Delete">Delete post</button></html>    ';
+            }
               print_r ($allPosts[$i]['first_name']);
               echo " ---- ";
               print_r ($allPosts[$i]['last_name']);

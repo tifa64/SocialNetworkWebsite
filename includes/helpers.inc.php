@@ -140,6 +140,8 @@ function display_posts(){
                 return $item2['post_id'] < $item1['post_id'] ? -1 : 1;
             });
             $_SESSION['allPosts'] = $allPosts;
+            $_SESSION['myPosts'] = $myPosts;
+            $_SESSION['friendsPosts'] = $friendsPosts;
     }else {
         echo "zero rows";
     }}
