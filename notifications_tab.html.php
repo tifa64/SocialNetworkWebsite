@@ -15,8 +15,6 @@
 </head>
 <body>
 	<?php include $_SERVER['DOCUMENT_ROOT'].$path.'/includes/header.inc.html.php'; ?>
-	<?php include $_SERVER['DOCUMENT_ROOT'].$path.'/includes/logout.inc.html.php'; ?>
-	<?php include $_SERVER['DOCUMENT_ROOT'].$path.'/includes/search.inc.php'; ?>
 	<h3 id="main-title">Your Notifications</h3>
 	<hr>
 </body>	
