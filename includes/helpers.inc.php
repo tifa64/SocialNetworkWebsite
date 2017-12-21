@@ -92,6 +92,20 @@ function get_profile_info ($pdo,$email){
         , 'nick_name' => $row['nick_name'], 'birth_date' => $row['birth_date'], 'martial_status' => $row['martial_status']
         , 'about_me' => $row['about_me'], 'gender' => $row['gender'], 'email' => $row['email'], 'home_town' => $row['home_town']);
     }}
+    function delete_post() {
+      // try {
+      //     $sql='DELETE FROM posts WHERE post_id =:post_id';
+      //     $s = $pdo->prepare($sql);
+      // }
+      // catch (PDOException $e){
+      //     $error = 'Error fetching user !' ;
+      //     include  'error.html.php';
+      //     exit();
+      //     }
+      // header('Location: .');
+      // exit();
+      echo "Ana hna";
+    }
 function display_posts(){
     $servername = "localhost";
     $username = "databaseuser";
