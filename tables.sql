@@ -36,7 +36,7 @@ CREATE TABLE  notifications (
   notification_id INT NOT NULL AUTO_INCREMENT PRIMARY KEY,
   user_id1 INT,
   user_id2 INT,
-  seen BIT(1) DEFAULT 0,
+  seen BOOLEAN DEFAULT 0,
   FOREIGN KEY (user_id1) REFERENCES  user(user_id)
     ON DELETE  CASCADE  ON UPDATE  CASCADE,
   FOREIGN KEY (user_id2) REFERENCES  user(user_id)
