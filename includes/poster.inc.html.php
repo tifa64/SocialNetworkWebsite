@@ -7,7 +7,7 @@
 
 <head>
     <title>Social Network</title>
-    <link rel="stylesheet" type="text/css" href="css/styleNewsFeed.css">
+    <link rel="stylesheet" type="text/css" href="css/posts.css">
 </head>
 <body>
 <div class="post" >
@@ -19,6 +19,9 @@
         <input type="file" name="Postimage" value="post" id="image">
         <input type="hidden" name="Userid" value="<?php htmlout($userid);?>">
         <input type="submit" name="action" value="Posting"><br>
+        <?php
+          display_posts ();
+        ?>
     </form>
 </div>
 

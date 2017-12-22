@@ -6,18 +6,22 @@
      include_once $_SERVER['DOCUMENT_ROOT'].$path.
     '/includes/db.inc.php';
     include_once $_SERVER['DOCUMENT_ROOT'].$path.
-    '/includes/header.inc.html.php'; ?>
-
+    '/includes/header.inc.html.php'; 
+     include $_SERVER['DOCUMENT_ROOT'] . $path.'/includes/poster.inc.html.php';              
+     ?>
 <!DOCTYPE html>
-<html lang="en">
+<html>
 <head>
-    <?php include $_SERVER['DOCUMENT_ROOT'].$path.'/includes/notifications.html.php'; ?>
-
+  <?php include $_SERVER['DOCUMENT_ROOT'].$path.'/includes/notifications.html.php'; ?>
     <meta charset="UTF-8">
     <title>Profile</title>
 </head>
 <body>
-<?php if ($_SESSION['userid'] == $userid): ?>
+<link rel="stylesheet" type="text/css" href="css/newsfeed.css">
+<form action="" method="post">
+	<input id="editp" type="submit" name="action" value="edit">
+</form>
+  <?php if ($_SESSION['userid'] == $userid): ?>
     <form  action="./index.php" method="post">
         <input type="hidden" name="editinfo" value="$_SESSION['email']";?>
         <input type="submit" name="action" value="editprofile">
@@ -46,34 +50,83 @@
 </form>
 <?php endif; ?>
 
-<?php if(!(empty($posts))): ?>
-
-<?php foreach ($posts as $post): ?>
-<p><?php htmlout($post['caption']) ?>
-    <br/>
-    <?php htmlout($post['time']) ?><br/>
-    <?php endforeach ; ?>
-
+<?php
+//rint_r ((array)$userinfo);
+//print_r(array_values($info));
+$img = $userinfo[0]['image_url'];
+echo '<img src="images/'.$img.'" >';
+echo "<br>";
+?>
+<p id="para1"> First Name: <?php htmlout($userinfo[0]['first_name']); ?></p>
+<p id="para1"> Last Name: <?php htmlout($userinfo[0]['last_name']); ?></p>
+<p id="para1"> Nickname: <?php
+if (!is_null($userinfo[0]['nick_name'])){
+    htmlout($userinfo[0]['nick_name']);
+}
+else {
+  htmlout('');
+} ?>
 </p>
-    <?php else : ?>
-<p> NO posts to show </p>
-<?php endif; ?>
-<p>
-    <?php foreach ($user_info   as $info): ?>
-        <?php if($info['nick_name'] !== NULL) :?>
-            <?php htmlout($info['nick_name']) ?>
-        <?php else :?>
-            <?php htmlout($info['first_name'].$info['last_name']) ?>
-        <?php endif; ?>
-
-        <?php htmlout($info['birth_date']) ?>
-        <?php htmlout($info['martial_status']) ?>
-        <?php htmlout($info['about_me'])?>
-        <?php htmlout($info['email'])?>
-        <?php htmlout($info['about_me'])?>
-        <?php htmlout($info['home_town'])?>
-
-    <?php endforeach ; ?>
+<p id="para2"> Birthday: <?php
+if (($userinfo[0]['birth_date']) != "0000-00-00"){
+    htmlout($userinfo[0]['birth_date']);
+}
+else {
+  htmlout('');
+} ?>
 </p>
+<p id="para2"> Martial Status: <?php
+if (!is_null($userinfo[0]['martial_status'])){
+    htmlout($userinfo[0]['martial_status']);
+}
+else {
+  htmlout('');
+} ?>
+</p>
+<p id="para3"> About Me: <?php
+if (($userinfo[0]['about_me']) != "Here you go ..."){
+    htmlout($userinfo[0]['about_me']);
+}
+else {
+  htmlout('I am NOT interesting enough');
+} ?>
+</p>
+<p id="para3"> Gender : <?php htmlout($userinfo[0]['gender']); ?></p>
+<p id="para3"> Home Town : <?php htmlout($userinfo[0]['home_town']); ?></p>
+
+<?php  $myPosts = $_SESSION['myPosts'];?>
+<?php for($i = 0; $i < count($myPosts); $i++): ?>
+  <?php
+    $fn = ($myPosts[$i]['first_name']);
+    $ln = ($myPosts[$i]['last_name']);
+    ?>
+    <p id="para1"><?php htmlout($fn) ?> <?php htmlout($ln) ?></p>
+    <?php
+    $title = ($myPosts[$i]['title']);
+    ?>
+    <p id="para2"><?php htmlout($title)?></p>
+    <?php
+    $caption = ($myPosts[$i]['caption']);
+    ?>
+    <p id="para3"><?php htmlout($caption)?></p>
+    <?php
+    if (($myPosts[$i]['image_url']) != NULL){
+       $image = ($myPosts[$i]['image_url']);
+       echo '<img src ="images/'.$image.'" width=300px height=300px>';
+    }
+
+    ?>
+    <?php if(in_array($myPosts[$i], $myPosts)): ?>
+      <?php $post_id = $myPosts[$i]['post_id']; ?>
+      <form action="" method="post">
+        <div>
+          <input type="hidden" value="<?php htmlout($post_id) ?>" name="postid">
+          <input id="DeletePost" type="submit" name="action" value="DeletePost">
+        </div>
+      </form>
+  <?php endif ?>
+  <?php echo "<br>";
+  echo "<hr>"; ?>
+<?php endfor ?>
 </body>
 </html>

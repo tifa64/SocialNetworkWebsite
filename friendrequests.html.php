@@ -3,17 +3,17 @@
     $path = $ini_array['path']; 
     include_once $_SERVER['DOCUMENT_ROOT'].$path.
     '/includes/helpers.inc.php';
-     include_once $_SERVER['DOCUMENT_ROOT'].$path.
-    '/includes/header.inc.html.php'; ?>
-
+     ?>
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <?php include $_SERVER['DOCUMENT_ROOT'].$path.'/includes/notifications.html.php'; ?>
+    <?php include $_SERVER['DOCUMENT_ROOT'].$path.'/includes/notifications.html.php'; 
+    include_once $_SERVER['DOCUMENT_ROOT'].$path.
+    '/includes/header.inc.html.php'; 
+    ?>
     <meta charset="UTF-8">
 </head>
 <body>
-
 <?php if (!isset($pending_friends) ):?>
 <p> No FriendRequests YOU ARE LONELY ! </p>
 <?php else :?>
@@ -28,10 +28,7 @@
 
    </div>
 <?php endforeach ; ?>
-
 <?php endif;?>
-
-
 </table>
 </body>
 </html>
