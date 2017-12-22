@@ -3,13 +3,13 @@
 
 <head>
     <title>Social Network</title>
-    <link rel="stylesheet" type="text/css" href="css/styleNewsFeed.css">
+    <link rel="stylesheet" type="text/css" href="css/posts.css">
 </head>
 <body>
 <div class="header">
     <div id = "menu">
          <form action="?profile" method="get">
-             <input type="submit" name="loadprofile" value="<?php htmlout( $_SESSION['nickname']) ?>"><br>
+             <input id="profile" type="submit" name="loadprofile" value="<?php htmlout( $_SESSION['nickname']) ?>"><br>
         </form>
     </div>
 </div>
@@ -26,7 +26,7 @@
           display_posts ();
         ?>
     </form>
-</div> 
+</div>
 
 </body>
 </html>

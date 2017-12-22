@@ -1,0 +1,34 @@
+#para1 {
+  border-radius: 8px;
+  background-color: lightgrey;
+  font-family: "Comic Sans MS", cursive, sans-serif;
+  font-style: italic;
+  font-size: 24px;
+}
+#para2 {
+  border-radius: 8px;
+  background-color: MediumSeaGreen;
+  font-family: "Arial Black", Gadget, sans-serif;
+  font-style: italic;
+  font-size: 19px;
+}
+#para3 {
+  border-radius: 8px;
+  background-color: DodgerBlue;
+  font-family: "Lucida Sans Unicode", "Lucida Grande", sans-serif;
+  font-style: italic;
+  font-size: 12px;
+}
+#DeletePost, #Logout {
+    background-color: #555555; /* Green */
+    border: none;
+    color: white;
+    padding: 10px;
+    text-align: center;
+    text-decoration: none;
+    display: inline-block;
+    font-size: 16px;
+    margin: 4px 2px;
+    cursor: pointer;
+    border-radius: 12px;
+}
