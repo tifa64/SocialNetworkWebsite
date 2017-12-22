@@ -216,8 +216,6 @@ if (isset($_POST['action']) and $_POST['action']== 'editProfile') {
             exit();
         }
     }
-}
-
 if(isset($_POST['action']) and $_POST['action']=='Logout'){
     $_SESSION['loggedIn']=FALSE;
     unset($_SESSION['email']);
