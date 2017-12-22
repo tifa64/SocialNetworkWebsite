@@ -1,11 +1,17 @@
 <?php
-	session_start();
+$ini_array = parse_ini_file("config.ini");
+$path = $ini_array['path'];
+include_once $_SERVER['DOCUMENT_ROOT'].$path.
+    '/includes/magicquotes.inc.php';
+
+
+session_start();
 	$userid = $_SESSION['userid'];
 
 
 	$servername = "localhost";
-	$db_username   = "root";
-	$db_password   = "";
+	$db_username   = "databaseuser";
+	$db_password   = "mypassword";
 	$dbname     = "newdatabase";
 
 	$conn = new mysqli($servername, $db_username, $db_password, $dbname);

@@ -101,6 +101,7 @@ function get_profile_info ($pdo,$id){
 
 
 }
+
 $userid=$id;
 $ini_array = parse_ini_file("config.ini");
 $path = $ini_array['path'];
@@ -187,6 +188,7 @@ function check_friendship ($pdo,$id1,$id2){
     }
     $row = $s->fetch();
     if ($row[0] > 0){
+
         return TRUE ;
     }
     else {

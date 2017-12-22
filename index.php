@@ -44,7 +44,10 @@ if(isset($_POST['action']) and $_POST['action']=='Logout'){
 
 if(isset($_POST['action']) and $_POST['action']=='Add Friend'){
     include $_SERVER['DOCUMENT_ROOT'].$path.'/includes/db.inc.php';
+    include $_SERVER['DOCUMENT_ROOT'].$path.'/includes/helpers.inc.php';
     try{
+
+
         $sql='INSERT INTO pending_firends 
             SET sender_id=:id1 ,reciever_id=:id2,time=CURRENT_TIMESTAMP';
         $s=$pdo->prepare($sql);
@@ -56,12 +59,37 @@ if(isset($_POST['action']) and $_POST['action']=='Add Friend'){
         include 'error.html.php';
         exit();
     }
-    $userid=$_POST['newfriend_id'];
-    include'profile.html.php';
+
+   get_profile_info($pdo,$_POST['newfriend_id']);
     exit();
+
+}
+if(isset($_POST['action']) and $_POST['action']=='Remove Friend'){
+    include $_SERVER['DOCUMENT_ROOT'].$path.'/includes/db.inc.php';
+    include $_SERVER['DOCUMENT_ROOT'].$path.'/includes/helpers.inc.php';
+    try{
+
+
+        $sql='DELETE FROM friendships 
+           WHERE (user_id1=:id1 AND user_id2=:id2) OR  (user_id1=:id2 AND user_id2=:id1)';
+        $s=$pdo->prepare($sql);
+        $s->bindValue(':id1',$_SESSION['userid']);
+        $s->bindValue(':id2',$_POST['newfriend_id']);
+        $s->execute();
+    }catch (PDOException $e) {
+        $error = "cannot DELETE this guy !";
+        include 'error.html.php';
+        exit();
+    }
+
+    get_profile_info($pdo,$_POST['newfriend_id']);
+    exit();
+
 }
 if(isset($_POST['action']) and $_POST['action']=='Cancel Request'){
     include $_SERVER['DOCUMENT_ROOT'].$path.'/includes/db.inc.php';
+    include $_SERVER['DOCUMENT_ROOT'].$path.'/includes/helpers.inc.php';
+
     try{
         $sql='DELETE FROM pending_firends 
           WHERE  sender_id=:id1 AND  reciever_id=:id2';
@@ -74,8 +102,7 @@ if(isset($_POST['action']) and $_POST['action']=='Cancel Request'){
         include 'error.html.php';
         exit();
     }
-    $userid=$_POST['newfriend_id'];
-    include'profile.html.php';
+    get_profile_info($pdo,$_POST['newfriend_id']);
     exit();
 
 }
