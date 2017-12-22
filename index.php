@@ -11,7 +11,10 @@ $path = $ini_array['path'];
 include_once $_SERVER['DOCUMENT_ROOT'].$path.
     '/includes/magicquotes.inc.php';
 session_start();
-
+if(isset($_POST['action']) and $_POST['action'] == 'Search') {
+    include 'search_results.php';
+    exit();
+}
 
 if(isset($_POST['action']) and $_POST['action'] == 'clear_notifications') {
     include 'includes/db.inc.php';
@@ -280,10 +283,7 @@ WHERE f1.user_id1=:userid) OR ( SELECT f2.user_id1 FROM friendships f2 WHERE  f2
     include 'friendlist.html.php';
     exit();
 }
-if(isset($_POST['action']) and $_POST['action'] == 'Search') {
-    include 'search_results.php';
-    exit();
-}
+
 if (isset($_POST['action']) and $_POST['action'] == 'login') {
     include $_SERVER['DOCUMENT_ROOT'] .$path.'/includes/db.inc.php';
     if(!isset($_POST['email']) or $_POST['email']==' 'or !isset($_POST['password']) or $_POST['password'] == '' ){

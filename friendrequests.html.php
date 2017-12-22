@@ -30,7 +30,6 @@
 <?php endforeach ; ?>
 
 <?php endif;?>
-    <?php include $_SERVER['DOCUMENT_ROOT'].$path.'/includes/logout.inc.html.php'; ?></p>
 
 
 </table>

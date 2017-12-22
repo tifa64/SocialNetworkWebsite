@@ -45,7 +45,6 @@
     <input type="submit" name="action" value="Add Friend">
 </form>
 <?php endif; ?>
-<?php include $_SERVER['DOCUMENT_ROOT'].$path.'/includes/logout.inc.html.php'; ?>
 
 <?php if(!(empty($posts))): ?>
 

@@ -36,7 +36,6 @@ include_once $_SERVER['DOCUMENT_ROOT'].$path.
     <?php else :?>
     No Friends to show
 <?php endif ;?>
-<?php include $_SERVER['DOCUMENT_ROOT'].$path.'/includes/logout.inc.html.php'; ?></p>
 
 
 </table>

@@ -13,8 +13,8 @@ $path = $ini_array['path'];
 
 	// Set up the connection to the database
 	$servername = "localhost";
-	$db_username   = "databaseuser";
-	$db_password   = "mypassword";
+	$db_username   = "root";
+	$db_password   = "";
 	$dbname     = "newdatabase";
 
 	$conn = new mysqli($servername, $db_username, $db_password, $dbname);
