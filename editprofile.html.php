@@ -20,6 +20,8 @@
 				<label for="Hometown">Hometown :<input type="text" name="hometown"id="hometown" value=""> </label><br/>
 				<label for="aboutme"> Tell us more about you !</label><br/>
 				<textarea name="aboutme" cols="40" rows="6" id="aboutme">Here you go ...</textarea><br/>
+    			Select image to upload:
+    			<input type="file" name="fileToUpload" id="fileToUpload"><br/>
 	</fieldset>
   <input type="submit" name="action" value="editProfile">
 </form>

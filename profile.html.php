@@ -13,8 +13,8 @@
 <?php 
 //rint_r ((array)$userinfo);
 //print_r(array_values($info));
-
-echo '<img src="'.$userinfo[0]['image_url'].'" >';
+$img = $userinfo[0]['image_url'];
+echo '<img src="images/'.$img.'" >';
 echo "<br>";
 echo $userinfo[0]['first_name'];
 echo "<br>";

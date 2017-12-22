@@ -30,8 +30,11 @@ $friendsPosts  = $_SESSION['friendsPosts'];
     ?>
     <p id="para3"><?php htmlout($caption)?></p>
     <?php
-    $image = ($allPosts[$i]['image_url']);
-    echo $image;
+    if (($allPosts[$i]['image_url']) != NULL){
+       $image = ($allPosts[$i]['image_url']);
+       echo '<img src ="images/'.$image.'" width=300px height=300px>';
+    }
+
     ?>
     <?php if(in_array($allPosts[$i], $myPosts)): ?>
       <?php $post_id = $allPosts[$i]['post_id']; ?>

@@ -180,6 +180,44 @@ if (isset($_POST['action']) and $_POST['action']== 'editProfile') {
     }
 }
 
+    if (isset($_POST['fileToUpload']) and $_POST['fileToUpload']!=NULL  ){
+        try {
+            $sql= "UPDATE user SET  image_url =:url WHERE  email=:email";
+            $_SESSION['url']=$_POST['fileToUpload'];
+            $s=$pdo->prepare($sql);
+            $s->bindValue(':url',$_POST['fileToUpload']);
+            $s->bindValue(':email', $_SESSION['email']);
+            $s->execute();
+        }catch (PDOException $e) {
+            $error='Failed to set pp url';
+            include 'error.html.php';
+            exit();
+        }
+        try{
+        $sql ='INSERT INTO posts SET
+                title=:Postname,
+                caption=:Caption,
+                isPublic=:Poststate,
+                user_id =:user_id,
+                image_url=:Postimage,
+                time=CURRENT_TIMESTAMP
+                ';
+        $s=$pdo->prepare($sql);
+        $s->bindValue(':Postname',$_SESSION['nickname'].'Changed Profile picture');
+        $s->bindValue(':Caption','Here we go');
+        $s->bindValue(':Poststate','private');
+        $s->bindValue(':user_id',  $_SESSION['userid']);
+        $s->bindValue(':Postimage',$_POST['fileToUpload']);
+        $s->execute();
+        }catch (PDOException $e)
+        {
+            $error='cannot insert post into database !';
+            include 'error.html.php';
+            exit();
+        }
+    }
+}
+
 if(isset($_POST['action']) and $_POST['action']=='Logout'){
     $_SESSION['loggedIn']=FALSE;
     unset($_SESSION['email']);
