@@ -10,6 +10,9 @@
 </head>
 <body>
 <link rel="stylesheet" type="text/css" href="css/newsfeed.css">
+<form action="" method="post">
+	<input id="editp" type="submit" name="action" value="edit">
+</form>
 <?php
 //rint_r ((array)$userinfo);
 //print_r(array_values($info));
@@ -19,10 +22,38 @@ echo "<br>";
 ?>
 <p id="para1"> First Name: <?php htmlout($userinfo[0]['first_name']); ?></p>
 <p id="para1"> Last Name: <?php htmlout($userinfo[0]['last_name']); ?></p>
-<p id="para1"> Nickname: <?php htmlout($userinfo[0]['nick_name']); ?></p>
-<p id="para2"> Birthday: <?php htmlout($userinfo[0]['birth_date']); ?></p>
-<p id="para2"> Martial Status: <?php htmlout($userinfo[0]['martial_status']); ?></p>
-<p id="para3"> About Me: <?php htmlout($userinfo[0]['about_me']); ?></p>
+<p id="para1"> Nickname: <?php
+if (!is_null($userinfo[0]['nick_name'])){
+    htmlout($userinfo[0]['nick_name']);
+}
+else {
+  htmlout('');
+} ?>
+</p>
+<p id="para2"> Birthday: <?php
+if (($userinfo[0]['birth_date']) != "0000-00-00"){
+    htmlout($userinfo[0]['birth_date']);
+}
+else {
+  htmlout('');
+} ?>
+</p>
+<p id="para2"> Martial Status: <?php
+if (!is_null($userinfo[0]['martial_status'])){
+    htmlout($userinfo[0]['martial_status']);
+}
+else {
+  htmlout('');
+} ?>
+</p>
+<p id="para3"> About Me: <?php
+if (($userinfo[0]['about_me']) != "Here you go ..."){
+    htmlout($userinfo[0]['about_me']);
+}
+else {
+  htmlout('I am NOT interesting enough');
+} ?>
+</p>
 <p id="para3"> Gender : <?php htmlout($userinfo[0]['gender']); ?></p>
 <p id="para3"> Home Town : <?php htmlout($userinfo[0]['home_town']); ?></p>
 
@@ -61,9 +92,5 @@ echo "<br>";
   echo "<hr>"; ?>
 <?php endfor ?>
 
-
-<form action="" method="post">
-	<input type="submit" name="action" value="edit">
-</form>
 </body>
 </html>

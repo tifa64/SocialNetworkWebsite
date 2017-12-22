@@ -49,6 +49,7 @@ if (isset($_POST['action']) and $_POST['action']== 'editProfile') {
         }
       }
     if (isset($_POST['nickname']) and $_POST['nickname']!=NULL) {
+		$_SESSION['nickname'] = $_POST['nickname'];
         try {
             $sql='UPDATE user
                   SET nick_name =:nickname

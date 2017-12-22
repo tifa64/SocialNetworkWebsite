@@ -19,7 +19,7 @@
   font-style: italic;
   font-size: 12px;
 }
-#DeletePost, #Logout {
+#DeletePost, #Logout ,#editp {
     background-color: #555555; /* Green */
     border: none;
     color: white;
