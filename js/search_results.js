@@ -86,7 +86,7 @@ function formatDate(date) {
 function createPostEntry(post) {
 	var element = '<div id="' + post['post_id'] + '" class="search_result_post">';
 	element += '<div class="container"><img class="profile_picture" src="' + post['image_url'] + '" width=50 height=50/>';
-	element += '<h3 class="name"><a href="index.php?i=' + post['user_id'] + '&action=viewprofile">'
+	element += '<h3 class="name"><a href="index.php?i=' + post['user_id'] + '&action=Profile">'
 	if(!post['nickname'])
 		element += post['fname'] + ' ' + post['lname'];
 	else
@@ -202,7 +202,7 @@ $(document).ready(function(){
 	$("div").click(function(e) {
 		if(e.target.className === "search_result") {
 			if(currentTab !== "posts") {
-				window.location.href = 'index.php?i=' + e.target.id + '&action=viewprofile';
+				window.location.href = 'index.php?i=' + e.target.id + '&action=Profile';
 			}
 		}
 	});

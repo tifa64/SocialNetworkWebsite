@@ -6,7 +6,9 @@
  * Date: 24/10/17
  * Time: 09:15 م
  */
-include_once $_SERVER['DOCUMENT_ROOT'] .
+$ini_array = parse_ini_file("config.ini");
+$path = $ini_array['path'];
+include_once $_SERVER['DOCUMENT_ROOT'].$path.
     '/includes/magicquotes.inc.php';
 session_start();
 
@@ -41,7 +43,7 @@ if(isset($_POST['action']) and $_POST['action']=='Logout'){
 }
 
 if(isset($_POST['action']) and $_POST['action']=='Add Friend'){
-    include $_SERVER['DOCUMENT_ROOT'].'/includes/db.inc.php';
+    include $_SERVER['DOCUMENT_ROOT'].$path.'/includes/db.inc.php';
     try{
         $sql='INSERT INTO pending_firends 
             SET sender_id=:id1 ,reciever_id=:id2,time=CURRENT_TIMESTAMP';
@@ -59,7 +61,7 @@ if(isset($_POST['action']) and $_POST['action']=='Add Friend'){
     exit();
 }
 if(isset($_POST['action']) and $_POST['action']=='Cancel Request'){
-    include $_SERVER['DOCUMENT_ROOT'].'/includes/db.inc.php';
+    include $_SERVER['DOCUMENT_ROOT'].$path.'/includes/db.inc.php';
     try{
         $sql='DELETE FROM pending_firends 
           WHERE  sender_id=:id1 AND  reciever_id=:id2';
@@ -82,7 +84,7 @@ if (isset($_POST['action']) and $_POST['action'] == 'edit') {
     exit();
 }
 if (isset($_POST['action']) and $_POST['action']== 'editProfile') {
-    include $_SERVER['DOCUMENT_ROOT'].'/includes/db.inc.php';
+    include $_SERVER['DOCUMENT_ROOT'].$path.'/includes/db.inc.php';
 
     if (isset($_POST['firstname']) and $_POST['firstname']!=NULL)
         try {
@@ -130,7 +132,7 @@ if (isset($_POST['action']) and $_POST['action']== 'editProfile') {
             exit();
         }}
 if (isset($_POST['action']) and $_POST['action'] == 'FriendRequests') {
-    include $_SERVER['DOCUMENT_ROOT'] . '/includes/db.inc.php';
+    include $_SERVER['DOCUMENT_ROOT'].$path.'/includes/db.inc.php';
     try {
         $sql='SELECT * FROM pending_firends  WHERE reciever_id=:id ';
         $s=$pdo->prepare($sql);
@@ -169,7 +171,7 @@ if (isset($_POST['action']) and $_POST['action'] == 'FriendRequests') {
     exit();
 }
 if(isset($_POST['action']) and $_POST['action']=='Decline'){
-    include $_SERVER['DOCUMENT_ROOT'] . '/includes/db.inc.php';
+    include $_SERVER['DOCUMENT_ROOT'].$path.'/includes/db.inc.php';
     try {
         $sql='DELETE FROM pending_firends WHERE  sender_id=:id1 AND  reciever_id=:id2';
         $s = $pdo->prepare($sql);
@@ -186,7 +188,7 @@ if(isset($_POST['action']) and $_POST['action']=='Decline'){
     exit();
 }
 if(isset($_POST['action']) and $_POST['action']=='Accept'){
-    include $_SERVER['DOCUMENT_ROOT'] . '/includes/db.inc.php';
+    include $_SERVER['DOCUMENT_ROOT'].$path.'/includes/db.inc.php';
     try {
         $sql='DELETE FROM pending_firends WHERE sender_id=:id1 AND  reciever_id=:id2';
         $s = $pdo->prepare($sql);
@@ -214,15 +216,16 @@ if(isset($_POST['action']) and $_POST['action']=='Accept'){
     include 'friendrequests.html.php';
     exit();
 }
-if(isset($_GET['action']) and $_GET['action']=="viewprofile" and  $_SESSION['loggedIn'] == TRUE){
-    include $_SERVER['DOCUMENT_ROOT'] . '/includes/db.inc.php';
-    include $_SERVER['DOCUMENT_ROOT'] . '/includes/helpers.inc.php';
+if(isset($_GET['action']) and $_GET['action']=="Profile" and  $_SESSION['loggedIn'] == TRUE){
+    include $_SERVER['DOCUMENT_ROOT'].$path.'/includes/db.inc.php';
+    include $_SERVER['DOCUMENT_ROOT'].$path.'/includes/helpers.inc.php';
 
     get_profile_info($pdo,$_GET['i']);
     exit();
 }
 if(isset($_POST['action']) and $_POST['action'] == 'showfriends') {
-    include $_SERVER['DOCUMENT_ROOT'] . '/includes/db.inc.php';
+    global $my_friends;
+    include $_SERVER['DOCUMENT_ROOT'].$path.'/includes/db.inc.php';
     try
     {
         $sql = 'SELECT * FROM user WHERE user_id in (( (SELECT f1.user_id2 FROM friendships f1
@@ -255,7 +258,7 @@ if(isset($_POST['action']) and $_POST['action'] == 'Search') {
     exit();
 }
 if (isset($_POST['action']) and $_POST['action'] == 'login') {
-    include $_SERVER['DOCUMENT_ROOT'] . '/includes/db.inc.php';
+    include $_SERVER['DOCUMENT_ROOT'] .$path.'/includes/db.inc.php';
     if(!isset($_POST['email']) or $_POST['email']==' 'or !isset($_POST['password']) or $_POST['password'] == '' ){
         $GLOBALS['SignupError'] = 'Please fill in missing fields';
         include'registration.html.php';
@@ -294,8 +297,8 @@ WHERE email= :email ';
 }
 if (isset($_POST['action']) and $_POST['action'] == 'SignUp')
 {
-    include $_SERVER['DOCUMENT_ROOT'].'/includes/db.inc.php';
-    include $_SERVER['DOCUMENT_ROOT'] . '/includes/helpers.inc.php';
+    include $_SERVER['DOCUMENT_ROOT'].$path.'/includes/db.inc.php';
+    include $_SERVER['DOCUMENT_ROOT'].$path.'/includes/helpers.inc.php';
     if(!isset($_POST['firstname']) or $_POST['firstname']==' 'or !isset($_POST['password']) or $_POST['password'] == ''
         or !isset($_POST['email']) or $_POST['email'] == ''){
         $GLOBALS['SignupError'] = 'Please fill in missing fields';
@@ -482,7 +485,7 @@ if (isset($_POST['action']) and $_POST['action'] == 'SignUp')
     exit();
 }
 if (isset($_POST['submit']) and $_POST['submit'] == "Upload Image"){
-    include $_SERVER['DOCUMENT_ROOT'].'/includes/db.inc.php';
+    include $_SERVER['DOCUMENT_ROOT'].$path.'/includes/db.inc.php';
     $target_dir = "images/";
     $target_file = $target_dir . basename($_FILES["fileToUpload"]["name"]);
     $uploadOk = 1;
@@ -537,8 +540,8 @@ if (isset($_POST['submit']) and $_POST['submit'] == "Upload Image"){
     exit();
 }
 if(isset($_POST['action']) and $_POST['action']=='Posting') {
-    include $_SERVER['DOCUMENT_ROOT'].'/includes/db.inc.php';
-    include $_SERVER['DOCUMENT_ROOT'].'/includes/helpers.inc.php';
+    include $_SERVER['DOCUMENT_ROOT'].$path.'/includes/db.inc.php';
+    include $_SERVER['DOCUMENT_ROOT'].$path.'/includes/helpers.inc.php';
     try{
         $sql ='INSERT INTO posts SET
                 title=:Postname,
@@ -565,7 +568,7 @@ if(isset($_POST['action']) and $_POST['action']=='Posting') {
     exit();
 }
 if (isset($_SESSION['loggedIn'])and $_SESSION['loggedIn'] == TRUE){
-    include $_SERVER['DOCUMENT_ROOT'].'/includes/db.inc.php';
+    include $_SERVER['DOCUMENT_ROOT'].$path.'/includes/db.inc.php';
     include 'newsfeed.html.php';
     // FETCHING POSTS AND SAVING THEM THEN LOADING NEWSFEED TEMPLATE
     exit();

@@ -1,6 +1,9 @@
-<?php include_once $_SERVER['DOCUMENT_ROOT'] .
-    '/includes/helpers.inc.php'; ?>
-<?php include_once $_SERVER['DOCUMENT_ROOT'] .
+<?php
+    $ini_array = parse_ini_file("config.ini");
+    $path = $ini_array['path'];
+     include_once $_SERVER['DOCUMENT_ROOT'].$path.
+    '/includes/helpers.inc.php'; 
+     include_once $_SERVER['DOCUMENT_ROOT'].$path.
     '/includes/db.inc.php'; ?>
 <!DOCTYPE html>
 <html lang="en">
@@ -35,7 +38,7 @@
     <input type="submit" name="action" value="Add Friend">
 </form>
 <?php endif; ?>
-<?php include $_SERVER['DOCUMENT_ROOT'].'/includes/logout.inc.html.php'; ?>
+<?php include $_SERVER['DOCUMENT_ROOT'].$path.'/includes/logout.inc.html.php'; ?>
 <?php foreach ($posts as $post): ?>
 <p><?php htmlout($post['caption']) ?>
     <br/>

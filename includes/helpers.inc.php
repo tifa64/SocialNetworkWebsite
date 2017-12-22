@@ -5,6 +5,8 @@
  * Date: 19/10/17
  * Time: 12:07 ص
  */
+
+
 function html($text){
     return htmlspecialchars($text,ENT_QUOTES,'utf-8');
 }
@@ -100,7 +102,9 @@ function get_profile_info ($pdo,$id){
 
 }
 $userid=$id;
-include $_SERVER['DOCUMENT_ROOT'] . '/profile.html.php';}
+$ini_array = parse_ini_file("config.ini");
+$path = $ini_array['path'];
+include $_SERVER['DOCUMENT_ROOT'].$path.'/profile.html.php';}
 function display_posts(){
     $servername = "localhost";
     $username = "root";
