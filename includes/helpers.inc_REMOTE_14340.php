@@ -3,7 +3,7 @@
  * Created by PhpStorm.
  * User: abdullah
  * Date: 19/10/17
- * Time: 12:07 ص
+ * Time: 12:07 ุต
  */
 function html($text){
     return htmlspecialchars($text,ENT_QUOTES,'utf-8');
@@ -85,17 +85,13 @@ function get_profile_info ($pdo,$email){
     }catch (PDOException $e){
         $error='canot get userinfo for profiles !';
         include 'error.html.php';
-        exit();
-    }
+        exit();}
     $result=$s->fetchAll();
     foreach ($result as $row) {
-       $userinfo [] = array('first_name' => $row['first_name'], 'last_name' => $row['last_name'], 'image_url' => $row['image_url']
+        $user_info[] = array('first_name' => $row['first_name'], 'last_name' => $row['last_name'], 'image_url' => $row['image_url']
         , 'nick_name' => $row['nick_name'], 'birth_date' => $row['birth_date'], 'martial_status' => $row['martial_status']
         , 'about_me' => $row['about_me'], 'gender' => $row['gender'], 'email' => $row['email'], 'home_town' => $row['home_town']);
-    }
-    include_once $_SERVER['DOCUMENT_ROOT'] .
-'./profile.html.php';
-  }
+    }}
     function deletePost($pdo, $post_id) {
       include $_SERVER['DOCUMENT_ROOT'].'/includes/db.inc.php';
     try {
@@ -110,59 +106,56 @@ function get_profile_info ($pdo,$email){
           exit();
           }
     }
-      // echo $_SESSION['info'] ;
-      // $user_info[]
-      // $_SESSION['info'] = $user_info[] ;
-      function display_posts(){
-          $servername = "localhost";
-          $username = "databaseuser";
-          $password = "mypassword";
-          $dbname = "newdatabase";
-          $conn = new mysqli($servername, $username, $password, $dbname);
-          if ($conn->connect_error) {
-              die("Connection failed: " . $conn->connect_error);
-          }
-          $result = $conn->query("SELECT * FROM posts ORDER BY time DESC") ;
-          $allPosts[] = array();
-          global $myPosts, $friendsPosts;
-          if ($result->num_rows > 0){
-                  while($row = $result->fetch_assoc())
-                  {
-                      $usersinfo = $conn->query("SELECT * FROM user WHERE user_id = '".$row['user_id']."'");
-                      $rowuser = $usersinfo->fetch_assoc();
-                      // if the post is public
-                      if ($row['isPublic']== "Public" && $row['user_id'] != $_SESSION['userid']) {
+function display_posts(){
+    $servername = "localhost";
+    $username = "databaseuser";
+    $password = "mypassword";
+    $dbname = "newdatabase";
+    $conn = new mysqli($servername, $username, $password, $dbname);
+    if ($conn->connect_error) {
+        die("Connection failed: " . $conn->connect_error);
+    }
+    $result = $conn->query("SELECT * FROM posts ORDER BY time DESC") ;
+    $allPosts[] = array();
+    global $myPosts, $friendsPosts;
+    if ($result->num_rows > 0){
+            while($row = $result->fetch_assoc())
+            {
+                $usersinfo = $conn->query("SELECT * FROM user WHERE user_id = '".$row['user_id']."'");
+                $rowuser = $usersinfo->fetch_assoc();
+                // if the post is public
+                if ($row['isPublic']== "Public" && $row['user_id'] != $_SESSION['userid']) {
+                    $friendsPosts[] = array('first_name' => $rowuser['first_name'], 'last_name' => $rowuser['last_name'],
+                    'title' => $row['title'], 'caption' => $row['caption'], 'post_id' => $row['post_id'], 'image_url' => $row['image_url']);
+                }
+                // or this post is mine show the posts
+                else if($row['user_id'] == $_SESSION['userid']) {
+                  $myPosts[] = array('first_name' => $rowuser['first_name'], 'last_name' => $rowuser['last_name'],
+                  'title' => $row['title'], 'caption' => $row['caption'], 'post_id' => $row['post_id'], 'image_url' => $row['image_url']);
+                }
+                else if ($row['isPublic']== "Private" && $row['user_id'] != $_SESSION['userid']) {
+                        // the post is private but the two users are friends
+                        $friends = $conn->query("SELECT *FROM friendships
+                        WHERE  user_id1 = ".$row['user_id']." and user_id2 = ".$_SESSION['userid']."
+                        or (user_id2 = ".$row['user_id']." and user_id1 = ".$_SESSION['userid'].") ");
+                       //echo $friends . "here <br>" ;
+                        if ($friends && $friends->num_rows >0) {
                           $friendsPosts[] = array('first_name' => $rowuser['first_name'], 'last_name' => $rowuser['last_name'],
                           'title' => $row['title'], 'caption' => $row['caption'], 'post_id' => $row['post_id'], 'image_url' => $row['image_url']);
-                      }
-                      // or this post is mine show the posts
-                      else if($row['user_id'] == $_SESSION['userid']) {
-                        $myPosts[] = array('first_name' => $rowuser['first_name'], 'last_name' => $rowuser['last_name'],
-                        'title' => $row['title'], 'caption' => $row['caption'], 'post_id' => $row['post_id'], 'image_url' => $row['image_url']);
-                      }
-                      else if ($row['isPublic']== "Private" && $row['user_id'] != $_SESSION['userid']) {
-                              // the post is private but the two users are friends
-                              $friends = $conn->query("SELECT *FROM friendships
-                              WHERE  user_id1 = ".$row['user_id']." and user_id2 = ".$_SESSION['userid']."
-                              or (user_id2 = ".$row['user_id']." and user_id1 = ".$_SESSION['userid'].") ");
-                             //echo $friends . "here <br>" ;
-                              if ($friends && $friends->num_rows >0) {
-                                $friendsPosts[] = array('first_name' => $rowuser['first_name'], 'last_name' => $rowuser['last_name'],
-                                'title' => $row['title'], 'caption' => $row['caption'], 'post_id' => $row['post_id'], 'image_url' => $row['image_url']);
-                              }
-                              else {
-                                 mysqli_error($conn)."<br>";
-                              }
-                      }
-                  }
-                  $allPosts = array_merge((array)$myPosts, (array)$friendsPosts);
-                  usort($allPosts, function ($item1, $item2) {
-                  if ($item1['post_id'] == $item2['post_id']) return 0;
-                      return $item2['post_id'] < $item1['post_id'] ? -1 : 1;
-                  });
-                  $_SESSION['allPosts'] = $allPosts;
-                  $_SESSION['myPosts'] = $myPosts;
-                  $_SESSION['friendsPosts'] = $friendsPosts;
-          }else {
-              echo "zero rows";
-          }}
+                        }
+                        else {
+                           mysqli_error($conn)."<br>";
+                        }
+                }
+            }
+            $allPosts = array_merge((array)$myPosts, (array)$friendsPosts);
+            usort($allPosts, function ($item1, $item2) {
+            if ($item1['post_id'] == $item2['post_id']) return 0;
+                return $item2['post_id'] < $item1['post_id'] ? -1 : 1;
+            });
+            $_SESSION['allPosts'] = $allPosts;
+            $_SESSION['myPosts'] = $myPosts;
+            $_SESSION['friendsPosts'] = $friendsPosts;
+    }else {
+        echo "zero rows";
+    }}
