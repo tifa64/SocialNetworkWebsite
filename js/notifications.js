@@ -1,4 +1,3 @@
-
 var conn = new WebSocket('ws://localhost:9000');
 
 // Called on establishing the connection
@@ -160,8 +159,5 @@ $(document).ready(function() {
 
 	// ADD YOUR CODE HERE
 	// E.G Capture the "add_friend" event and call conn.send with the required parameters
-
-
-
 
 });

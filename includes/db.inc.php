@@ -11,3 +11,4 @@ catch (PDOException $e)
     include 'error.html.php';
     exit();
 }
+

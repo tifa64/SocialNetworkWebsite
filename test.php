@@ -1,5 +1,3 @@
-
-
 <?php
 	
 	$ini_array = parse_ini_file("config.ini");
@@ -31,5 +29,4 @@
 	</form>
 	<button id="add_friend_test">Add Friend</button>
 	<button id="like_test">Send Like</button>
-
 </body>

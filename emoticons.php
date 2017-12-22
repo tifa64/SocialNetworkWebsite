@@ -10,6 +10,4 @@
 	}
 
 	echo getEmoticons('Hello people :D <br> &#x1f601; My name is karim :) <3 ^_^ ');
-
-
 ?>

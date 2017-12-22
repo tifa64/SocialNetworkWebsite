@@ -30,13 +30,12 @@ function check_phone ($pdo,$phonenumber,$email){
             $s = $pdo->prepare($sql);
             $s->bindValue(':email', $email);
             $s->execute();
-
         }
         catch (PDOException $e){
             $error = 'Error fetching user !' ;
             include  'error.html.php';
             exit();
-            }
+        }
         $SignupError2 = 'Phone-number already exists !';
         unset($_SESSION['loggedIn']);
         unset($_SESSION['username']);
@@ -59,16 +58,19 @@ function setimage ($pdo,$email,$gender){
         $s->execute();
     }
 }
+function get_profile_info ($pdo,$id){
+    global $posts ;
+    global $user_info;
+    $posts=array();
+    $user_info=array();
 
-function get_profile_info ($pdo,$email){
     try {
         $sql='SELECT * FROM posts WHERE  
-          user_id = (SELECT user_id FROM user 
-                      WHERE  email=:email)';
+          user_id = :id';
         $s = $pdo->prepare($sql);
-        $s->bindValue(':email', $email);
+        $s->bindValue(':id', $id);
         $s->execute();
-        }catch (PDOException $e){
+    }catch (PDOException $e){
         $error='canot get posts for profiles !';
         include 'error.html.php';
         exit();}
@@ -76,22 +78,29 @@ function get_profile_info ($pdo,$email){
     foreach ($result as $row){
         $posts[]=array('publicity'=>$row['isPublic'] ,'caption'=>$row['caption'],'time'=>$row['time']);
     }
+
     try {
         $sql='SELECT * FROM user WHERE
-              email=:email';
+              user_id=:id';
         $s=$pdo->prepare($sql);
-        $s->bindValue(':email', $email);
+        $s->bindValue(':id', $id);
         $s->execute();
     }catch (PDOException $e){
         $error='canot get userinfo for profiles !';
         include 'error.html.php';
         exit();}
+
     $result=$s->fetchAll();
-    foreach ($result as $row) {
-        $user_info[] = array('first_name' => $row['first_name'], 'last_name' => $row['last_name'], 'image_url' => $row['image_url']
-        , 'nick_name' => $row['nick_name'], 'birth_date' => $row['birth_date'], 'martial_status' => $row['martial_status']
-        , 'about_me' => $row['about_me'], 'gender' => $row['gender'], 'email' => $row['email'], 'home_town' => $row['home_town']);
-    }}
+    foreach ($result as $row){
+        $user_info[]=array('first_name'=>$row['first_name'] ,'last_name'=>$row['last_name'],'image_url'=>$row['image_url']
+        ,'nick_name'=>$row['nick_name'] ,'birth_date'=>$row['birth_date'],'martial_status'=>$row['martial_status']
+        ,'about_me'=>$row['about_me'],'gender'=>$row['gender'],'email'=>$row['email'],'home_town'=>$row['home_town']);
+
+
+
+}
+$userid=$id;
+include $_SERVER['DOCUMENT_ROOT'] . '/profile.html.php';}
 function display_posts(){
     $servername = "localhost";
     $username = "root";
@@ -102,7 +111,9 @@ function display_posts(){
         die("Connection failed: " . $conn->connect_error);
     }
     $result = $conn->query("SELECT * FROM posts ORDER BY time DESC") ;
-    if ($result->num_rows > 0) {
+
+    if ($result->num_rows > 0){
+
         while($row = $result->fetch_assoc())
         {
             // if the post is public or this post is mine show the posts
@@ -114,30 +125,71 @@ function display_posts(){
                 echo $row['caption']."<br>";
                 if($row['image_url'] != NULL){
                     $img = $row['image_url'];
-                echo '<img src="images/'.$img.'">';
+                    echo '<img src="images/'.$img.'">';
                 }
                 echo "<hr>";
-            } else if ($row['isPublic']== "Private") {
+            }else if ($row['isPublic']== "Private") {
                 // the post is private but the two users are friends
                 $friends = $conn->query("SELECT *
-                                         FROM friendships
-                                         WHERE  user_id1 = ".$row['user_id']." and user_id2 = ".$_SESSION['userid']."
-                                         or (user_id2 = ".$row['user_id']." and user_id1 = ".$_SESSION['userid'].") ");
-               //echo $friends . "here <br>" ;
+                                                 FROM friendships
+                                                 WHERE  user_id1 = ".$row['user_id']." and user_id2 = ".$_SESSION['userid']."
+                                                 or (user_id2 = ".$row['user_id']." and user_id1 = ".$_SESSION['userid'].") ");
+                //echo $friends . "here <br>" ;
                 if ($friends && $friends->num_rows >0) {
-                        $usersinfo = $conn->query("SELECT * FROM user WHERE user_id = '".$row['user_id']."'");
-                        $rowuser = $usersinfo->fetch_assoc();
-                        echo $rowuser['first_name']." ".$rowuser['last_name']."<br>" ;
-                        echo $row['title']."<br>";
-                        echo $row['caption']."<br>";
-                        echo "<hr>";
-                } else {
-                    echo "not friends";
-                    echo  " <br>Query failed: " . mysqli_error($conn)."<br>";
-                }
+                    $usersinfo = $conn->query("SELECT * FROM user WHERE user_id = '".$row['user_id']."'");
+                    $rowuser = $usersinfo->fetch_assoc();
+                    echo $rowuser['first_name']." ".$rowuser['last_name']."<br>" ;
+                    echo $row['title']."<br>";
+                    echo $row['caption']."<br>";
+                    echo "<hr>";
+                }else {echo "not friends";
+                    echo  " <br>Query failed: " . mysqli_error($conn)."<br>";}
             }
         }
-    } else {
+    }else {
         echo "zero rows";
+    }}
+function check_friendship ($pdo,$id1,$id2){
+    try{
+        $sql='SELECT COUNT(*) FROM friendships WHERE (user_id1=:id1 AND user_id2=:id2) OR(user_id1=:id2 AND user_id2=:id1) ';
+        $s=$pdo->prepare($sql);
+        $s->bindValue(':id1', $id1);
+        $s->bindValue(':id2', $id2);
+        $s->execute();
+    }catch (PDOException $e){
+        $error ="cannot check friendships!";
+        include 'error.html.php';
+        exit();
+    }
+    $row = $s->fetch();
+    if ($row[0] > 0){
+        return TRUE ;
+    }
+    else {
+    return FALSE ;
     }
 }
+  function check_pendingfriends ($pdo,$id1,$id2){
+    try{
+        $sql='SELECT COUNT(*) FROM friendships WHERE sender_id=:id1 reciever_id=:id2 ';
+        $s=$pdo->prepare($sql);
+        $s->bindValue(':id1', $id1);
+        $s->bindValue(':id2', $id2);
+        $s->execute();
+    }catch (PDOException $e){
+        $error ="cannot check pending_friends!";
+        include 'error.html.php';
+        exit();
+    }
+    $row = $s->fetch();
+    if ($row[0] > 0){
+        return TRUE ;
+    }
+    else {
+    return FALSE ;
+    }
+}
+
+
+
+
