@@ -51,7 +51,7 @@
         <?php if($info['nick_name'] !== NULL) :?>
             <?php htmlout($info['nick_name']) ?>
         <?php else :?>
-            <?php htmlout($info['first_name'].$user_info['last_name']) ?>
+            <?php htmlout($info['first_name'].$info['last_name']) ?>
         <?php endif; ?>
 
         <?php htmlout($info['birth_date']) ?>
@@ -65,4 +65,3 @@
 </p>
 </body>
 </html>
-0

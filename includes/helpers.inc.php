@@ -175,7 +175,7 @@ function check_friendship ($pdo,$id1,$id2){
 }
   function check_pendingfriends ($pdo,$id1,$id2){
     try{
-        $sql='SELECT COUNT(*) FROM friendships WHERE sender_id=:id1 reciever_id=:id2 ';
+        $sql='SELECT COUNT(*) FROM pending_firends WHERE sender_id=:id1 AND reciever_id=:id2 ';
         $s=$pdo->prepare($sql);
         $s->bindValue(':id1', $id1);
         $s->bindValue(':id2', $id2);
