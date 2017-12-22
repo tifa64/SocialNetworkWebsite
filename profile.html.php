@@ -54,7 +54,7 @@
 //rint_r ((array)$userinfo);
 //print_r(array_values($info));
 $img = $userinfo[0]['image_url'];
-echo '<img src="images/'.$img.'" >';
+echo '<img src="'.$img.'">';
 echo "<br>";
 ?>
 <p id="para1"> First Name: <?php htmlout($userinfo[0]['first_name']); ?></p>
@@ -112,7 +112,7 @@ else {
     <?php
     if (($myPosts[$i]['image_url']) != NULL){
        $image = ($myPosts[$i]['image_url']);
-       echo '<img src ="images/'.$image.'" width=300px height=300px>';
+       echo '<img src ="'.$image.'" width=300px height=300px>';
     }
 
     ?>

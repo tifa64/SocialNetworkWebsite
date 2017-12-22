@@ -9,6 +9,7 @@
 	<title></title>
 </head>
 <body>
+	<?php include $_SERVER['DOCUMENT_ROOT'].$path.'/includes/header.inc.html.php'; ?>
 <form  action ="" method="post" onsubmit=""  id="editprofile">
 	<fieldset>
   	<legend>Edit profile</legend>

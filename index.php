@@ -45,7 +45,7 @@ if (isset($_POST['action']) and $_POST['action'] == 'edit') {
 }
 // for editing profile
 if (isset($_POST['action']) and $_POST['action']== 'editProfile') {
-    include $_SERVER['DOCUMENT_ROOT'].'/includes/db.inc.php';
+    include $_SERVER['DOCUMENT_ROOT'].$path.'/includes/db.inc.php';
     if (isset($_POST['firstname']) and $_POST['firstname']!=NULL) {
         try {
             $sql='UPDATE user
@@ -214,9 +214,11 @@ if (isset($_POST['action']) and $_POST['action']== 'editProfile') {
     if (isset($_POST['fileToUpload']) and $_POST['fileToUpload']!=NULL  ){
         try {
             $sql= "UPDATE user SET  image_url =:url WHERE  email=:email";
-            $_SESSION['url']=$_POST['fileToUpload'];
+            //$_POST['fileToUpload'] = $_POST['fileToUpload'];
+            $imgurl= 'images/'.$_POST['fileToUpload'];
+            $_SESSION['url']='images/'.$_POST['fileToUpload'];
             $s=$pdo->prepare($sql);
-            $s->bindValue(':url',$_POST['fileToUpload']);
+            $s->bindValue(':url',$imgurl);
             $s->bindValue(':email', $_SESSION['email']);
             $s->execute();
         }catch (PDOException $e) {
@@ -238,7 +240,7 @@ if (isset($_POST['action']) and $_POST['action']== 'editProfile') {
         $s->bindValue(':Caption','Here we go');
         $s->bindValue(':Poststate','private');
         $s->bindValue(':user_id',  $_SESSION['userid']);
-        $s->bindValue(':Postimage',$_POST['fileToUpload']);
+        $s->bindValue(':Postimage','images/'.$_POST['fileToUpload']);
         $s->execute();
         }catch (PDOException $e)
         {
@@ -811,7 +813,7 @@ if(isset($_POST['action']) and $_POST['action']=='Posting') {
     exit();
 }
 if(isset($_POST['action']) and $_POST['action']=='DeletePost') {
-  include $_SERVER['DOCUMENT_ROOT'].'/includes/helpers.inc.php';
+  include $_SERVER['DOCUMENT_ROOT'].$path.'/includes/helpers.inc.php';
   deletePost($pdo, $_POST['postid']);
   header('Location: .');
   exit();

@@ -95,11 +95,16 @@ function get_profile_info ($pdo,$id){
         , 'nick_name' => $row['nick_name'], 'birth_date' => $row['birth_date'], 'martial_status' => $row['martial_status']
         , 'about_me' => $row['about_me'], 'gender' => $row['gender'], 'email' => $row['email'], 'home_town' => $row['home_town']);
     }
-    include_once $_SERVER['DOCUMENT_ROOT'] .
-'./profile.html.php';
+      $ini_array = parse_ini_file("config.ini");
+    $path = $ini_array['path'];
+    $userid=$id;
+    include_once $_SERVER['DOCUMENT_ROOT'].$path.'/profile.html.php';
+
   }
     function deletePost($pdo, $post_id) {
-      include $_SERVER['DOCUMENT_ROOT'].'/includes/db.inc.php';
+      $ini_array = parse_ini_file("config.ini");
+    $path = $ini_array['path'];
+      include $_SERVER['DOCUMENT_ROOT'].$path.'/includes/db.inc.php';
     try {
           $sql='DELETE FROM posts WHERE post_id =:post_id';
           $s = $pdo->prepare($sql);
@@ -117,8 +122,8 @@ function get_profile_info ($pdo,$id){
       // $_SESSION['info'] = $user_info[] ;
       function display_posts(){
           $servername = "localhost";
-          $username = "databaseuser";
-          $password = "mypassword";
+          $username = "root";
+          $password = "";
           $dbname = "newdatabase";
           $conn = new mysqli($servername, $username, $password, $dbname);
           if ($conn->connect_error) {

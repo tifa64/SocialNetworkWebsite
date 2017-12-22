@@ -37,7 +37,7 @@ $friendsPosts  = $_SESSION['friendsPosts'];
     <?php
     if (($allPosts[$i]['image_url']) != NULL){
        $image = ($allPosts[$i]['image_url']);
-       echo '<img src ="images/'.$image.'" width=300px height=300px>';
+       echo '<img src ="'.$image.'" width=300px height=300px>';
     }
 
     ?>
