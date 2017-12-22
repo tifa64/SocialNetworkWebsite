@@ -2,15 +2,18 @@
     $ini_array = parse_ini_file("config.ini");
     $path = $ini_array['path']; 
     include_once $_SERVER['DOCUMENT_ROOT'].$path.
-    '/includes/helpers.inc.php'; ?>
-
+    '/includes/helpers.inc.php';
+     ?>
 <!DOCTYPE html>
 <html lang="en">
 <head>
+    <?php include $_SERVER['DOCUMENT_ROOT'].$path.'/includes/notifications.html.php'; 
+    include_once $_SERVER['DOCUMENT_ROOT'].$path.
+    '/includes/header.inc.html.php'; 
+    ?>
     <meta charset="UTF-8">
 </head>
 <body>
-<p><a href="./index.php">HomePage</a></p>
 <?php if (!isset($pending_friends) ):?>
 <p> No FriendRequests YOU ARE LONELY ! </p>
 <?php else :?>
@@ -25,11 +28,7 @@
 
    </div>
 <?php endforeach ; ?>
-
 <?php endif;?>
-    <?php include $_SERVER['DOCUMENT_ROOT'].$path.'/includes/logout.inc.html.php'; ?></p>
-
-
 </table>
 </body>
 </html>

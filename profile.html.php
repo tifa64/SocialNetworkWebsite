@@ -1,18 +1,55 @@
-<?php include $_SERVER['DOCUMENT_ROOT'].'/includes/logout.inc.html.php'; ?></p>
-<?php include_once $_SERVER['DOCUMENT_ROOT'] .
-    '/includes/helpers.inc.php'; ?>
-<?php include $_SERVER['DOCUMENT_ROOT'] . '/includes/poster.inc.html.php'; ?>
-
+<?php
+    $ini_array = parse_ini_file("config.ini");
+    $path = $ini_array['path'];
+     include_once $_SERVER['DOCUMENT_ROOT'].$path.
+    '/includes/helpers.inc.php'; 
+     include_once $_SERVER['DOCUMENT_ROOT'].$path.
+    '/includes/db.inc.php';
+    include_once $_SERVER['DOCUMENT_ROOT'].$path.
+    '/includes/header.inc.html.php'; 
+     include $_SERVER['DOCUMENT_ROOT'] . $path.'/includes/poster.inc.html.php';              
+     ?>
 <!DOCTYPE html>
 <html>
 <head>
-	<title></title>
+  <?php include $_SERVER['DOCUMENT_ROOT'].$path.'/includes/notifications.html.php'; ?>
+    <meta charset="UTF-8">
+    <title>Profile</title>
 </head>
 <body>
 <link rel="stylesheet" type="text/css" href="css/newsfeed.css">
 <form action="" method="post">
 	<input id="editp" type="submit" name="action" value="edit">
 </form>
+  <?php if ($_SESSION['userid'] == $userid): ?>
+    <form  action="./index.php" method="post">
+        <input type="hidden" name="editinfo" value="$_SESSION['email']";?>
+        <input type="submit" name="action" value="editprofile">
+
+    </form>
+    <form  action="./index.php" method="post">
+        <input type="submit" name="action" value="showfriends">
+
+    </form>
+<?php elseif (check_friendship($pdo,$_SESSION['userid'],$userid)) :?>
+<form  action="./index.php" method="post">
+    <input type="hidden" name="newfriend_id" value="<?php htmlout($userid)?>">
+    <input type="submit" name="action" value="Remove Friend">
+</form>
+<?php elseif (check_pendingfriends($pdo,$_SESSION['userid'],$userid)) :?>
+    <form  action="./index.php" method="post">
+    <input type="hidden" name="newfriend_id" value="<?php htmlout($userid)?>">
+    <input type="submit" name="action" value="Cancel Request">
+    </form>
+<?php elseif (check_pendingfriends($pdo,$userid,$_SESSION['userid'])) :?>
+    <p> Please navigate to FriendRequests so that you can accept this request (DONT BE A MEAN MOTHAFAKA)!</p>
+<?php else :?>
+<form  action="./index.php" method="post">
+    <input type="hidden" name="newfriend_id" value="<?php htmlout($userid)?>">
+    <input type="submit" name="action" value="Add Friend">
+</form>
+<?php endif; ?>
+
 <?php
 //rint_r ((array)$userinfo);
 //print_r(array_values($info));
@@ -91,6 +128,5 @@ else {
   <?php echo "<br>";
   echo "<hr>"; ?>
 <?php endfor ?>
-
 </body>
 </html>

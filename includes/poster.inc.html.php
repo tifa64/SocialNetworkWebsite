@@ -1,4 +1,8 @@
-<?php include_once $_SERVER['DOCUMENT_ROOT'] .
+
+<?php
+    $ini_array = parse_ini_file("config.ini");
+    $path = $ini_array['path'];
+     include_once $_SERVER['DOCUMENT_ROOT'].$path.
     '/includes/helpers.inc.php'; ?>
 
 <head>
@@ -6,13 +10,6 @@
     <link rel="stylesheet" type="text/css" href="css/posts.css">
 </head>
 <body>
-<div class="header">
-    <div id = "menu">
-         <form action="?profile" method="get">
-             <input id="profile" type="submit" name="loadprofile" value="<?php htmlout( $_SESSION['nickname']) ?>"><br>
-        </form>
-    </div>
-</div>
 <div class="post" >
     <form action="" method="post">
         Post name* :     <textarea name="Postname" rows="1" cols="80" id="Postname" required ></textarea><br>

@@ -1,6 +1,11 @@
 <!DOCTYPE html>
 <html>
 <head>
+  <?php
+  $ini_array = parse_ini_file("config.ini");     
+  $path = $ini_array['path'];
+  include $_SERVER['DOCUMENT_ROOT'].$path.'/includes/notifications.html.php';
+  ?>
 	<title></title>
 </head>
 <body>

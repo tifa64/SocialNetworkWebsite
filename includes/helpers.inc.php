@@ -30,13 +30,12 @@ function check_phone ($pdo,$phonenumber,$email){
             $s = $pdo->prepare($sql);
             $s->bindValue(':email', $email);
             $s->execute();
-
         }
         catch (PDOException $e){
             $error = 'Error fetching user !' ;
             include  'error.html.php';
             exit();
-            }
+        }
         $SignupError2 = 'Phone-number already exists !';
         unset($_SESSION['loggedIn']);
         unset($_SESSION['username']);
@@ -59,16 +58,18 @@ function setimage ($pdo,$email,$gender){
         $s->execute();
     }
 }
-
-function get_profile_info ($pdo,$email){
+function get_profile_info ($pdo,$id){
+    global $posts ;
+    global $user_info;
+    $posts=array();
+    $user_info=array();
     try {
-        $sql='SELECT * FROM posts WHERE
-          user_id = (SELECT user_id FROM user
-                      WHERE  email=:email)';
+        $sql='SELECT * FROM posts WHERE  
+        user_id = :id';
         $s = $pdo->prepare($sql);
-        $s->bindValue(':email', $email);
+        $s->bindValue(':id', $id);
         $s->execute();
-        }catch (PDOException $e){
+    }catch (PDOException $e){
         $error='canot get posts for profiles !';
         include 'error.html.php';
         exit();}
@@ -76,11 +77,12 @@ function get_profile_info ($pdo,$email){
     foreach ($result as $row){
         $posts[]=array('publicity'=>$row['isPublic'] ,'caption'=>$row['caption'],'time'=>$row['time']);
     }
+
     try {
         $sql='SELECT * FROM user WHERE
-              email=:email';
+              user_id=:id';
         $s=$pdo->prepare($sql);
-        $s->bindValue(':email', $email);
+        $s->bindValue(':id', $id);
         $s->execute();
     }catch (PDOException $e){
         $error='canot get userinfo for profiles !';
@@ -166,3 +168,44 @@ function get_profile_info ($pdo,$email){
           }else {
               echo "zero rows";
           }}
+function check_friendship ($pdo,$id1,$id2){
+    try{
+        $sql='SELECT COUNT(*) FROM friendships WHERE (user_id1=:id1 AND user_id2=:id2) OR(user_id1=:id2 AND user_id2=:id1) ';
+        $s=$pdo->prepare($sql);
+        $s->bindValue(':id1', $id1);
+        $s->bindValue(':id2', $id2);
+        $s->execute();
+    }catch (PDOException $e){
+        $error ="cannot check friendships!";
+        include 'error.html.php';
+        exit();
+    }
+    $row = $s->fetch();
+    if ($row[0] > 0){
+        return TRUE ;
+    }
+    else {
+    return FALSE ;
+    }
+}
+  function check_pendingfriends ($pdo,$id1,$id2){
+    try{
+        $sql='SELECT COUNT(*) FROM pending_firends WHERE sender_id=:id1 AND reciever_id=:id2 ';
+        $s=$pdo->prepare($sql);
+        $s->bindValue(':id1', $id1);
+        $s->bindValue(':id2', $id2);
+        $s->execute();
+    }catch (PDOException $e){
+        $error ="cannot check pending_friends!";
+        include 'error.html.php';
+        exit();
+    }
+    $row = $s->fetch();
+    if ($row[0] > 0){
+
+        return TRUE ;
+    }
+    else {
+    return FALSE ;
+    }
+}

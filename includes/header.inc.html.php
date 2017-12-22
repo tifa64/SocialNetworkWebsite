@@ -16,4 +16,3 @@
 		<li><?php include $_SERVER['DOCUMENT_ROOT'].$path.'/includes/search.inc.html.php'; ?></li>
 	</ul>
 </div>
-

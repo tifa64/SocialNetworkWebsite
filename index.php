@@ -1,3 +1,4 @@
+
 <?php
 /**
  * Created by PhpStorm.
@@ -5,9 +6,38 @@
  * Date: 24/10/17
  * Time: 09:15 م
  */
-include_once $_SERVER['DOCUMENT_ROOT'] .
+$ini_array = parse_ini_file("config.ini");
+$path = $ini_array['path'];
+include_once $_SERVER['DOCUMENT_ROOT'].$path.
     '/includes/magicquotes.inc.php';
 session_start();
+if(isset($_POST['action']) and $_POST['action'] == 'Search') {
+    include 'search_results.php';
+    exit();
+}
+
+if(isset($_POST['action']) and $_POST['action'] == 'clear_notifications') {
+    include 'includes/db.inc.php';
+    $userid = $_POST['userid'];
+    echo 'should mark notifications as seen';
+    try {
+        $sql = "UPDATE notifications SET seen=1 WHERE user_id2=:user_id2" ;
+        $s = $pdo->prepare($sql);
+        $s->bindValue(':user_id2', $userid);
+        $s->execute();
+    }catch (PDOException $e){
+        $error ='Cannot unset notifications';
+        include 'error.html.php';
+        exit();
+    }
+    exit();
+}
+
+if(isset($_POST['action']) and $_POST['action'] == 'Notifications') {
+    include 'notifications_tab.html.php';
+    exit();
+}
+
 
 if (isset($_POST['action']) and $_POST['action'] == 'edit') {
     include 'editprofile.html.php';
@@ -229,12 +259,248 @@ if(isset($_GET['loadprofile']) and  $_SESSION['loggedIn'] == TRUE) {
     get_profile_info($pdo,$_SESSION['email']);
     exit();
 }
-if(isset($_POST['action']) and $_POST['action'] == 'Search') {
-    include 'search_results.php';
+
+if(isset($_POST['action']) and $_POST['action']=='Add Friend'){
+    include $_SERVER['DOCUMENT_ROOT'].$path.'/includes/db.inc.php';
+    include $_SERVER['DOCUMENT_ROOT'].$path.'/includes/helpers.inc.php';
+    try{
+
+
+        $sql='INSERT INTO pending_firends 
+            SET sender_id=:id1 ,reciever_id=:id2,time=CURRENT_TIMESTAMP';
+        $s=$pdo->prepare($sql);
+        $s->bindValue(':id1',$_SESSION['userid']);
+        $s->bindValue(':id2',$_POST['newfriend_id']);
+        $s->execute();
+        }catch (PDOException $e) {
+        $error = "cannot ADD this guy !";
+        include 'error.html.php';
+        exit();
+    }
+
+   get_profile_info($pdo,$_POST['newfriend_id']);
+    exit();
+
+}
+if(isset($_POST['action']) and $_POST['action']=='Remove Friend'){
+    include $_SERVER['DOCUMENT_ROOT'].$path.'/includes/db.inc.php';
+    include $_SERVER['DOCUMENT_ROOT'].$path.'/includes/helpers.inc.php';
+    try{
+
+
+        $sql='DELETE FROM friendships 
+           WHERE (user_id1=:id1 AND user_id2=:id2) OR  (user_id1=:id2 AND user_id2=:id1)';
+        $s=$pdo->prepare($sql);
+        $s->bindValue(':id1',$_SESSION['userid']);
+        $s->bindValue(':id2',$_POST['newfriend_id']);
+        $s->execute();
+    }catch (PDOException $e) {
+        $error = "cannot DELETE this guy !";
+        include 'error.html.php';
+        exit();
+    }
+
+    get_profile_info($pdo,$_POST['newfriend_id']);
+    exit();
+
+}
+if(isset($_POST['action']) and $_POST['action']=='Cancel Request'){
+    include $_SERVER['DOCUMENT_ROOT'].$path.'/includes/db.inc.php';
+    include $_SERVER['DOCUMENT_ROOT'].$path.'/includes/helpers.inc.php';
+
+    try{
+        $sql='DELETE FROM pending_firends 
+          WHERE  sender_id=:id1 AND  reciever_id=:id2';
+        $s=$pdo->prepare($sql);
+        $s->bindValue(':id1',$_SESSION['userid']);
+        $s->bindValue(':id2',$_POST['newfriend_id']);
+        $s->execute();
+    }catch (PDOException $e) {
+        $error = "cannot Cancel Request this guy !";
+        include 'error.html.php';
+        exit();
+    }
+    get_profile_info($pdo,$_POST['newfriend_id']);
+    exit();
+
+}
+if (isset($_POST['action']) and $_POST['action'] == 'edit') {
+    include 'editprofile.html.php';
     exit();
 }
+if (isset($_POST['action']) and $_POST['action']== 'editProfile') {
+    include $_SERVER['DOCUMENT_ROOT'].$path.'/includes/db.inc.php';
+
+    if (isset($_POST['firstname']) and $_POST['firstname']!=NULL)
+        try {
+            $sql='UPDATE user
+                  SET first_name =:firstname
+                  WHERE  email=:email';
+            $s=$pdo->prepare($sql);
+            $s->bindValue(':email',$_SESSION['email']);
+            $s->bindValue(':firstname',$_POST['firstname']);
+            $s->execute();
+        }
+        catch (PDOException $e){
+            $error='cannot update first name';
+            include 'error.html.php';
+            exit();
+        }
+    if (isset($_POST['lastname']) and $_POST['lastname']!=NULL)
+        try {
+            $sql='UPDATE user
+                  SET last_name =:lastname
+                  WHERE  email=:$email';
+            $s=$pdo->prepare($sql);
+            $s->bindValue(':email',$_POST['email']);
+            $s->bindValue(':lastname',$_POST['lastname']);
+            $s->execute();
+        }
+        catch (PDOException $e){
+            $error='cannot update last name';
+            include 'error.html.php';
+            exit();
+        }
+    if (isset($_POST['nickname']) and $_POST['nickname']!=NULL )
+        try {
+            $sql='UPDATE user
+                  SET nick_name =:nickname
+                  WHERE  email=:$email';
+            $s=$pdo->prepare($sql);
+            $s->bindValue(':email',$_POST['email']);
+            $s->bindValue(':nickname',$_POST['nickname']);
+            $s->execute();
+        }
+        catch (PDOException $e){
+            $error='cannot update nickname';
+            include 'error.html.php';
+            exit();
+        }}
+if (isset($_POST['action']) and $_POST['action'] == 'FriendRequests') {
+    include $_SERVER['DOCUMENT_ROOT'].$path.'/includes/db.inc.php';
+    try {
+        $sql='SELECT * FROM pending_firends  WHERE reciever_id=:id ';
+        $s=$pdo->prepare($sql);
+        $s->bindValue(':id',$_SESSION['userid']);
+        $s->execute();
+    }
+    catch (PDOException $e){
+        $error='cannot fetch Requests';
+        include 'error.html.php';
+        exit();
+    }
+
+    $result=$s->fetchAll();
+    foreach ($result as $row){
+        try {
+            $sql='SELECT * FROM user  WHERE user_id=:id ';
+            $s=$pdo->prepare($sql);
+            $s->bindValue(':id',$row['sender_id']);
+            $s->execute();
+        }
+        catch (PDOException $e){
+            $error='cannot fetch Requests';
+            include 'error.html.php';
+            exit();
+        }
+        $row = $s->fetch();
+        if($row['nick_name'] !== NULL){
+            $nickname = $row['nick_name'];}
+        else {
+            $nickname = $row['first_name'] . ' ' . $row['last_name'];}
+        $pending_friends[]=array('sender_name'=>$nickname, 'id'=>$row['user_id']);
+    }
+
+    include 'friendrequests.html.php';
+
+    exit();
+}
+if(isset($_POST['action']) and $_POST['action']=='Decline'){
+    include $_SERVER['DOCUMENT_ROOT'].$path.'/includes/db.inc.php';
+    try {
+        $sql='DELETE FROM pending_firends WHERE  sender_id=:id1 AND  reciever_id=:id2';
+        $s = $pdo->prepare($sql);
+        $s->bindValue(':id1', $_POST['pending_id']);
+        $s->bindValue(':id2', $_SESSION['userid']);
+        $s->execute();
+
+    }catch (PDOException $e){
+        $error ="cannot delete sender id from friendships!";
+        include 'error.html.php';
+        exit();
+    }
+    include 'friendrequests.html.php';
+    exit();
+}
+if(isset($_POST['action']) and $_POST['action']=='Accept'){
+    include $_SERVER['DOCUMENT_ROOT'].$path.'/includes/db.inc.php';
+    try {
+        $sql='DELETE FROM pending_firends WHERE sender_id=:id1 AND  reciever_id=:id2';
+        $s = $pdo->prepare($sql);
+        $s->bindValue(':id1', $_POST['pending_id']);
+        $s->bindValue(':id2', $_SESSION['userid']);
+        $s->execute();
+
+    }catch (PDOException $e){
+        $error ="cannot delete sender id from pendingfriends!";
+        include 'error.html.php';
+        exit();
+    }
+    try {
+        $sql='INSERT INTO friendships SET  
+              user_id1=:id1,user_id2=:id2,time=CURRENT_TIMESTAMP';
+        $s = $pdo->prepare($sql);
+        $s->bindValue(':id1', $_SESSION['userid']);
+        $s->bindValue(':id2', $_POST['pending_id']);
+        $s->execute();
+        }catch (PDOException $e){
+        $error ="cannot insert  ids in friendships!";
+        include 'error.html.php';
+        exit();
+    }
+    include 'friendrequests.html.php';
+    exit();
+}
+if(isset($_GET['action']) and $_GET['action']=="Profile" and  $_SESSION['loggedIn'] == TRUE){
+    include $_SERVER['DOCUMENT_ROOT'].$path.'/includes/db.inc.php';
+    include $_SERVER['DOCUMENT_ROOT'].$path.'/includes/helpers.inc.php';
+
+    get_profile_info($pdo,$_GET['i']);
+    exit();
+}
+if(isset($_POST['action']) and $_POST['action'] == 'showfriends') {
+    global $my_friends;
+    include $_SERVER['DOCUMENT_ROOT'].$path.'/includes/db.inc.php';
+    try
+    {
+        $sql = 'SELECT * FROM user WHERE user_id in (( (SELECT f1.user_id2 FROM friendships f1
+WHERE f1.user_id1=:userid) OR ( SELECT f2.user_id1 FROM friendships f2 WHERE  f2.user_id2=:userid)))';
+        $s = $pdo->prepare($sql);
+        $s->bindValue(':userid', $_SESSION['userid']);
+        $s->execute();
+    }
+    catch (PDOException $e)
+    {
+        $error = 'Error searching for user.';
+        include'error.html.php';
+        exit();
+    }
+
+    $result=$s->fetchAll();
+    foreach ($result as $row){
+        if($row['nick_name'] !== NULL){
+            $nickname = $row['nick_name'];}
+        else {
+            $nickname = $row['first_name'] . ' ' . $row['last_name'];
+        }
+             $my_friends[]=array('friendname'=> $nickname ,'gender'=>$row['gender'],'userid'=>$row['user_id']);
+    }
+    include 'friendlist.html.php';
+    exit();
+}
+
 if (isset($_POST['action']) and $_POST['action'] == 'login') {
-    include $_SERVER['DOCUMENT_ROOT'] . '/includes/db.inc.php';
+    include $_SERVER['DOCUMENT_ROOT'] .$path.'/includes/db.inc.php';
     if(!isset($_POST['email']) or $_POST['email']==' 'or !isset($_POST['password']) or $_POST['password'] == '' ){
         $GLOBALS['SignupError'] = 'Please fill in missing fields';
         include 'registration.html.php';
@@ -254,7 +520,6 @@ if (isset($_POST['action']) and $_POST['action'] == 'login') {
     $row = $s->fetch();
     if ($row['password']==$password)
     {
-
         $_SESSION['loggedIn'] = TRUE;
         $_SESSION['email'] = $_POST['email'];
         $_SESSION['userid'] = $row['user_id'];
@@ -275,8 +540,8 @@ if (isset($_POST['action']) and $_POST['action'] == 'login') {
 // sign up
 if (isset($_POST['action']) and $_POST['action'] == 'SignUp')
 {
-    include $_SERVER['DOCUMENT_ROOT'].'/includes/db.inc.php';
-    include $_SERVER['DOCUMENT_ROOT'] . '/includes/helpers.inc.php';
+    include $_SERVER['DOCUMENT_ROOT'].$path.'/includes/db.inc.php';
+    include $_SERVER['DOCUMENT_ROOT'].$path.'/includes/helpers.inc.php';
     if(!isset($_POST['firstname']) or $_POST['firstname']==' 'or !isset($_POST['password']) or $_POST['password'] == ''
         or !isset($_POST['email']) or $_POST['email'] == ''){
         $GLOBALS['SignupError'] = 'Please fill in missing fields';
@@ -396,7 +661,7 @@ if (isset($_POST['action']) and $_POST['action'] == 'SignUp')
             $s->bindValue(':email',$_POST['email']);
             $s->bindValue(':phonenumber',$_POST['telNo1']);
             $s->execute();
-        }
+           }
         catch (PDOException $e){
             $error='cannot insert phone number 1';
             include 'error.html.php';
@@ -434,7 +699,6 @@ if (isset($_POST['action']) and $_POST['action'] == 'SignUp')
             include 'error.html.php';
             exit();
         }}
-
     $username = '';
     if (isset($_POST['nickname']) and $_POST['nickname']!=NULL ){
         $username=$_POST['nickname'];
@@ -464,7 +728,7 @@ if (isset($_POST['action']) and $_POST['action'] == 'SignUp')
     exit();
 }
 if (isset($_POST['submit']) and $_POST['submit'] == "Upload Image"){
-    include $_SERVER['DOCUMENT_ROOT'].'/includes/db.inc.php';
+    include $_SERVER['DOCUMENT_ROOT'].$path.'/includes/db.inc.php';
     $target_dir = "images/";
     $target_file = $target_dir . basename($_FILES["fileToUpload"]["name"]);
     $uploadOk = 1;
@@ -518,10 +782,9 @@ if (isset($_POST['submit']) and $_POST['submit'] == "Upload Image"){
     include 'newsfeed.html.php';
     exit();
 }
-
 if(isset($_POST['action']) and $_POST['action']=='Posting') {
-    include $_SERVER['DOCUMENT_ROOT'].'/includes/db.inc.php';
-    include $_SERVER['DOCUMENT_ROOT'].'/includes/helpers.inc.php';
+    include $_SERVER['DOCUMENT_ROOT'].$path.'/includes/db.inc.php';
+    include $_SERVER['DOCUMENT_ROOT'].$path.'/includes/helpers.inc.php';
     try{
         $sql ='INSERT INTO posts SET
                 title=:Postname,
@@ -554,7 +817,7 @@ if(isset($_POST['action']) and $_POST['action']=='DeletePost') {
   exit();
 }
 if (isset($_SESSION['loggedIn'])and $_SESSION['loggedIn'] == TRUE){
-    include $_SERVER['DOCUMENT_ROOT'].'/includes/db.inc.php';
+    include $_SERVER['DOCUMENT_ROOT'].$path.'/includes/db.inc.php';
     include 'newsfeed.html.php';
     // FETCHING POSTS AND SAVING THEM THEN LOADING NEWSFEED TEMPLATE
     exit();

@@ -2,14 +2,19 @@
     $ini_array = parse_ini_file("config.ini");
     $path = $ini_array['path']; 
     include_once $_SERVER['DOCUMENT_ROOT'].$path.
-    '/includes/helpers.inc.php'; ?>
+    '/includes/helpers.inc.php';
+include_once $_SERVER['DOCUMENT_ROOT'].$path.
+    '/includes/header.inc.html.php';
+?>
+
 <!DOCTYPE html>
 <html lang="en">
 <head>
+   <?php include $_SERVER['DOCUMENT_ROOT'].$path.'/includes/notifications.html.php'; ?>
     <meta charset="UTF-8">
 </head>
 <body>
-<p><a href="./index.php">HomePage</a></p>
+<?php if (!empty($my_friends)): ?>
 <table>
     <tr >
         <th>Name</th>
@@ -22,14 +27,13 @@
             <td><?php htmlout($friend['gender']) ;    ?></td>
             <input type="hidden" name="i" value="<?php htmlout($friend['userid']);?>">
             <td>
-                <input type="submit" name="action" value="viewprofile"> </td>
+              <input type="submit" name="action" value="Profile"> </td>
         </tr>
     </form>
 <?php endforeach ; ?>
-
-<?php include $_SERVER['DOCUMENT_ROOT'].$path.'/includes/logout.inc.html.php'; ?></p>
-
-
+    <?php else :?>
+    No Friends to show
+<?php endif ;?>
 </table>
 </body>
 </html>

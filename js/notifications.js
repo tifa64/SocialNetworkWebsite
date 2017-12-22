@@ -1,4 +1,3 @@
-
 var conn = new WebSocket('ws://localhost:9000');
 
 // Called on establishing the connection
@@ -11,6 +10,32 @@ conn.onopen = function(e) {
 	conn.send(JSON.stringify(userdata));
 };
 
+function getNotificationsCount(json) {
+	var keys = Object.keys(json);
+	var count = 0;
+	for(key in keys) {
+		if(json[key]['seen'] == 0) {
+			count++;
+		}
+	}
+	console.log("New notifications = " + count);
+	return count;
+}
+
+
+function updateNotificationsCount(json) {
+	console.log(json);
+	var count = getNotificationsCount(json)
+
+	console.log("updateNotificationsCount: " + count);
+	$("#notifications-count").html(count);
+	if(count == 0) {
+		document.getElementById("notifications-count").style.display = "none";
+	} else {
+		document.getElementById("notifications-count").style.display = "block";
+	}
+}
+
 
 // Called when this client receives a message
 conn.onmessage = function(e) {
@@ -19,12 +44,24 @@ conn.onmessage = function(e) {
 	var data = JSON.parse(e.data);
 	var modal = document.getElementById('myModal');
 	modal.style.display = "block";
+	
+	$.ajax({
+		url: 'getNotifications.php',
+		type: 'POST',
+		success: function(response) {
+			//console.log("Notifications.js: " + response);
+			var json = JSON.parse(response);
+	//		console.log(json);
+			updateNotificationsCount(json);
+		}
+	});
+	
 
 	// THIS IS ADDED FOR TESTING PURPOSES AND SHOULD BE REMOVED
 	if(data["msg_type"] === "friend_request_notification")
-		$('.modal-content').html('<h1><a class="link" href="https://localhost:8000/social-network/users/' + data["sender_id"] + '">' + data["sender_name"] + '</a> sent you a friend request</h1>');
+		$('.modal-content').html('<h1><a class="link" href="index.php?i=' + data["sender_id"] + '&action=Profile">' + data["sender_name"] + '</a> sent you a friend request</h1>');
 	else if(data['msg_type'] === "like_notification")
-		$('.modal-content').html('<h1><a class="link" href="https://localhost:8000/social-network/users/' + data["sender_id"] + '">' + data["sender_name"] + '</a> has liked your post </h1>');
+		$('.modal-content').html('<h1><a class="link" href="index.php?i=' + data["sender_id"] + '&action=Profile">' + data["sender_name"] + '</a> has liked your post </h1>');
 	//////////////////////////////////////////////////////////
 	//console.log(JSON.parse(e));
 };
@@ -38,8 +75,21 @@ conn.onerror = function(e) {
 $(document).ready(function() {
 	// Use conn.send whenever you need to send data i.e. added a new user or liked someone's post
 	// conn.send(JSON.stringify({whatever parameters you want}))
-	
-	var ret = $.get('notification.html', function(data) {
+	//$(document).one("ready", updateNotificationsCount());
+
+	$.ajax({
+		url: 'getNotifications.php',
+		type: 'POST',
+		success: function(response) {
+			//console.log("Notifications.js: " + response);
+			var json = JSON.parse(response);
+	//		console.log(json);
+			updateNotificationsCount(json);
+		}
+	});
+
+
+	var ret = $.get('notification_popup.html.php', function(data) {
 		$("body").prepend(data);
 	});
 
@@ -109,8 +159,5 @@ $(document).ready(function() {
 
 	// ADD YOUR CODE HERE
 	// E.G Capture the "add_friend" event and call conn.send with the required parameters
-
-
-
 
 });

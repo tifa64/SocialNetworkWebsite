@@ -1,4 +1,6 @@
 <?php
+	$ini_array = parse_ini_file("config.ini");
+	$path = $ini_array['path'];
 	//echo $_SESSION['userid'];
 	// ONLY USED FOR TESTING PURPOSES AND SHOULD BE REMOVED
 	//$_SESSION['user_id'] = 1;
@@ -11,18 +13,18 @@
 
 <html>
 	<head>
-		<?php include $_SERVER['DOCUMENT_ROOT'].'/includes/notifications.html.php'; ?>
+		<?php include $_SERVER['DOCUMENT_ROOT'].$path.'/includes/notifications.html.php'; ?>
 		<script type="text/javascript" src="js/search_results.js"></script>
 		<link rel="stylesheet"  href="css/search_results.css">
+		<link rel="stylesheet" type="text/css" href="css/navbar.css">
 		<meta charset='utf-8'>
 
 	</head>
 	<body>
-		<div id="search-bar">
-			<form autocomplete="off" id="search-form" action="search.php" method="post">
+		<?php include $_SERVER['DOCUMENT_ROOT'].$path.'/includes/header.inc.html.php'; ?>
+		<form autocomplete="off" id="search-form" action="search.php" method="post">
 				<input type="text" id="search-query" name="query"><br>
-			</form>
-		</div>
+		</form>
 		<div class="tab">
 			<button class="tablinks" id="tab1" onclick="changeTab(event, 'name')">Name</button>
 			<button class="tablinks" id="tab2" onclick="changeTab(event, 'email')">Email</button>
@@ -43,5 +45,6 @@
 		<div id="posts" class="tabcontent">
 
 		</div>
+		
 	</body>
 </html>

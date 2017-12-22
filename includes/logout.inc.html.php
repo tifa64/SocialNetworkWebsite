@@ -1,7 +1,7 @@
-<form action="" method="post">
+<form id="logout-form" action="" method="post">
   <div>
     <input type="hidden" name="action" value="logout">
     <input type="hidden" name="goto" value="/admin/">
-    <input id= "Logout" type="submit" name="action" value="Logout">
+    <input type="submit" name="action" value="Logout">
   </div>
 </form>
