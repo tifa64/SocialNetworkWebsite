@@ -1,14 +1,22 @@
-<?php
-    $ini_array = parse_ini_file("config.ini");
-    $path = $ini_array['path'];
-    include_once $_SERVER['DOCUMENT_ROOT'] .
-    '/social-network/includes/helpers.inc.php'; ?>
+<?php include_once $_SERVER['DOCUMENT_ROOT'] .
+    '/includes/helpers.inc.php'; ?>
 
 <head>
     <title>Social Network</title>
     <link rel="stylesheet" type="text/css" href="css/styleNewsFeed.css">
 </head>
 <body>
+<div class="header">
+    <div id = "menu">
+        <form action=" " method="get" >
+
+                <input type="hidden" name="i" value="<?php htmlout($_SESSION['userid']);?>">
+
+                    <input type="submit" name="action" value="viewprofile"> 
+
+        </form>
+    </div>
+</div>
 
 <div class="post" >
     <form action="" method="post">
@@ -17,11 +25,10 @@
         <input type="radio" name="Poststate" value="public" id="Poststate" checked> Public
         <input type="radio" name="Poststate" value="private" id="Poststate"> Private
         <input type="file" name="Postimage" value="post" id="image">
-        <input type="hidden" name="Userid" value=<?php echo '"'.$_SESSION['userid'].'"';?>>
+        <input type="hidden" name="Userid" value="<?php htmlout($userid);?>">
         <input type="submit" name="action" value="Posting"><br>
     </form>
 </div>
-  <?php display_posts () ;?>
+
 </body>
 </html>
-

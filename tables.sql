@@ -46,7 +46,6 @@ CREATE TABLE  notifications (
 CREATE  TABLE  friendships (
   user_id1 INT NOT NULL,
   user_id2 INT NOT NULL,
-  relationship VARCHAR(255),
   time DATETIME NOT NULL ,
   PRIMARY KEY (user_id1,user_id2),
   FOREIGN KEY (user_id1) REFERENCES  user(user_id)
@@ -72,5 +71,6 @@ CREATE  TABLE pending_firends(
   FOREIGN KEY (sender_id) REFERENCES  user(user_id)
     ON DELETE  CASCADE  ON UPDATE  CASCADE,
   FOREIGN KEY (reciever_id) REFERENCES  user(user_id)
-    ON DELETE  CASCADE  ON UPDATE  CASCADE
+    ON DELETE  CASCADE  ON UPDATE  CASCADE,
+  PRIMARY KEY(sender_id,reciever_id)
 )DEFAULT CHARACTER SET utf8 ENGINE =InnoDB;

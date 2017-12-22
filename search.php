@@ -10,8 +10,8 @@
 
 	// Set up the connection to the database
 	$servername = "localhost";
-	$db_username   = "root";
-	$db_password   = "";
+	$db_username   = "databaseuser";
+	$db_password   = "mypassword";
 	$dbname     = "newdatabase";
 
 	$conn = new mysqli($servername, $db_username, $db_password, $dbname);
