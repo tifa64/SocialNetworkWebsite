@@ -5,6 +5,8 @@
  * Date: 19/10/17
  * Time: 12:07 ص
  */
+
+
 function html($text){
     return htmlspecialchars($text,ENT_QUOTES,'utf-8');
 }
@@ -99,8 +101,11 @@ function get_profile_info ($pdo,$id){
 
 
 }
+
 $userid=$id;
-include $_SERVER['DOCUMENT_ROOT'] . '/profile.html.php';}
+$ini_array = parse_ini_file("config.ini");
+$path = $ini_array['path'];
+include $_SERVER['DOCUMENT_ROOT'].$path.'/profile.html.php';}
 function display_posts(){
     $servername = "localhost";
     $username = "root";
@@ -171,7 +176,7 @@ function check_friendship ($pdo,$id1,$id2){
 }
   function check_pendingfriends ($pdo,$id1,$id2){
     try{
-        $sql='SELECT COUNT(*) FROM friendships WHERE sender_id=:id1 reciever_id=:id2 ';
+        $sql='SELECT COUNT(*) FROM pending_firends WHERE sender_id=:id1 AND reciever_id=:id2 ';
         $s=$pdo->prepare($sql);
         $s->bindValue(':id1', $id1);
         $s->bindValue(':id2', $id2);
@@ -183,6 +188,7 @@ function check_friendship ($pdo,$id1,$id2){
     }
     $row = $s->fetch();
     if ($row[0] > 0){
+
         return TRUE ;
     }
     else {

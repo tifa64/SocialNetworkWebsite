@@ -59,9 +59,9 @@ conn.onmessage = function(e) {
 
 	// THIS IS ADDED FOR TESTING PURPOSES AND SHOULD BE REMOVED
 	if(data["msg_type"] === "friend_request_notification")
-		$('.modal-content').html('<h1><a class="link" href="index.php?i=' + data["sender_id"] + '&action=viewprofile">' + data["sender_name"] + '</a> sent you a friend request</h1>');
+		$('.modal-content').html('<h1><a class="link" href="index.php?i=' + data["sender_id"] + '&action=Profile">' + data["sender_name"] + '</a> sent you a friend request</h1>');
 	else if(data['msg_type'] === "like_notification")
-		$('.modal-content').html('<h1><a class="link" href="index.php?i=' + data["sender_id"] + '&action=viewprofile">' + data["sender_name"] + '</a> has liked your post </h1>');
+		$('.modal-content').html('<h1><a class="link" href="index.php?i=' + data["sender_id"] + '&action=Profile">' + data["sender_name"] + '</a> has liked your post </h1>');
 	//////////////////////////////////////////////////////////
 	//console.log(JSON.parse(e));
 };

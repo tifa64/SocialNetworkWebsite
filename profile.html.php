@@ -1,15 +1,21 @@
-<?php include_once $_SERVER['DOCUMENT_ROOT'] .
-    '/includes/helpers.inc.php'; ?>
-<?php include_once $_SERVER['DOCUMENT_ROOT'] .
-    '/includes/db.inc.php'; ?>
+<?php
+    $ini_array = parse_ini_file("config.ini");
+    $path = $ini_array['path'];
+     include_once $_SERVER['DOCUMENT_ROOT'].$path.
+    '/includes/helpers.inc.php'; 
+     include_once $_SERVER['DOCUMENT_ROOT'].$path.
+    '/includes/db.inc.php';
+include_once $_SERVER['DOCUMENT_ROOT'].$path.
+'/includes/header.inc.html.php'; ?>
 <!DOCTYPE html>
 <html lang="en">
 <head>
+    <?php include $_SERVER['DOCUMENT_ROOT'].$path.'/includes/notifications.html.php'; ?>
+
     <meta charset="UTF-8">
     <title>Profile</title>
 </head>
 <body>
-<p><a href="./index.php">HomePage</a></p>
 <?php if ($_SESSION['userid'] == $userid): ?>
     <form  action="./index.php" method="post">
         <input type="hidden" name="editinfo" value="$_SESSION['email']";?>
@@ -21,7 +27,10 @@
 
     </form>
 <?php elseif (check_friendship($pdo,$_SESSION['userid'],$userid)) :?>
-    <input type="button" value="Friends" disabled="disabled">
+<form  action="./index.php" method="post">
+    <input type="hidden" name="newfriend_id" value="<?php htmlout($userid)?>">
+    <input type="submit" name="action" value="Remove Friend">
+</form>
 <?php elseif (check_pendingfriends($pdo,$_SESSION['userid'],$userid)) :?>
     <form  action="./index.php" method="post">
     <input type="hidden" name="newfriend_id" value="<?php htmlout($userid)?>">
@@ -35,20 +44,25 @@
     <input type="submit" name="action" value="Add Friend">
 </form>
 <?php endif; ?>
-<?php include $_SERVER['DOCUMENT_ROOT'].'/includes/logout.inc.html.php'; ?>
+<?php include $_SERVER['DOCUMENT_ROOT'].$path.'/includes/logout.inc.html.php'; ?>
+
+<?php if(!(empty($posts))): ?>
 <?php foreach ($posts as $post): ?>
 <p><?php htmlout($post['caption']) ?>
     <br/>
     <?php htmlout($post['time']) ?><br/>
+    <?php endforeach ; ?>
 
 </p>
+    <?php else : ?>
+<p> NO posts to show </p>
+<?php endif; ?>
 <p>
-    <?php endforeach ; ?>
     <?php foreach ($user_info   as $info): ?>
         <?php if($info['nick_name'] !== NULL) :?>
             <?php htmlout($info['nick_name']) ?>
         <?php else :?>
-            <?php htmlout($info['first_name'].$user_info['last_name']) ?>
+            <?php htmlout($info['first_name'].$info['last_name']) ?>
         <?php endif; ?>
 
         <?php htmlout($info['birth_date']) ?>
@@ -62,4 +76,3 @@
 </p>
 </body>
 </html>
-0

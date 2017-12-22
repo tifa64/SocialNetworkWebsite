@@ -1,7 +1,8 @@
 <!DOCTYPE html>
 <html>
 <head>
-	<title></title>
+   <?php include $_SERVER['DOCUMENT_ROOT'].$path.'/includes/notifications.html.php';?>
+    <title></title>
 </head>
 <body>
 <form  action ="" method="post"   id="editprofile">
