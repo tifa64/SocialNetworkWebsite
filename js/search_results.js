@@ -1,5 +1,4 @@
 var currentTab;
-
 function updateContent(json) {
 	var already_here = [];
 	var keys = Object.keys(json);
@@ -43,7 +42,10 @@ function updateContent(json) {
 
 function createUserEntry(user) {
 	var element = '<div id="' + user['user_id'] + '" class="search_result">';
-	element += '<h2>' + user['fname'] + ' ' + user['lname'] + '</h2>';
+	if(!user['nickname'])
+		element += '<h2>' + user['fname'] + ' ' + user['lname'] + '</h2>';
+	else
+		element += '<h2>' + user['nickname'] + '</h2>';
 	element += '<img src="' + user['image_url'] + '" width=75 height=75/>';
 
 	element += "</div>";
@@ -84,11 +86,15 @@ function formatDate(date) {
 function createPostEntry(post) {
 	var element = '<div id="' + post['post_id'] + '" class="search_result_post">';
 	element += '<div class="container"><img class="profile_picture" src="' + post['image_url'] + '" width=50 height=50/>';
-	element += '<h3 class="name"><a href="https://localhost:8000/social-network/users/' + post['user_id'] + '">' + post['fname'] + ' ' + post['lname'] + '</a></h3>';
+	element += '<h3 class="name"><a href="index.php?i=' + post['user_id'] + '&action=viewprofile">'
+	if(!post['nickname'])
+		element += post['fname'] + ' ' + post['lname'];
+	else
+		element += post['nickname'];
+	element += '</a></h3>';
 	element += '<h6 class="post_date">' + formatDate(post['time']) + '</h6></div>';
 	element += '<p>' + post['content'] + '</p>';
 	element += '</div>';
-
 	return element; 
 }
 
@@ -196,8 +202,7 @@ $(document).ready(function(){
 	$("div").click(function(e) {
 		if(e.target.className === "search_result") {
 			if(currentTab !== "posts") {
-				console.log(e.target.id);
-				window.location.href = 'users/' + e.target.id;
+				window.location.href = 'index.php?i=' + e.target.id + '&action=viewprofile';
 			}
 		}
 	});

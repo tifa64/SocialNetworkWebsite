@@ -103,15 +103,17 @@ $userid=$id;
 include $_SERVER['DOCUMENT_ROOT'] . '/profile.html.php';}
 function display_posts(){
     $servername = "localhost";
-    $username = "databaseuser";
-    $password = "mypassword";
+    $username = "root";
+    $password = "";
     $dbname = "newdatabase";
     $conn = new mysqli($servername, $username, $password, $dbname);
     if ($conn->connect_error) {
         die("Connection failed: " . $conn->connect_error);
     }
     $result = $conn->query("SELECT * FROM posts ORDER BY time DESC") ;
+
     if ($result->num_rows > 0){
+
         while($row = $result->fetch_assoc())
         {
             // if the post is public or this post is mine show the posts
@@ -167,3 +169,27 @@ function check_friendship ($pdo,$id1,$id2){
     return FALSE ;
     }
 }
+  function check_pendingfriends ($pdo,$id1,$id2){
+    try{
+        $sql='SELECT COUNT(*) FROM friendships WHERE sender_id=:id1 reciever_id=:id2 ';
+        $s=$pdo->prepare($sql);
+        $s->bindValue(':id1', $id1);
+        $s->bindValue(':id2', $id2);
+        $s->execute();
+    }catch (PDOException $e){
+        $error ="cannot check pending_friends!";
+        include 'error.html.php';
+        exit();
+    }
+    $row = $s->fetch();
+    if ($row[0] > 0){
+        return TRUE ;
+    }
+    else {
+    return FALSE ;
+    }
+}
+
+
+
+

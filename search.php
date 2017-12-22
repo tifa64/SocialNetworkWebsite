@@ -10,8 +10,8 @@
 
 	// Set up the connection to the database
 	$servername = "localhost";
-	$db_username   = "databaseuser";
-	$db_password   = "mypassword";
+	$db_username   = "root";
+	$db_password   = "";
 	$dbname     = "newdatabase";
 
 	$conn = new mysqli($servername, $db_username, $db_password, $dbname);
@@ -30,7 +30,7 @@
 			if ($num_rows > 0) {
 		       	for($i = 0; $i < $num_rows; $i++) {
 			    		$row = mysqli_fetch_assoc($result);
-			    		array_push($users, array("user_id" => $row['user_id'], "fname" => $row['first_name'], "lname" => $row['last_name'], "image_url" => $row['image_url'], "type" => "email"));
+			    		array_push($users, array("user_id" => $row['user_id'], "fname" => $row['first_name'], "lname" => $row['last_name'], "image_url" => $row['image_url'], "type" => "email", "nickname" => $row['nick_name']));
 			    		#echo $row["last_name"].'<br>';
 	    		}
 	    		echo json_encode($users, JSON_FORCE_OBJECT);
@@ -63,7 +63,7 @@
 			if ($num_rows > 0) {
 		       	for($i = 0; $i < $num_rows; $i++) {
 			    		$row = mysqli_fetch_assoc($result);
-			    		array_push($users, array("user_id" => $row['user_id'], "fname" => $row['first_name'], "lname" => $row['last_name'], "image_url" => $row['image_url']));
+			    		array_push($users, array("user_id" => $row['user_id'], "fname" => $row['first_name'], "lname" => $row['last_name'], "image_url" => $row['image_url'], "nickname" => $row['nick_name']));
 			    		#echo $row["last_name"].'<br>';
 	    		}
 		    }
@@ -74,12 +74,13 @@
 		    	if($num_rows > 0) {
 		    		for($i = 0; $i < $num_rows; $i++) {
 			    		$row = mysqli_fetch_assoc($result);
-			    		array_push($users, array("user_id" => $row['user_id'], "fname" => $row['first_name'], "lname" => $row['last_name'], "image_url" => $row['image_url']));
+			    		array_push($users, array("user_id" => $row['user_id'], "fname" => $row['first_name'], "lname" => $row['last_name'], "image_url" => $row['image_url'], "nickname" => $row['nick_name']));
 			    		#echo $row["first_name"].'<br>';
 			    		#echo $row["last_name"].'<br>';
 		    		}
 		    	}
-		    } 
+		    }
+		    $num_rows = mysqli_num_rows($result); 
 		    if(sizeof($users) > 0)
 		    	echo json_encode($users, JSON_FORCE_OBJECT);
 		    
@@ -93,7 +94,7 @@
 		    	for($i = 0; $i < $num_rows; $i++) {
 		    		$row = mysqli_fetch_assoc($result);
 
-		    		array_push($users, array("user_id" => $row['user_id'], "fname" => $row['first_name'], "lname" => $row['last_name'], "image_url" => $row['image_url']));
+		    		array_push($users, array("user_id" => $row['user_id'], "fname" => $row['first_name'], "lname" => $row['last_name'], "image_url" => $row['image_url'], "nickname" => $row['nick_name']));
 
 		    		#echo $row["user_id"].'<br>';
 		    		#echo $row["first_name"].'<br>';
@@ -111,7 +112,7 @@
 		    if($num_rows > 0) {
 		    	for($i = 0; $i < $num_rows; $i++) {
 			    		$row = mysqli_fetch_assoc($result);
-			    		array_push($posts, array("content" => $row['caption'], "time" => $row['time'], "fname" => $row['first_name'], "lname" => $row['last_name'], "image_url" => $row['image_url'], "post_id" => $row['post_id'], "user_id" => $row['user_id']));
+			    		array_push($posts, array("content" => $row['caption'], "time" => $row['time'], "fname" => $row['first_name'], "lname" => $row['last_name'], "image_url" => $row['image_url'], "post_id" => $row['post_id'], "user_id" => $row['user_id'], "nickname" => $row['nick_name']));
 	    		}
 	    		if(sizeof($posts) > 0)
 		    		echo json_encode($posts, JSON_FORCE_OBJECT);	
