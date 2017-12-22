@@ -37,6 +37,7 @@ CREATE TABLE  notifications (
   user_id1 INT,
   user_id2 INT,
   seen BOOLEAN DEFAULT 0,
+  notifiation_type varchar(30) NOT NULL,
   FOREIGN KEY (user_id1) REFERENCES  user(user_id)
     ON DELETE  CASCADE  ON UPDATE  CASCADE,
   FOREIGN KEY (user_id2) REFERENCES  user(user_id)
