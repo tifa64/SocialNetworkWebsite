@@ -6,9 +6,9 @@
 ?>
 <div class="header">
 	<ul id="left-list">
-        <li><a href='../index.php'>Home</a></li>
+        <li><a href=<?php echo '"'.$path.'"'?>>Home</a></li>
         <li><form action="./index.php" method="get"><input type="hidden" name="i" value="<?php htmlout($_SESSION['userid']);?>"><input type="submit" name="action" value="Profile"></form></li>
-        <li><form action="" method="post"><div><input type="submit" name="action" value="Notifications"><span id="notifications-count"></span></div></form></li>
+        <li><form action="" method="post"><div><input type="submit" name="action" value="Notifications"><span id="notifications-count">0</span></div></form></li>
         <li><form action="" method="post"><input type="submit" name="action" value="FriendRequests"></form></li>
 	</ul>
 	<ul id="right-list">

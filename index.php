@@ -89,6 +89,7 @@ if(isset($_POST['action']) and $_POST['action']=='Remove Friend'){
 if(isset($_POST['action']) and $_POST['action']=='Cancel Request'){
     include $_SERVER['DOCUMENT_ROOT'].$path.'/includes/db.inc.php';
     include $_SERVER['DOCUMENT_ROOT'].$path.'/includes/helpers.inc.php';
+
     try{
         $sql='DELETE FROM pending_firends 
           WHERE  sender_id=:id1 AND  reciever_id=:id2';

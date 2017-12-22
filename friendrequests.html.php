@@ -3,7 +3,7 @@
     $path = $ini_array['path']; 
     include_once $_SERVER['DOCUMENT_ROOT'].$path.
     '/includes/helpers.inc.php';
-include_once $_SERVER['DOCUMENT_ROOT'].$path.
+     include_once $_SERVER['DOCUMENT_ROOT'].$path.
     '/includes/header.inc.html.php'; ?>
 
 <!DOCTYPE html>

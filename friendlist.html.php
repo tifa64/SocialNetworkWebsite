@@ -5,8 +5,8 @@
     '/includes/helpers.inc.php';
 include_once $_SERVER['DOCUMENT_ROOT'].$path.
     '/includes/header.inc.html.php';
-include $_SERVER['DOCUMENT_ROOT'].$path.'/includes/notifications.html.php';
 ?>
+
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -32,6 +32,7 @@ include $_SERVER['DOCUMENT_ROOT'].$path.'/includes/notifications.html.php';
         </tr>
     </form>
 <?php endforeach ; ?>
+
     <?php else :?>
     No Friends to show
 <?php endif ;?>

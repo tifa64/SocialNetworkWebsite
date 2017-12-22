@@ -5,8 +5,9 @@
     '/includes/helpers.inc.php'; 
      include_once $_SERVER['DOCUMENT_ROOT'].$path.
     '/includes/db.inc.php';
-include_once $_SERVER['DOCUMENT_ROOT'].$path.
-'/includes/header.inc.html.php'; ?>
+    include_once $_SERVER['DOCUMENT_ROOT'].$path.
+    '/includes/header.inc.html.php'; ?>
+
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -47,6 +48,7 @@ include_once $_SERVER['DOCUMENT_ROOT'].$path.
 <?php include $_SERVER['DOCUMENT_ROOT'].$path.'/includes/logout.inc.html.php'; ?>
 
 <?php if(!(empty($posts))): ?>
+
 <?php foreach ($posts as $post): ?>
 <p><?php htmlout($post['caption']) ?>
     <br/>
