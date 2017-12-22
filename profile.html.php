@@ -21,15 +21,12 @@
 </head>
 <body>
 <link rel="stylesheet" type="text/css" href="css/newsfeed.css">
-<form action="" method="post">
-	<input id="editp" type="submit" name="action" value="edit">
-</form>
-  <?php if ($_SESSION['userid'] == $userid): ?>
-    <form  action="./index.php" method="post">
-        <input type="hidden" name="editinfo" value="$_SESSION['email']";?>
-        <input type="submit" name="action" value="editprofile">
 
-    </form>
+  <?php if ($_SESSION['userid'] == $userid): ?>
+    <form action="" method="post">
+  <input id="editp" type="submit" name="action" value="edit">
+  </form>
+  
     <form  action="./index.php" method="post">
         <input type="submit" name="action" value="showfriends">
 
