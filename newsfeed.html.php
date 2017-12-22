@@ -33,7 +33,7 @@ $friendsPosts  = $_SESSION['friendsPosts'];
     <?php
     $caption = ($allPosts[$i]['caption']);
     ?>
-    <p id="para3"><?php htmlout($caption)?></p>
+    <p id="para3"><?php echo $caption; ?></p>
     <?php
     if (($allPosts[$i]['image_url']) != NULL){
        $image = ($allPosts[$i]['image_url']);

@@ -28,8 +28,7 @@
   </form>
   
     <form  action="./index.php" method="post">
-        <input type="submit" name="action" value="showfriends">
-
+        <input id="editp" type="submit" name="action" value="showfriends">
     </form>
 <?php elseif (check_friendship($pdo,$_SESSION['userid'],$userid)) :?>
 <form  action="./index.php" method="post">
@@ -67,6 +66,7 @@ else {
   htmlout('');
 } ?>
 </p>
+<?php if (check_friendship($pdo,$_SESSION['userid'],$userid)) :?>
 <p id="para2"> Birthday: <?php
 if (($userinfo[0]['birth_date']) != "0000-00-00"){
     htmlout($userinfo[0]['birth_date']);
@@ -75,6 +75,7 @@ else {
   htmlout('');
 } ?>
 </p>
+<?php endif ?>
 <p id="para2"> Martial Status: <?php
 if (!is_null($userinfo[0]['martial_status'])){
     htmlout($userinfo[0]['martial_status']);
@@ -83,6 +84,7 @@ else {
   htmlout('');
 } ?>
 </p>
+<?php if (check_friendship($pdo,$_SESSION['userid'],$userid)) :?>
 <p id="para3"> About Me: <?php
 if (($userinfo[0]['about_me']) != "Here you go ..."){
     htmlout($userinfo[0]['about_me']);
@@ -91,6 +93,7 @@ else {
   htmlout('I am NOT interesting enough');
 } ?>
 </p>
+<?php endif; ?>
 <p id="para3"> Gender : <?php htmlout($userinfo[0]['gender']); ?></p>
 <p id="para3"> Home Town : <?php htmlout($userinfo[0]['home_town']); ?></p>
 

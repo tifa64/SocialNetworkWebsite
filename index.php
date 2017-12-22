@@ -795,8 +795,8 @@ if(isset($_POST['action']) and $_POST['action']=='Posting') {
                 time=CURRENT_TIMESTAMP
                 ';
         $s=$pdo->prepare($sql);
-        $s->bindValue(':Postname',$_POST['Postname']);
-        $s->bindValue(':Caption',$_POST['Caption']);
+        $s->bindValue(':Postname',getEmoticons($_POST['Postname']));
+        $s->bindValue(':Caption',getEmoticons($_POST['Caption']));
         $s->bindValue(':Poststate',$_POST['Poststate']);
         $s->bindValue(':user_id',  $_SESSION['userid']);
         $s->bindValue(':Postimage',$_POST['Postimage']);

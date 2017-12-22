@@ -18,8 +18,10 @@
   font-family: "Lucida Sans Unicode", "Lucida Grande", sans-serif;
   font-style: italic;
   font-size: 12px;
+  color:black;
+  font-weight: bold;
 }
-#DeletePost, #Logout ,#editp {
+#DeletePost, #Logout ,#editp, #showfriends-button {
     background-color: #555555; /* Green */
     border: none;
     color: white;
