@@ -1,6 +1,8 @@
 <?php
-	include_once $_SERVER['DOCUMENT_ROOT'].
-    '/social-network/includes/magicquotes.inc.php';
+	$ini_array = parse_ini_file("config.ini");
+	$path = $ini_array['path'];
+	include_once $_SERVER['DOCUMENT_ROOT']
+    .$path.'/includes/magicquotes.inc.php';
 	
 	session_start();
 

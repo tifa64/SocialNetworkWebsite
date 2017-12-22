@@ -22,7 +22,7 @@
             <td><?php htmlout($friend['gender']) ;    ?></td>
             <input type="hidden" name="i" value="<?php htmlout($friend['userid']);?>">
             <td>
-                <input type="submit" name="action" value="viewprofile"> </td>
+                <input type="submit" name="action" value="Profile"> </td>
         </tr>
     </form>
 <?php endforeach ; ?>
