@@ -56,7 +56,6 @@ conn.onmessage = function(e) {
 		}
 	});
 	
-
 	// THIS IS ADDED FOR TESTING PURPOSES AND SHOULD BE REMOVED
 	if(data["msg_type"] === "friend_request_notification")
 		$('.modal-content').html('<h1><a class="link" href="index.php?i=' + data["sender_id"] + '&action=Profile">' + data["sender_name"] + '</a> sent you a friend request</h1>');
@@ -159,5 +158,13 @@ $(document).ready(function() {
 
 	// ADD YOUR CODE HERE
 	// E.G Capture the "add_friend" event and call conn.send with the required parameters
-
+	$("#add-friend-form").click(function() {
+		var userdata = {
+			id: user_id, // Should be set to the id of the sending user
+			msg_type: 'friend_request_notification',
+			full_name: user_full_name,
+			recepient_id: recepient_id
+		}
+		conn.send(JSON.stringify(userdata));
+	});
 });

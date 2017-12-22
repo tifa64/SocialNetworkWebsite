@@ -15,6 +15,9 @@
   <?php include $_SERVER['DOCUMENT_ROOT'].$path.'/includes/notifications.html.php'; ?>
     <meta charset="UTF-8">
     <title>Profile</title>
+    <script type="text/javascript">
+      var recepient_id = <?php echo $userid; ?>;
+    </script>
 </head>
 <body>
 <link rel="stylesheet" type="text/css" href="css/newsfeed.css">
@@ -44,7 +47,7 @@
 <?php elseif (check_pendingfriends($pdo,$userid,$_SESSION['userid'])) :?>
     <p> Please navigate to FriendRequests so that you can accept this request (DONT BE A MEAN MOTHAFAKA)!</p>
 <?php else :?>
-<form  action="./index.php" method="post">
+<form  id="add-friend-form" action="./index.php" method="post">
     <input type="hidden" name="newfriend_id" value="<?php htmlout($userid)?>">
     <input type="submit" name="action" value="Add Friend">
 </form>

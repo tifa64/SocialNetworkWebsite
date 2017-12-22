@@ -21,7 +21,7 @@ session_start();
 	}
 	// U1 sender
 	// U2 receiver
-	$get_notifcations_query = "SELECT N.seen ,user_id1, user_id2, U1.image_url AS sender_image_url, U1.nick_name AS sender_nick_name, U1.first_name AS sender_first_name, U1.last_name AS sender_last_name FROM notifications AS N, user AS U1, user AS U2 WHERE N.user_id1=U1.user_id AND N.user_id2=U2.user_id AND U2.user_id='$userid'";
+	$get_notifcations_query = "SELECT N.seen ,N.notification_type, user_id1, user_id2, U1.image_url AS sender_image_url, U1.nick_name AS sender_nick_name, U1.first_name AS sender_first_name, U1.last_name AS sender_last_name FROM notifications AS N, user AS U1, user AS U2 WHERE N.user_id1=U1.user_id AND N.user_id2=U2.user_id AND U2.user_id='$userid'";
 	$result = $conn->query($get_notifcations_query);
 	$num_rows = mysqli_num_rows($result);
 	$notifications = array();
@@ -33,7 +33,7 @@ session_start();
 		} else {
 			$username = $row["sender_first_name"].' '.$row["sender_last_name"];
 		}
-		array_push($notifications, array("sender_id" => $row["user_id1"], "receiver_id" => $row['user_id2'], "sender_username" => $username, "sender_image_url" => $row['sender_image_url'], "seen" => $row['seen']));
+		array_push($notifications, array("sender_id" => $row["user_id1"], "receiver_id" => $row['user_id2'], "sender_username" => $username, "sender_image_url" => $row['sender_image_url'], "seen" => $row['seen'], "notification_type" => $row['notification_type']));
 	}
 	echo json_encode($notifications);
 

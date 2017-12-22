@@ -267,12 +267,17 @@ if(isset($_POST['action']) and $_POST['action']=='Add Friend'){
     include $_SERVER['DOCUMENT_ROOT'].$path.'/includes/helpers.inc.php';
     try{
 
-
+        $sql2= 'INSERT INTO notifications SET user_id1=:id1, user_id2=:id2, seen=0, notification_type="friend_request_notification"';
         $sql='INSERT INTO pending_firends 
             SET sender_id=:id1 ,reciever_id=:id2,time=CURRENT_TIMESTAMP';
         $s=$pdo->prepare($sql);
+
         $s->bindValue(':id1',$_SESSION['userid']);
         $s->bindValue(':id2',$_POST['newfriend_id']);
+        $s->execute();
+        $s=$pdo->prepare($sql2);
+        $s->bindValue(':id1', $_SESSION['userid']);
+        $s->bindValue(':id2', $_POST['newfriend_id']);
         $s->execute();
         }catch (PDOException $e) {
         $error = "cannot ADD this guy !";
@@ -475,8 +480,7 @@ if(isset($_POST['action']) and $_POST['action'] == 'showfriends') {
     include $_SERVER['DOCUMENT_ROOT'].$path.'/includes/db.inc.php';
     try
     {
-        $sql = 'SELECT * FROM user WHERE user_id in (( (SELECT f1.user_id2 FROM friendships f1
-WHERE f1.user_id1=:userid) OR ( SELECT f2.user_id1 FROM friendships f2 WHERE  f2.user_id2=:userid)))';
+        $sql = 'SELECT * FROM user WHERE user_id in (SELECT user_id2 FROM friendships WHERE user_id1=:userid UNION SELECT user_id1 FROM friendships WHERE user_id2=:userid)';
         $s = $pdo->prepare($sql);
         $s->bindValue(':userid', $_SESSION['userid']);
         $s->execute();

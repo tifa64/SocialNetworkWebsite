@@ -1,7 +1,11 @@
 function createLikeNotificationEntry(notification){
 	var element = '<div class="notification_entry"><img class ="profile_picture" src="';
 	element += notification['sender_image_url'] + '" width=30 height=30>';
-	element += '<h3>' + notification["sender_username"] + ' <span>liked your post</span></h3>';
+	element += '<h3>' + notification["sender_username"];
+	if(notification['notification_type'] == 'friend_request_notification')
+		element += ' <span>sent you a friend request</span></h3>';
+	else			
+		element += ' <span>liked your post</span></h3>';
 	element += '</div>';
 
 	return element;
