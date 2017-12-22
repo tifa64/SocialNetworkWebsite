@@ -1,54 +1,9 @@
-
-.header {
-	background-color :#4F4F4F;
-	height: 44px;
-	border-bottom: 0px;
-	padding-left: auto;
-	padding-right: auto;
-	width: 100%;
-}
-.searchbox {
-
-	position: absolute;
-	top: 8px;
-	margin-left: 135px;
-	padding-top: 0px;
-
-}
-#search input[type="text"]{
-	border: 0 none;
-	padding: 6px 10px 6px 20px;
-	background-color: white;
-}
-#menu{
-	background-color: #4F4F4F;
-	position: absolute;
-	top: 0px;
-	right: 0px;
-	height: 30px;
-	padding-top: 12px;
-	margin-right: 4%;
-}
-
-#menu a{
-	color: white;
-	text-decoration: none;
-	font-size: 14px;
-	background-color: #4F4F4F;
-	background-repeat: no-repeat;
-	padding-top: 10px;
-	padding-bottom: 14px;
-	padding-left: 10px;
-	padding-right: 10px;
-}
-#menu a:hover {
-	color: #8C8C8C;
-}
 .post{
 	margin-top: 20px;
 	margin-left: 30%;
 	font-family: Impact, Charcoal, sans-seri;
 }
+
 .post textarea{
 	width: 60%;
 	align-self: center;
