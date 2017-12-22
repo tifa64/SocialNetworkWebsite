@@ -34,6 +34,7 @@ $friendsPosts  = $_SESSION['friendsPosts'];
        $image = ($allPosts[$i]['image_url']);
        echo '<img src ="images/'.$image.'" width=300px height=300px>';
     }
+
     ?>
     <?php if(in_array($allPosts[$i], $myPosts)): ?>
       <?php $post_id = $allPosts[$i]['post_id']; ?>

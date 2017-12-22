@@ -4,7 +4,7 @@
 	<title></title>
 </head>
 <body>
-<form  action ="" method="post" onsubmit=""  id="editprofile" >
+<form  action ="" method="post" onsubmit=""  id="editprofile">
 	<fieldset>
   	<legend>Edit profile</legend>
       <label for="firstname">Firstname :<input type="text" name="firstname" id="firstname" value="" onblur="" > </label> <br/>
@@ -22,7 +22,6 @@
 				<textarea name="aboutme" cols="40" rows="6" id="aboutme">Here you go ...</textarea><br/>
     			Select image to upload:
     			<input type="file" name="fileToUpload" id="fileToUpload"><br/>
-
 	</fieldset>
   <input type="submit" name="action" value="editProfile">
 </form>
