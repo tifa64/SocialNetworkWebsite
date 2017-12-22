@@ -41,14 +41,16 @@ $friendsPosts  = $_SESSION['friendsPosts'];
     }
 
     ?>
-    <?php if(in_array($allPosts[$i], $myPosts)): ?>
-      <?php $post_id = $allPosts[$i]['post_id']; ?>
-      <form action="" method="post">
-        <div>
-          <input type="hidden" value="<?php htmlout($post_id) ?>" name="postid">
-          <input id="DeletePost" type="submit" name="action" value="DeletePost">
-        </div>
-      </form>
+    <?php if(!empty($myPosts)) :?>
+      <?php if(in_array($allPosts[$i], $myPosts)): ?>
+        <?php $post_id = $allPosts[$i]['post_id']; ?>
+        <form action="" method="post">
+          <div>
+            <input type="hidden" value="<?php htmlout($post_id) ?>" name="postid">
+            <input id="DeletePost" type="submit" name="action" value="DeletePost">
+          </div>
+        </form>
+    <?php endif ?>
   <?php endif ?>
   <?php echo "<br>";
   echo "<hr>"; ?>
