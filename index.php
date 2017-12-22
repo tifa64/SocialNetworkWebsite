@@ -11,7 +11,22 @@ include_once $_SERVER['DOCUMENT_ROOT'].$path.
     '/includes/magicquotes.inc.php';
 session_start();
 
-
+if(isset($_POST['action']) and $_POST['action'] == 'clear_notifications') {
+    include 'includes/db.inc.php';
+    $userid = $_POST['userid'];
+    echo 'should mark notifications as seen';
+    try {
+        $sql = "UPDATE notifications SET seen=1 WHERE user_id2=:user_id2" ;
+        $s = $pdo->prepare($sql);
+        $s->bindValue(':user_id2', $userid);
+        $s->execute();
+    }catch (PDOException $e){
+        $error ='Cannot unset notifications';
+        include 'error.html.php';
+        exit();
+    }
+    exit();
+}
 if(isset($_POST['action']) and $_POST['action'] == 'Profile') {
     //include 'notifications_tab.html.php';
     exit();
@@ -352,4 +367,6 @@ if (isset($_SESSION['loggedIn'])and $_SESSION['loggedIn'] == TRUE){
     // FETCHING POSTS AND SAVING THEM THEN LOADING NEWSFEED TEMPLATE
     exit();
 }
+
+
 include 'registration.html.php';

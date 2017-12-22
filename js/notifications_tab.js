@@ -16,12 +16,28 @@ function displayNotifications(json) {
 	var keys = Object.keys(json);
 	for(key in keys) {
 		var element = createLikeNotificationEntry(json[key]);
-		console.log(element);
+		//console.log(element);
 		$("body").append(element);
 	}
 }
 
-function updateNotificationsCount(count) {
+function getNotificationsCount(json) {
+	var keys = Object.keys(json);
+	var count = 0;
+	for(key in keys) {
+		if(json[key]['seen'] == 0) {
+			count++;
+		}
+	}
+	console.log("New notifications = " + count);
+	return count;
+}
+
+function updateNotificationsCount(json) {
+	console.log(json);
+	var count = getNotificationsCount(json)
+
+	console.log("updateNotificationsCount: " + count);
 	$("#notifications-count").html(count);
 	if(count == 0) {
 		document.getElementById("notifications-count").style.display = "none";
@@ -38,7 +54,16 @@ $(document).ready(function(){
 		success: function(response) {
 			console.log(response);
 		}
-	})
-	console.log("notification_tab");
-	updateNotificationsCount(0);
+	});
+
+	$.ajax({
+		url: 'getNotifications.php',
+		type: 'POST',
+		success: function(response) {
+			var json = JSON.parse(response);
+			if(typeof displayNotifications === "function") {
+				displayNotifications(json);
+			}
+		}
+	});
 });

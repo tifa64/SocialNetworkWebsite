@@ -2,7 +2,8 @@
 	$ini_array = parse_ini_file("config.ini");
 	$path = $ini_array['path'];
 	include_once $_SERVER['DOCUMENT_ROOT'].$path.
-    '/includes/helpers.inc.php'; ?>
+    '/includes/helpers.inc.php'; 
+    ?>
 
 <head>
 	<?php include $_SERVER['DOCUMENT_ROOT'].$path.'/includes/notifications.html.php'; ?>

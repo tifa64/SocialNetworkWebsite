@@ -11,7 +11,23 @@ conn.onopen = function(e) {
 	conn.send(JSON.stringify(userdata));
 };
 
-function updateNotificationsCount(count) {
+function getNotificationsCount(json) {
+	var keys = Object.keys(json);
+	var count = 0;
+	for(key in keys) {
+		if(json[key]['seen'] == 0) {
+			count++;
+		}
+	}
+	console.log("New notifications = " + count);
+	return count;
+}
+
+
+function updateNotificationsCount(json) {
+	console.log(json);
+	var count = getNotificationsCount(json)
+
 	console.log("updateNotificationsCount: " + count);
 	$("#notifications-count").html(count);
 	if(count == 0) {
@@ -20,6 +36,7 @@ function updateNotificationsCount(count) {
 		document.getElementById("notifications-count").style.display = "block";
 	}
 }
+
 
 // Called when this client receives a message
 conn.onmessage = function(e) {
@@ -32,24 +49,20 @@ conn.onmessage = function(e) {
 	$.ajax({
 		url: 'getNotifications.php',
 		type: 'POST',
-		data: {userid: user_id},
 		success: function(response) {
+			//console.log("Notifications.js: " + response);
 			var json = JSON.parse(response);
-			var notifications_count = Object.keys(json).length;
-			updateNotificationsCount(notifications_count);
-			console.log("Notifications_count: " + notifications_count);
-			if(typeof displayNotifications === "function") {
-				displayNotifications(json);
-			}
+	//		console.log(json);
+			updateNotificationsCount(json);
 		}
 	});
 	
 
 	// THIS IS ADDED FOR TESTING PURPOSES AND SHOULD BE REMOVED
 	if(data["msg_type"] === "friend_request_notification")
-		$('.modal-content').html('<h1><a class="link" href="https://localhost:8000/social-network/users/' + data["sender_id"] + '">' + data["sender_name"] + '</a> sent you a friend request</h1>');
+		$('.modal-content').html('<h1><a class="link" href="index.php?i=' + data["sender_id"] + '&action=viewprofile">' + data["sender_name"] + '</a> sent you a friend request</h1>');
 	else if(data['msg_type'] === "like_notification")
-		$('.modal-content').html('<h1><a class="link" href="https://localhost:8000/social-network/users/' + data["sender_id"] + '">' + data["sender_name"] + '</a> has liked your post </h1>');
+		$('.modal-content').html('<h1><a class="link" href="index.php?i=' + data["sender_id"] + '&action=viewprofile">' + data["sender_name"] + '</a> has liked your post </h1>');
 	//////////////////////////////////////////////////////////
 	//console.log(JSON.parse(e));
 };
@@ -65,20 +78,14 @@ $(document).ready(function() {
 	// conn.send(JSON.stringify({whatever parameters you want}))
 	//$(document).one("ready", updateNotificationsCount());
 
-
-
 	$.ajax({
 		url: 'getNotifications.php',
 		type: 'POST',
-		data: {userid: user_id},
 		success: function(response) {
+			//console.log("Notifications.js: " + response);
 			var json = JSON.parse(response);
-			var notifications_count = Object.keys(json).length;
-			updateNotificationsCount(notifications_count);
-			console.log("Notifications_count: " + notifications_count);
-			if(typeof displayNotifications === "function") {
-				displayNotifications(json);
-			}
+	//		console.log(json);
+			updateNotificationsCount(json);
 		}
 	});
 
