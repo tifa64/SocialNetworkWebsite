@@ -7,6 +7,6 @@
 	</ul>
 	<ul id="right-list">
 		<li><?php include $_SERVER['DOCUMENT_ROOT'].$path.'/includes/logout.inc.html.php'; ?></li>
-		<li><?php include $_SERVER['DOCUMENT_ROOT'].$path.'/includes/search.inc.php'; ?></li>
+		<li><?php include $_SERVER['DOCUMENT_ROOT'].$path.'/includes/search.inc.html.php'; ?></li>
 	</ul>
 </div>
