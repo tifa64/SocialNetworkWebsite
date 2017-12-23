@@ -1,27 +1,27 @@
 CREATE  TABLE  user(
   user_id INT NOT NULL AUTO_INCREMENT PRIMARY KEY ,
-  email  VARCHAR(255) ,
-  first_name VARCHAR(255),
-  last_name VARCHAR(255),
-  password CHAR(32),
-  image_url VARCHAR(255),
+  email  VARCHAR(255) UNIQUE NOT NULL,
+  first_name VARCHAR(255) NOT NULL,
+  last_name VARCHAR(255) NOT NULL,
+  password CHAR(32) NOT NULL,
+  image_url VARCHAR(255) NOT NULL,
   gender ENUM('male', 'female'),
   home_town VARCHAR(255),
-  about_me TEXT ,
+  about_me TEXT,
   nick_name VARCHAR(255),
   martial_status ENUM ('single','engaged','married'),
-  birth_date DATE NOT NULL ,
-  reg_date DATE NOT NULL
+  birth_date DATE NOT NULL,
+  reg_date DATE NOT NULL DEFAULT TIMESTAMP
 )DEFAULT  CHARACTER SET utf8 ENGINE  =InnoDB;
 
 CREATE TABLE  posts(
   post_id INT NOT NULL AUTO_INCREMENT PRIMARY KEY ,
-  isPublic ENUM('Public', 'Private'),
-  user_id INT ,
-  caption TEXT,
+  isPublic ENUM('Public', 'Private') NOT NULL,
+  user_id INT,
+  caption TEXT NOT NULL,
   title TEXT,
   image_url VARCHAR(255),
-  time DATETIME NOT NULL ,
+  time DATETIME NOT NULL,
   FOREIGN KEY (user_id) REFERENCES user (user_id)
     ON DELETE  CASCADE  ON UPDATE  CASCADE
 )DEFAULT CHARACTER SET utf8 ENGINE =InnoDB;
@@ -34,8 +34,8 @@ CREATE TABLE  phone_numbers(
 )DEFAULT CHARACTER SET utf8 ENGINE =InnoDB;
 CREATE TABLE  notifications (
   notification_id INT NOT NULL AUTO_INCREMENT PRIMARY KEY,
-  user_id1 INT,
-  user_id2 INT,
+  user_id1 INT NOT NULL,
+  user_id2 INT NOT NULL,
   seen BOOLEAN DEFAULT 0,
   notifiation_type varchar(30) NOT NULL,
   FOREIGN KEY (user_id1) REFERENCES  user(user_id)
@@ -55,20 +55,10 @@ CREATE  TABLE  friendships (
     ON DELETE  CASCADE  ON UPDATE  CASCADE
 )DEFAULT CHARACTER SET utf8 ENGINE =InnoDB;
 
-CREATE  TABLE emotions (
-  emotion_id VARCHAR(3) NOT NULL PRIMARY KEY ,
-  url VARCHAR(255) UNICODE NOT NULL
-)DEFAULT CHARACTER SET utf8 ENGINE =InnoDB;
-
-CREATE  TABLE posts_likes (
-  post_id INT NOT NULL ,
-  user_id INT NOT NULL ,
-  PRIMARY KEY (post_id,user_id)
-)DEFAULT CHARACTER SET utf8 ENGINE =InnoDB;
-
 CREATE  TABLE pending_firends(
   sender_id INT NOT NULL,
   reciever_id INT NOT NULL,
+  CONSTRAINT key UNIQUE (sender_id, reciever_id),
   FOREIGN KEY (sender_id) REFERENCES  user(user_id)
     ON DELETE  CASCADE  ON UPDATE  CASCADE,
   FOREIGN KEY (reciever_id) REFERENCES  user(user_id)
