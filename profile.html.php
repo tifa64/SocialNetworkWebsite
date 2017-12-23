@@ -93,6 +93,20 @@ else {
 } ?>
 </p>
 <?php endif; ?>
+<p id="para2"> Birthday: <?php
+if (($userinfo[0]['birth_date']) != "0000-00-00"){
+    htmlout($userinfo[0]['birth_date']);
+}
+else {
+  htmlout('');
+} ?>
+<p id="para3"> About Me: <?php
+if (($userinfo[0]['about_me']) != "Here you go ..."){
+    htmlout($userinfo[0]['about_me']);
+}
+else {
+  htmlout('I am NOT interesting enough');
+} ?>
 <p id="para3"> Gender : <?php htmlout($userinfo[0]['gender']); ?></p>
 <p id="para3"> Home Town : <?php htmlout($userinfo[0]['home_town']); ?></p>
 
