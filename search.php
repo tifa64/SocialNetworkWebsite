@@ -4,7 +4,7 @@ $path = $ini_array['path'];
 	include_once $_SERVER['DOCUMENT_ROOT'].$path.
     '/includes/magicquotes.inc.php';
 
-	
+
 	session_start();
 
 	$query = $_POST['query'];
@@ -13,8 +13,8 @@ $path = $ini_array['path'];
 
 	// Set up the connection to the database
 	$servername = "localhost";
-	$db_username   = "root";
-	$db_password   = "";
+	$db_username   = "databaseuser";
+	$db_password   = "mypassword";
 	$dbname     = "newdatabase";
 
 	$conn = new mysqli($servername, $db_username, $db_password, $dbname);
@@ -26,7 +26,7 @@ $path = $ini_array['path'];
 	$reply = array();
 	if(isset($type)) {
 		if($type === 'email') {
-			$email_query = "SELECT * FROM user WHERE email LIKE '%$query%'"; 
+			$email_query = "SELECT * FROM user WHERE email LIKE '%$query%'";
 			$result = $conn->query($email_query);
 			$num_rows = mysqli_num_rows($result);
 			$users = array();
@@ -38,7 +38,7 @@ $path = $ini_array['path'];
 	    		}
 	    		echo json_encode($users, JSON_FORCE_OBJECT);
 		    }
-		    	
+
 		} else if($type === 'name') {
 			$reply = array();
 			$fname = '';
@@ -83,17 +83,17 @@ $path = $ini_array['path'];
 		    		}
 		    	}
 		    }
-		    $num_rows = mysqli_num_rows($result); 
+		    $num_rows = mysqli_num_rows($result);
 		    if(sizeof($users) > 0)
 		    	echo json_encode($users, JSON_FORCE_OBJECT);
-		    
+
 
 		} else if($type === 'hometown') {
 			$hometown_query = "SELECT * FROM user WHERE home_town LIKE '%$query%'";
 		    $result = $conn->query($hometown_query);
 		    $num_rows = mysqli_num_rows($result);
 		    $users = array();
-		    if($num_rows > 0) {	
+		    if($num_rows > 0) {
 		    	for($i = 0; $i < $num_rows; $i++) {
 		    		$row = mysqli_fetch_assoc($result);
 
@@ -118,7 +118,7 @@ $path = $ini_array['path'];
 			    		array_push($posts, array("content" => $row['caption'], "time" => $row['time'], "fname" => $row['first_name'], "lname" => $row['last_name'], "image_url" => $row['image_url'], "post_id" => $row['post_id'], "user_id" => $row['user_id'], "nickname" => $row['nick_name']));
 	    		}
 	    		if(sizeof($posts) > 0)
-		    		echo json_encode($posts, JSON_FORCE_OBJECT);	
+		    		echo json_encode($posts, JSON_FORCE_OBJECT);
 		    }
 		}
 	} else {
@@ -191,7 +191,7 @@ $path = $ini_array['path'];
 			    		#echo $row["post_id"].'<br>';
 			    	#	echo $row["caption"].'<br>';
 	    		}
-		    	array_push($reply, array("posts" => $posts));	
+		    	array_push($reply, array("posts" => $posts));
 		    }
 
 		    $hometown_query = "SELECT * FROM user WHERE home_town LIKE '%$query%'";

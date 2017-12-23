@@ -2,10 +2,10 @@
     $ini_array = parse_ini_file("config.ini");
     $path = $ini_array['path'];
      include_once $_SERVER['DOCUMENT_ROOT'].$path.
-    '/includes/helpers.inc.php'; 
+    '/includes/helpers.inc.php';
      include_once $_SERVER['DOCUMENT_ROOT'].$path.
     '/includes/db.inc.php';
-                  
+
      ?>
 <!DOCTYPE html>
 <html>
@@ -25,7 +25,7 @@
     <form action="" method="post">
   <input id="editp" type="submit" name="action" value="edit">
   </form>
-  
+
     <form  action="./index.php" method="post">
         <input id="editp" type="submit" name="action" value="showfriends">
     </form>
@@ -93,6 +93,20 @@ else {
 } ?>
 </p>
 <?php endif; ?>
+<p id="para2"> Birthday: <?php
+if (($userinfo[0]['birth_date']) != "0000-00-00"){
+    htmlout($userinfo[0]['birth_date']);
+}
+else {
+  htmlout('');
+} ?>
+<p id="para3"> About Me: <?php
+if (($userinfo[0]['about_me']) != "Here you go ..."){
+    htmlout($userinfo[0]['about_me']);
+}
+else {
+  htmlout('I am NOT interesting enough');
+} ?>
 <p id="para3"> Gender : <?php htmlout($userinfo[0]['gender']); ?></p>
 <p id="para3"> Home Town : <?php htmlout($userinfo[0]['home_town']); ?></p>
 
@@ -132,5 +146,6 @@ else {
     echo "<hr>"; ?>
   <?php endfor ?>
 <?php endif ?>
+
 </body>
 </html>
