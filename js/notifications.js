@@ -75,17 +75,50 @@ $(document).ready(function() {
 	// Use conn.send whenever you need to send data i.e. added a new user or liked someone's post
 	// conn.send(JSON.stringify({whatever parameters you want}))
 	//$(document).one("ready", updateNotificationsCount());
-
-	$.ajax({
-		url: 'getNotifications.php',
-		type: 'POST',
-		success: function(response) {
-			//console.log("Notifications.js: " + response);
-			var json = JSON.parse(response);
-	//		console.log(json);
-			updateNotificationsCount(json);
-		}
-	});
+	if(typeof displayNotifications === "function"){
+		$.ajax({
+			url: 'index.php',
+			type: 'POST',
+			data: {action: 'clear_notifications', userid: user_id},
+			success: function(response) {
+				console.log(response);
+			}
+		}, function(){
+			$.ajax({
+				url: 'getNotifications.php',
+				type: 'POST',
+				success: function(response) {
+					//console.log("Notifications.js: " + response);
+					var json = JSON.parse(response);
+			//		console.log(json);
+					updateNotificationsCount(json);
+				}
+			}, function() {
+					$.ajax({
+					url: 'getNotifications.php',
+					type: 'POST',
+					success: function(response) {
+					var json = JSON.parse(response);
+						if(typeof displayNotifications === "function") {
+							displayNotifications(json);
+						}
+					}
+				});
+			});
+		});
+	} else {
+		$.ajax({
+				url: 'getNotifications.php',
+				type: 'POST',
+				success: function(response) {
+					//console.log("Notifications.js: " + response);
+					var json = JSON.parse(response);
+			//		console.log(json);
+					updateNotificationsCount(json);
+				}
+			});
+	}
+	
 
 
 	var ret = $.get('notification_popup.html.php', function(data) {

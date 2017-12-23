@@ -51,14 +51,6 @@ function updateNotificationsCount(json) {
 }
 
 $(document).ready(function(){
-	$.ajax({
-		url: 'index.php',
-		type: 'POST',
-		data: {action: 'clear_notifications', userid: user_id},
-		success: function(response) {
-			console.log(response);
-		}
-	});
 
 	$.ajax({
 		url: 'getNotifications.php',
