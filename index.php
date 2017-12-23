@@ -210,6 +210,46 @@ if (isset($_POST['action']) and $_POST['action']== 'editProfile') {
         }
     }
 }
+if(isset($_POST['action']) and $_POST['action']=='Posting') {
+    include $_SERVER['DOCUMENT_ROOT'].$path.'/includes/db.inc.php';
+    include $_SERVER['DOCUMENT_ROOT'].$path.'/includes/helpers.inc.php';
+    try{
+        $sql ='INSERT INTO posts SET
+                title=:Postname,
+                caption=:Caption,
+                isPublic=:Poststate,
+                user_id =:user_id,
+                image_url=:Postimage,
+                time=CURRENT_TIMESTAMP
+                ';
+        $s=$pdo->prepare($sql);
+        $s->bindValue(':Postname',getEmoticons($_POST['Postname']));
+        $s->bindValue(':Caption',getEmoticons($_POST['Caption']));
+        $s->bindValue(':Poststate',$_POST['Poststate']);
+        $s->bindValue(':user_id',  $_SESSION['userid']);
+        $s->bindValue(':Postimage',$_POST['Postimage']);
+        $s->execute();
+    }catch (PDOException $e)
+    {
+        $error='cannot insert post into database !';
+        include 'error.html.php';
+        exit();
+    }
+    if($_POST['comeFrom'] == "newsfeed") {
+      header('Location: .');
+      exit();
+    }
+    else if($_POST['comeFrom'] == "profile") {
+      get_profile_info($pdo, $_SESSION['userid']);
+      exit();
+    }
+}
+if(isset($_POST['action']) and $_POST['action']=='DeletePost') {
+  include $_SERVER['DOCUMENT_ROOT'].$path.'/includes/helpers.inc.php';
+  deletePost($pdo, $_POST['postid']);
+  header('Location: .');
+  exit();
+}
 
     if (isset($_POST['fileToUpload']) and $_POST['fileToUpload']!=NULL  ){
         try {
@@ -255,20 +295,13 @@ if(isset($_POST['action']) and $_POST['action']=='Logout'){
     include 'registration.html.php';
     exit();
 }
-if(isset($_GET['loadprofile']) and  $_SESSION['loggedIn'] == TRUE) {
-    include $_SERVER['DOCUMENT_ROOT'] . '/includes/db.inc.php';
-    include $_SERVER['DOCUMENT_ROOT'] . '/includes/helpers.inc.php';
-    get_profile_info($pdo,$_SESSION['email']);
-    exit();
-}
-
-if(isset($_POST['action']) and $_POST['action']=='Add Friend'){
+if(isset($_POST['action']) and $_POST['action'] =='Add Friend'){
     include $_SERVER['DOCUMENT_ROOT'].$path.'/includes/db.inc.php';
     include $_SERVER['DOCUMENT_ROOT'].$path.'/includes/helpers.inc.php';
     try{
 
         $sql2= 'INSERT INTO notifications SET user_id1=:id1, user_id2=:id2, seen=0, notification_type="friend_request_notification"';
-        $sql='INSERT INTO pending_firends 
+        $sql='INSERT INTO pending_firends
             SET sender_id=:id1 ,reciever_id=:id2,time=CURRENT_TIMESTAMP';
         $s=$pdo->prepare($sql);
 
@@ -295,7 +328,7 @@ if(isset($_POST['action']) and $_POST['action']=='Remove Friend'){
     try{
 
 
-        $sql='DELETE FROM friendships 
+        $sql='DELETE FROM friendships
            WHERE (user_id1=:id1 AND user_id2=:id2) OR  (user_id1=:id2 AND user_id2=:id1)';
         $s=$pdo->prepare($sql);
         $s->bindValue(':id1',$_SESSION['userid']);
@@ -316,7 +349,7 @@ if(isset($_POST['action']) and $_POST['action']=='Cancel Request'){
     include $_SERVER['DOCUMENT_ROOT'].$path.'/includes/helpers.inc.php';
 
     try{
-        $sql='DELETE FROM pending_firends 
+        $sql='DELETE FROM pending_firends
           WHERE  sender_id=:id1 AND  reciever_id=:id2';
         $s=$pdo->prepare($sql);
         $s->bindValue(':id1',$_SESSION['userid']);
@@ -332,7 +365,7 @@ if(isset($_POST['action']) and $_POST['action']=='Cancel Request'){
 
 }
 
-if (isset($_POST['action']) and $_POST['action'] == 'FriendRequests') {
+if (isset($_POST['action']) and $_POST['action'] == 'Friend Requests') {
     include $_SERVER['DOCUMENT_ROOT'].$path.'/includes/db.inc.php';
     try {
         $sql='SELECT * FROM pending_firends  WHERE reciever_id=:id ';
@@ -403,7 +436,7 @@ if(isset($_POST['action']) and $_POST['action']=='Accept'){
         exit();
     }
     try {
-        $sql='INSERT INTO friendships SET  
+        $sql='INSERT INTO friendships SET
               user_id1=:id1,user_id2=:id2,time=CURRENT_TIMESTAMP';
         $s = $pdo->prepare($sql);
         $s->bindValue(':id1', $_SESSION['userid']);
@@ -420,7 +453,6 @@ if(isset($_POST['action']) and $_POST['action']=='Accept'){
 if(isset($_GET['action']) and $_GET['action']=="Profile" and  $_SESSION['loggedIn'] == TRUE){
     include $_SERVER['DOCUMENT_ROOT'].$path.'/includes/db.inc.php';
     include $_SERVER['DOCUMENT_ROOT'].$path.'/includes/helpers.inc.php';
-
     get_profile_info($pdo,$_GET['i']);
     exit();
 }
@@ -730,40 +762,6 @@ if (isset($_POST['submit']) and $_POST['submit'] == "Upload Image"){
     }
     include 'newsfeed.html.php';
     exit();
-}
-if(isset($_POST['action']) and $_POST['action']=='Posting') {
-    include $_SERVER['DOCUMENT_ROOT'].$path.'/includes/db.inc.php';
-    include $_SERVER['DOCUMENT_ROOT'].$path.'/includes/helpers.inc.php';
-    try{
-        $sql ='INSERT INTO posts SET
-                title=:Postname,
-                caption=:Caption,
-                isPublic=:Poststate,
-                user_id =:user_id,
-                image_url=:Postimage,
-                time=CURRENT_TIMESTAMP
-                ';
-        $s=$pdo->prepare($sql);
-        $s->bindValue(':Postname',getEmoticons($_POST['Postname']));
-        $s->bindValue(':Caption',getEmoticons($_POST['Caption']));
-        $s->bindValue(':Poststate',$_POST['Poststate']);
-        $s->bindValue(':user_id',  $_SESSION['userid']);
-        $s->bindValue(':Postimage',$_POST['Postimage']);
-        $s->execute();
-    }catch (PDOException $e)
-    {
-        $error='cannot insert post into database !';
-        include 'error.html.php';
-        exit();
-    }
-    header('Location: .');
-    exit();
-}
-if(isset($_POST['action']) and $_POST['action']=='DeletePost') {
-  include $_SERVER['DOCUMENT_ROOT'].$path.'/includes/helpers.inc.php';
-  deletePost($pdo, $_POST['postid']);
-  header('Location: .');
-  exit();
 }
 if (isset($_SESSION['loggedIn'])and $_SESSION['loggedIn'] == TRUE){
     include $_SERVER['DOCUMENT_ROOT'].$path.'/includes/db.inc.php';

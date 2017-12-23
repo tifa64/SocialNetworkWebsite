@@ -1,4 +1,3 @@
-
 <?php
     $ini_array = parse_ini_file("config.ini");
     $path = $ini_array['path'];
@@ -15,9 +14,4 @@
         <input type="radio" name="Poststate" value="private" id="Poststate"> Private
         <input type="file" name="Postimage" value="post" id="image">
         <input type="hidden" name="Userid" value="<?php htmlout($userid);?>">
-        <input type="submit" name="action" value="Posting"><br>
-        <?php
-          display_posts ();
-        ?>
-    </form>
-</div>
+        

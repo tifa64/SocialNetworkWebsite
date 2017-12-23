@@ -2,7 +2,7 @@
       $ini_array = parse_ini_file("config.ini");
 	    $path = $ini_array['path'];
      include_once $_SERVER['DOCUMENT_ROOT'] .$path.
-    '/includes/helpers.inc.php'; 
+    '/includes/helpers.inc.php';
      ?>
 <!DOCTYPE html>
 <html lang="en">
@@ -15,6 +15,13 @@
 <link rel="stylesheet" type="text/css" href="css/newsfeed.css">
 <input type="hidden" name="userid" value="<?php htmlout($_SESSION['userid']);?>">
 <?php include $_SERVER['DOCUMENT_ROOT'].$path.'/includes/poster.inc.html.php'; ?></p>
+<input type = "hidden" value="newsfeed" name="comeFrom">
+<input type="submit" name="action" value="Posting">
+<?php
+  display_posts ();
+?>
+</form>
+</div>
 <?php
 $allPosts = $_SESSION['allPosts'];
 $myPosts = $_SESSION['myPosts'];
