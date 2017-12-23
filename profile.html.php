@@ -5,23 +5,22 @@
     '/includes/helpers.inc.php'; 
      include_once $_SERVER['DOCUMENT_ROOT'].$path.
     '/includes/db.inc.php';
-    include_once $_SERVER['DOCUMENT_ROOT'].$path.
-    '/includes/header.inc.html.php'; 
-     include $_SERVER['DOCUMENT_ROOT'] . $path.'/includes/poster.inc.html.php';              
+                  
      ?>
 <!DOCTYPE html>
 <html>
 <head>
   <?php include $_SERVER['DOCUMENT_ROOT'].$path.'/includes/notifications.html.php'; ?>
-    <meta charset="UTF-8">
-    <title>Profile</title>
-    <script type="text/javascript">
-      var recepient_id = <?php echo $userid; ?>;
-    </script>
+  <meta charset="UTF-8">
+  <title>Profile</title>
+  <script type="text/javascript">
+    var recepient_id = <?php echo $userid; ?>;
+  </script>
 </head>
 <body>
+  <?php include_once $_SERVER['DOCUMENT_ROOT'].$path.'/includes/header.inc.html.php'; ?>
 <link rel="stylesheet" type="text/css" href="css/newsfeed.css">
-
+  <?php include $_SERVER['DOCUMENT_ROOT'] . $path.'/includes/poster.inc.html.php'; ?>
   <?php if ($_SESSION['userid'] == $userid): ?>
     <form action="" method="post">
   <input id="editp" type="submit" name="action" value="edit">

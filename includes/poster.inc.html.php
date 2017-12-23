@@ -5,11 +5,8 @@
      include_once $_SERVER['DOCUMENT_ROOT'].$path.
     '/includes/helpers.inc.php'; ?>
 
-<head>
-    <title>Social Network</title>
-    <link rel="stylesheet" type="text/css" href="css/posts.css">
-</head>
-<body>
+
+<link rel="stylesheet" type="text/css" href="css/posts.css">
 <div class="post" >
     <form action="" method="post">
         Post name* :     <textarea name="Postname" rows="1" cols="80" id="Postname" required ></textarea><br>
@@ -24,6 +21,3 @@
         ?>
     </form>
 </div>
-
-</body>
-</html>
