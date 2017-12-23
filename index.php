@@ -143,7 +143,7 @@ if (isset($_POST['action']) and $_POST['action']== 'editProfile') {
             exit();
         }
       }
-    if (isset($_POST['aboutme']) and $_POST['aboutme']!=NULL )
+    if (isset($_POST['aboutme']) and $_POST['aboutme']!=NULL ) {
         try {
             $sql='UPDATE user
                   SET about_me =:aboutme
@@ -158,7 +158,7 @@ if (isset($_POST['action']) and $_POST['action']== 'editProfile') {
             include 'error.html.php';
             exit();
         }
-
+    }
     if (isset($_POST['telNo1']) and $_POST['telNo1']!=NULL){
         try {
             $sql=$sql=' UPDATE phone_numbers
@@ -331,58 +331,7 @@ if(isset($_POST['action']) and $_POST['action']=='Cancel Request'){
     exit();
 
 }
-if (isset($_POST['action']) and $_POST['action'] == 'edit') {
-    include 'editprofile.html.php';
-    exit();
-}
-if (isset($_POST['action']) and $_POST['action']== 'editProfile') {
-    include $_SERVER['DOCUMENT_ROOT'].$path.'/includes/db.inc.php';
 
-    if (isset($_POST['firstname']) and $_POST['firstname']!=NULL)
-        try {
-            $sql='UPDATE user
-                  SET first_name =:firstname
-                  WHERE  email=:email';
-            $s=$pdo->prepare($sql);
-            $s->bindValue(':email',$_SESSION['email']);
-            $s->bindValue(':firstname',$_POST['firstname']);
-            $s->execute();
-        }
-        catch (PDOException $e){
-            $error='cannot update first name';
-            include 'error.html.php';
-            exit();
-        }
-    if (isset($_POST['lastname']) and $_POST['lastname']!=NULL)
-        try {
-            $sql='UPDATE user
-                  SET last_name =:lastname
-                  WHERE  email=:$email';
-            $s=$pdo->prepare($sql);
-            $s->bindValue(':email',$_POST['email']);
-            $s->bindValue(':lastname',$_POST['lastname']);
-            $s->execute();
-        }
-        catch (PDOException $e){
-            $error='cannot update last name';
-            include 'error.html.php';
-            exit();
-        }
-    if (isset($_POST['nickname']) and $_POST['nickname']!=NULL )
-        try {
-            $sql='UPDATE user
-                  SET nick_name =:nickname
-                  WHERE  email=:$email';
-            $s=$pdo->prepare($sql);
-            $s->bindValue(':email',$_POST['email']);
-            $s->bindValue(':nickname',$_POST['nickname']);
-            $s->execute();
-        }
-        catch (PDOException $e){
-            $error='cannot update nickname';
-            include 'error.html.php';
-            exit();
-        }}
 if (isset($_POST['action']) and $_POST['action'] == 'FriendRequests') {
     include $_SERVER['DOCUMENT_ROOT'].$path.'/includes/db.inc.php';
     try {
