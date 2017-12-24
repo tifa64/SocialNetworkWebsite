@@ -256,7 +256,7 @@ if(isset($_POST['action']) and $_POST['action']=='DeletePost') {
       get_profile_info($pdo, $_SESSION['userid']);
       exit();
     }
-  
+
   exit();
 }
 
@@ -326,10 +326,8 @@ if(isset($_POST['action']) and $_POST['action'] =='Add Friend'){
         include 'error.html.php';
         exit();
     }
-
    get_profile_info($pdo,$_POST['newfriend_id']);
-    exit();
-
+  exit();
 }
 if(isset($_POST['action']) and $_POST['action']=='Remove Friend'){
     include $_SERVER['DOCUMENT_ROOT'].$path.'/includes/db.inc.php';

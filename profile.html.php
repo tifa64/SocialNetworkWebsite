@@ -5,7 +5,7 @@
     '/includes/helpers.inc.php';
      include_once $_SERVER['DOCUMENT_ROOT'].$path.
     '/includes/db.inc.php';
-                  
+
      ?>
 <!DOCTYPE html>
 <html>
@@ -103,7 +103,7 @@ else {
 <?php endif; ?>
 <p id="para3"> Gender : <?php htmlout($userinfo[0]['gender']); ?></p>
 <p id="para3"> Home Town : <?php htmlout($userinfo[0]['home_town']); ?></p>
-
+<?php if($_SESSION['userid'] == $userid): ?>
 <?php  $myPosts = $_SESSION['myPosts'];?>
 <?php if(!empty($myPosts)) :?>
   <?php for($i = 0; $i < count($myPosts); $i++): ?>
@@ -125,7 +125,6 @@ else {
          $image = ($myPosts[$i]['image_url']);
          echo '<img src ="'.$image.'" width=300px height=300px>';
       }
-
       ?>
       <?php if(in_array($myPosts[$i], $myPosts)): ?>
         <?php $post_id = $myPosts[$i]['post_id']; ?>
@@ -141,6 +140,25 @@ else {
     echo "<hr>"; ?>
   <?php endfor ?>
 <?php endif ?>
-
+<?php else :?>
+  <?php if(!(empty($posts))): ?>
+<?php for ($i = 0; $i < count($posts); $i++): ?>
+  <?php
+  $title = ($posts[$i]['title']);
+  ?>
+  <p id="para2"><?php htmlout($title)?></p>
+  <?php
+  $caption = ($posts[$i]['caption']);
+  ?>
+  <p id="para3"><?php htmlout($caption)?></p>
+  <?php
+  if (($posts[$i]['image_url']) != NULL){
+     $image = ($posts[$i]['image_url']);
+     echo '<img src ="'.$image.'" width=300px height=300px>';
+  }
+  ?>
+<?php endfor ?>
+<?php endif ?>
+<?php endif ?>
 </body>
 </html>
