@@ -20,7 +20,9 @@
 <body>
   <?php include_once $_SERVER['DOCUMENT_ROOT'].$path.'/includes/header.inc.html.php'; ?>
 <link rel="stylesheet" type="text/css" href="css/newsfeed.css">
-  <?php include $_SERVER['DOCUMENT_ROOT'] . $path.'/includes/poster.inc.html.php'; ?>
+
+  <?php if ($_SESSION['userid'] == $userid): ?>
+      <?php include $_SERVER['DOCUMENT_ROOT'] . $path.'/includes/poster.inc.html.php'; ?>
   <input type = "hidden" value="profile" name="comeFrom">
   <input type="submit" name="action" value="Posting">
   <?php
@@ -28,7 +30,6 @@
   ?>
 </form>
 </div>
-  <?php if ($_SESSION['userid'] == $userid): ?>
     <form action="" method="post">
   <input id="editp" type="submit" name="action" value="edit">
   </form>
@@ -51,7 +52,7 @@
 <?php else :?>
 <form  id="add-friend-form" action="./index.php" method="post">
     <input type="hidden" name="newfriend_id" value="<?php htmlout($userid)?>">
-    <input type="submit" name="action" value="Add Friend">
+    <input id="editp" type="submit" name="action" value="Add Friend">
 </form>
 <?php endif; ?>
 
