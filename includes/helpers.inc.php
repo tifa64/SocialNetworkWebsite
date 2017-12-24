@@ -64,7 +64,7 @@ function get_profile_info ($pdo,$id){
     $posts=array();
     $user_info=array();
     try {
-        $sql='SELECT * FROM posts WHERE  
+        $sql='SELECT * FROM posts WHERE
         user_id = :id';
         $s = $pdo->prepare($sql);
         $s->bindValue(':id', $id);
@@ -74,8 +74,8 @@ function get_profile_info ($pdo,$id){
         include 'error.html.php';
         exit();}
     $result=$s->fetchAll();
-    foreach ($result as $row){
-        $posts[]=array('publicity'=>$row['isPublic'] ,'caption'=>$row['caption'],'time'=>$row['time']);
+    foreach ($result as $row) {
+      $posts[] = array('title' => $row['title'], 'caption' => $row['caption'], 'post_id' => $row['post_id'], 'image_url' => $row['image_url']);
     }
 
     try {
@@ -95,7 +95,8 @@ function get_profile_info ($pdo,$id){
         , 'nick_name' => $row['nick_name'], 'birth_date' => $row['birth_date'], 'martial_status' => $row['martial_status']
         , 'about_me' => $row['about_me'], 'gender' => $row['gender'], 'email' => $row['email'], 'home_town' => $row['home_town']);
     }
-      $ini_array = parse_ini_file("config.ini");
+    $_SESSION['info'] = $userinfo;
+    $ini_array = parse_ini_file("config.ini");
     $path = $ini_array['path'];
     $userid=$id;
     include_once $_SERVER['DOCUMENT_ROOT'].$path.'/profile.html.php';

@@ -113,14 +113,14 @@ $password = $ini_array['password'];
 		    #$posts_query = mysql_query("SELECT * FROM posts WHERE caption LIKE '%$query%'");
 		    $result = $conn->query($posts_query);
 		    $num_rows = mysqli_num_rows($result);
-		    $posts = array();
+		    $myposts = array();
 		    if($num_rows > 0) {
 		    	for($i = 0; $i < $num_rows; $i++) {
 			    		$row = mysqli_fetch_assoc($result);
-			    		array_push($posts, array("content" => $row['caption'], "time" => $row['time'], "fname" => $row['first_name'], "lname" => $row['last_name'], "image_url" => $row['image_url'], "post_id" => $row['post_id'], "user_id" => $row['user_id'], "nickname" => $row['nick_name']));
+			    		array_push($myposts, array("content" => $row['caption'], "time" => $row['time'], "fname" => $row['first_name'], "lname" => $row['last_name'], "image_url" => $row['image_url'], "post_id" => $row['post_id'], "user_id" => $row['user_id'], "nickname" => $row['nick_name']));
 	    		}
-	    		if(sizeof($posts) > 0)
-		    		echo json_encode($posts, JSON_FORCE_OBJECT);
+	    		if(sizeof($myposts) > 0)
+		    		echo json_encode($myposts, JSON_FORCE_OBJECT);
 		    }
 		}
 	} else {
