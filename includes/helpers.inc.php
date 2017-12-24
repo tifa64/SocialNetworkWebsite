@@ -121,9 +121,13 @@ function get_profile_info ($pdo,$id){
       // $user_info[]
       // $_SESSION['info'] = $user_info[] ;
       function display_posts(){
+        $ini_array = parse_ini_file("config.ini");
+        $path = $ini_array['path'];
+        $db_username = $ini_array['username'];
+        $db_password = $ini_array['password'];
           $servername = "localhost";
-          $username = "root";
-          $password = "";
+          $username = $db_username;
+          $password = $db_password;
           $dbname = "newdatabase";
           $conn = new mysqli($servername, $username, $password, $dbname);
           if ($conn->connect_error) {

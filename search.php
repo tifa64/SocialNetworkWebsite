@@ -1,6 +1,8 @@
 <?php
 $ini_array = parse_ini_file("config.ini");
 $path = $ini_array['path'];
+$username = $ini_array['username'];
+$password = $ini_array['password'];
 	include_once $_SERVER['DOCUMENT_ROOT'].$path.
     '/includes/magicquotes.inc.php';
 
@@ -13,8 +15,8 @@ $path = $ini_array['path'];
 
 	// Set up the connection to the database
 	$servername = "localhost";
-	$db_username   = "databaseuser";
-	$db_password   = "mypassword";
+	$db_username   = $username;
+	$db_password   = $password;
 	$dbname     = "newdatabase";
 
 	$conn = new mysqli($servername, $db_username, $db_password, $dbname);
