@@ -40,12 +40,12 @@
 <?php elseif (check_friendship($pdo,$_SESSION['userid'],$userid)) :?>
 <form  action="./index.php" method="post">
     <input type="hidden" name="newfriend_id" value="<?php htmlout($userid)?>">
-    <input type="submit" name="action" value="Remove Friend">
+    <input id="editp" type="submit" name="action" value="Remove Friend">
 </form>
 <?php elseif (check_pendingfriends($pdo,$_SESSION['userid'],$userid)) :?>
     <form  action="./index.php" method="post">
     <input type="hidden" name="newfriend_id" value="<?php htmlout($userid)?>">
-    <input type="submit" name="action" value="Cancel Request">
+    <input id="editp" type="submit" name="action" value="Cancel Request">
     </form>
 <?php elseif (check_pendingfriends($pdo,$userid,$_SESSION['userid'])) :?>
     <p> Please navigate to FriendRequests so that you can accept this request (DONT BE A MEAN MOTHAFAKA)!</p>
@@ -60,7 +60,7 @@
 //rint_r ((array)$userinfo);
 //print_r(array_values($info));
 $img = $userinfo[0]['image_url'];
-echo '<img src="'.$img.'">';
+echo '<img height=300 width=300 src="'.$img.'">';
 echo "<br>";
 ?>
 <p id="para1"> First Name: <?php htmlout($userinfo[0]['first_name']); ?></p>
@@ -123,7 +123,7 @@ else {
       <?php
       if (($myPosts[$i]['image_url']) != NULL){
          $image = ($myPosts[$i]['image_url']);
-         echo '<img src ="'.$image.'" width=300px height=300px>';
+         echo '<img width=300 height=300 src ="'.$image.'" width=300px height=300px>';
       }
       ?>
       <?php if(in_array($myPosts[$i], $myPosts)): ?>
@@ -154,7 +154,7 @@ else {
   <?php
   if (($posts[$i]['image_url']) != NULL){
      $image = ($posts[$i]['image_url']);
-     echo '<img src ="'.$image.'" width=300px height=300px>';
+     echo '<img width=300 height=300 src ="'.$image.'" width=300px height=300px>';
   }
   ?>
 <?php endfor ?>
