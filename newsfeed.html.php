@@ -54,6 +54,7 @@ $friendsPosts  = $_SESSION['friendsPosts'];
         <form action="" method="post">
           <div>
             <input type="hidden" value="<?php htmlout($post_id) ?>" name="postid">
+            <input type = "hidden" value="newsfeed" name="comeFrom">
             <input id="DeletePost" type="submit" name="action" value="DeletePost">
           </div>
         </form>

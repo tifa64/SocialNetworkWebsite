@@ -245,9 +245,18 @@ if(isset($_POST['action']) and $_POST['action']=='Posting') {
     }
 }
 if(isset($_POST['action']) and $_POST['action']=='DeletePost') {
-  include $_SERVER['DOCUMENT_ROOT'].$path.'/includes/helpers.inc.php';
-  deletePost($pdo, $_POST['postid']);
-  header('Location: .');
+	include $_SERVER['DOCUMENT_ROOT'].$path.'/includes/db.inc.php';
+  	include $_SERVER['DOCUMENT_ROOT'].$path.'/includes/helpers.inc.php';
+  	deletePost($pdo, $_POST['postid']);
+  	if($_POST['comeFrom'] == "newsfeed") {
+      header('Location: .');
+      exit();
+    }
+    else if($_POST['comeFrom'] == "profile") {
+      get_profile_info($pdo, $_SESSION['userid']);
+      exit();
+    }
+  
   exit();
 }
 
